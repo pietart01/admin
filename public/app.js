@@ -25,6 +25,7 @@ $(document).ready(function() {
                         <th>Username</th>
                         <th>Balance</th>
                         <th>Registration Date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,10 +36,92 @@ $(document).ready(function() {
                 <td>${user.username}</td>
                 <td>$${(user.balance / 100).toFixed(2)}</td>
                 <td>${new Date(user.registrationDate).toLocaleString()}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary issue-points-btn" data-user-id="${user.id}" data-username="${user.username}">
+                        Issue Points
+                    </button>
+                </td>
             </tr>`;
         });
         html += '</tbody></table></div>';
         $('#content').html(html);
+
+        // Attach event listener to the new buttons
+        $('.issue-points-btn').click(function() {
+            const userId = $(this).data('user-id');
+            const username = $(this).data('username');
+            openIssuePointsModal(userId, username);
+        });
+    }
+
+    // Function to open the Issue Points modal
+    function openIssuePointsModal(userId, username) {
+        const modalHtml = `
+        <div class="modal fade" id="issuePointsModal" tabindex="-1" aria-labelledby="issuePointsModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form id="issuePointsForm">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="issuePointsModalLabel">Issue Points to ${username}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="pointsInput">Points to Issue</label>
+                    <input type="number" class="form-control" id="pointsInput" name="points" min="1" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Issue Points</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        `;
+
+        // Append modal to the body
+        $('body').append(modalHtml);
+
+        // Show the modal using Bootstrap's modal method
+        $('#issuePointsModal').modal('show');
+
+        // Handle form submission
+        $('#issuePointsForm').submit(function(e) {
+            e.preventDefault();
+            const points = parseInt($('#pointsInput').val(), 10);
+
+            if (isNaN(points) || points <= 0) {
+                alert('Please enter a valid number of points.');
+                return;
+            }
+
+            // Send POST request to issue points
+            $.ajax({
+                url: `/users/${userId}/issue`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ points }),
+                success: function(response) {
+                    alert(response.message);
+                    $('#issuePointsModal').modal('hide');
+                    // Refresh the user list to show updated balance
+                    fetchAndRenderUsers();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error issuing points:', errorThrown);
+                    alert('Failed to issue points. Please try again.');
+                }
+            });
+        });
+
+        // Remove the modal from DOM after it's hidden to prevent duplicates
+        $('#issuePointsModal').on('hidden.bs.modal', function () {
+            $('#issuePointsModal').remove();
+        });
     }
 
     function fetchGames() {
@@ -164,5 +247,6 @@ $(document).ready(function() {
         alert('Logout successful!');
     });
 
+    // Initially load the Bets section
     fetchAndRenderBets();
 });

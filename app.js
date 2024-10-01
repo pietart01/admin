@@ -32,6 +32,32 @@ app.get('/users', async (req, res) => {
   }
 });
 
+// Add this route after existing routes
+
+app.post('/users/:id/issue', async (req, res) => {
+  const userId = req.params.id;
+  const { points } = req.body;
+
+  if (!points || isNaN(points) || points <= 0) {
+    return res.status(400).json({ error: 'Invalid points value' });
+  }
+
+  try {
+    const updateQuery = 'UPDATE user SET balance = balance + ? WHERE id = ?';
+    await executeQuery(updateQuery, [points, userId]);
+
+    // Optionally, fetch the updated user
+    const userQuery = 'SELECT id, username, balance, registrationDate FROM user WHERE id = ?';
+    const updatedUser = await executeQuery(userQuery, [userId]);
+
+    res.json({ message: 'Points issued successfully', user: updatedUser[0] });
+  } catch (error) {
+    console.error('Error issuing points:', error);
+    res.status(500).json({ error: 'An error occurred while issuing points' });
+  }
+});
+
+
 app.get('/games', async (req, res) => {
   try {
     const query = 'SELECT DISTINCT gameName FROM gameInfo ORDER BY gameName';

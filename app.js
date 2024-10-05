@@ -1,27 +1,91 @@
-var createError = require('http-errors');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+
 dotenv.config({path: '../.env'});
 
 const { executeQuery } = require('./config/database');
 
 const app = express();
 
-app.use('/adminlte', express.static(path.join(__dirname, 'node_modules/admin-lte')));
+// View engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+// Serve AdminLTE files
+app.use('/adminlte', express.static(path.join(__dirname, 'node_modules/admin-lte/dist'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    } else if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+app.use('/plugins', express.static(path.join(__dirname, 'node_modules/admin-lte/plugins'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    } else if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(logger('dev'));
 
-app.get('/', (req, res) => {
+// Session middleware
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Middleware to check if user is authenticated
+const isAuthenticated = (req, res, next) => {
+  if (req.session.isAuthenticated) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+};
+
+// Login route
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === 'admin' && password === 'admin2580') {
+    req.session.isAuthenticated = true;
+    res.redirect('/');
+  } else {
+    res.render('login', { error: 'Invalid credentials' });
+  }
+});
+
+// Logout route
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    res.redirect('/login');
+  });
+});
+
+// Protected routes
+app.get('/', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-app.get('/users', async (req, res) => {
+
+app.get('/users', isAuthenticated, async (req, res) => {
   try {
     const query = 'SELECT id, username, balance, registrationDate FROM user';
     const users = await executeQuery(query);
@@ -32,9 +96,7 @@ app.get('/users', async (req, res) => {
   }
 });
 
-// Add this route after existing routes
-
-app.post('/users/:id/issue', async (req, res) => {
+app.post('/users/:id/issue', isAuthenticated, async (req, res) => {
   const userId = req.params.id;
   const { points } = req.body;
 
@@ -46,7 +108,6 @@ app.post('/users/:id/issue', async (req, res) => {
     const updateQuery = 'UPDATE user SET balance = balance + ? WHERE id = ?';
     await executeQuery(updateQuery, [points, userId]);
 
-    // Optionally, fetch the updated user
     const userQuery = 'SELECT id, username, balance, registrationDate FROM user WHERE id = ?';
     const updatedUser = await executeQuery(userQuery, [userId]);
 
@@ -57,8 +118,7 @@ app.post('/users/:id/issue', async (req, res) => {
   }
 });
 
-
-app.get('/games', async (req, res) => {
+app.get('/games', isAuthenticated, async (req, res) => {
   try {
     const query = 'SELECT DISTINCT gameName FROM gameInfo ORDER BY gameName';
     const games = await executeQuery(query);
@@ -69,7 +129,7 @@ app.get('/games', async (req, res) => {
   }
 });
 
-app.get('/bets', async (req, res) => {
+app.get('/bets', isAuthenticated, async (req, res) => {
   try {
     const { username, gameName, startDate, endDate } = req.query;
     let query = `
@@ -117,6 +177,7 @@ app.get('/bets', async (req, res) => {
   }
 });
 
+// Error handler
 app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Something broke!');

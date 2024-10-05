@@ -11,7 +11,8 @@ COPY ./package*.json ./
 RUN npm install pm2@latest --g
 
 # Install the app dependencies
-RUN npm install
+#RUN npm install
+yarn install
 
 # Copy the app source code to the container
 COPY ./ .

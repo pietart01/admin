@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const { formatDate, parseFormattedDate } = require('./public/js/dateUtils');
 
 dotenv.config({path: '../.env'});
 
@@ -93,17 +94,31 @@ app.get('/users', isAuthenticated, async (req, res) => {
       queryParams.push(`%${username}%`);
     }
     if (startDate) {
-      query += ' AND registrationDate >= ?';
-      queryParams.push(startDate);
+      const parsedStartDate = parseFormattedDate(startDate);
+      if (parsedStartDate) {
+        query += ' AND registrationDate >= ?';
+        queryParams.push(parsedStartDate);
+      }
     }
     if (endDate) {
-      query += ' AND registrationDate <= ?';
-      queryParams.push(endDate);
+      const parsedEndDate = parseFormattedDate(endDate);
+      if (parsedEndDate) {
+        query += ' AND registrationDate <= ?';
+        queryParams.push(parsedEndDate);
+      }
     }
 
     query += ' ORDER BY registrationDate DESC';
 
     const users = await executeQuery(query, queryParams);
+
+    // Format dates for display
+    users.forEach(user => {
+      console.log('#1', user.registrationDate);
+      user.registrationDate = formatDate(new Date(user.registrationDate));
+      console.log('#2', user.registrationDate);
+    });
+
     res.render('layout', {
       title: 'User List',
       contentPath: 'users',
@@ -149,18 +164,30 @@ app.get('/bets', isAuthenticated, async (req, res) => {
       queryParams.push(gameName);
     }
     if (startDate) {
-      query += ' AND s.createdAt >= ?';
-      queryParams.push(startDate);
+      const parsedStartDate = parseFormattedDate(startDate);
+      if (parsedStartDate) {
+        query += ' AND s.createdAt >= ?';
+        queryParams.push(parsedStartDate);
+      }
     }
     if (endDate) {
-      query += ' AND s.createdAt <= ?';
-      queryParams.push(endDate);
+      const parsedEndDate = parseFormattedDate(endDate);
+      if (parsedEndDate) {
+        query += ' AND s.createdAt <= ?';
+        queryParams.push(parsedEndDate);
+      }
     }
 
     query += ' ORDER BY s.createdAt DESC LIMIT 100';
 
     const bets = await executeQuery(query, queryParams);
     const games = await executeQuery('SELECT DISTINCT gameName FROM gameInfo ORDER BY gameName');
+
+    // Format dates for display
+    bets.forEach(bet => {
+      bet.createdAt = formatDate(new Date(bet.createdAt));
+    });
+
     res.render('layout', {
       title: 'Bet List',
       contentPath: 'bets',

@@ -39,7 +39,7 @@
                             <td><%= user.id %></td>
                             <td><%= user.username %></td>
                             <td>$<%= (user.balance / 100).toFixed(2) %></td>
-                            <td><%= new Date(user.registrationDate).toLocaleString() %></td>
+                            <td><%= user.registrationDate %></td>
                             <td>
                                 <button class="btn btn-sm btn-primary issue-points-btn" data-user-id="<%= user.id %>" data-username="<%= user.username %>">
                                     Issue Points

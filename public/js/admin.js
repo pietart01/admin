@@ -1,4 +1,15 @@
 $(document).ready(function() {
+
+    $('table td').each(function() {
+        let content = $(this).text().trim();
+        if (content && !isNaN(new Date(content).getTime())) {
+            let formattedDate = formatDate(new Date(content));
+            if (formattedDate !== 'Invalid Date') {
+                $(this).text(formattedDate);
+            }
+        }
+    });
+
     // Bets page functionality
     if ($('#filterButton').length && $('#gameSelect').length) {
         $('#filterButton').click(function() {

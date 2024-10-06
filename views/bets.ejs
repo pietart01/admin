@@ -48,7 +48,7 @@
                             <td>$<%= (bet.betAmount / 100).toFixed(2) %></td>
                             <td><%= (bet.rollingRate * 100).toFixed(2) %>%</td>
                             <td>$<%= (bet.balanceAfterSpin / 100).toFixed(2) %></td>
-                            <td><%= new Date(bet.createdAt).toLocaleString() %></td>
+                            <td><%= bet.createdAt %></td>
                         </tr>
                     <% }); %>
                     </tbody>

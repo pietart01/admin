@@ -2,6 +2,12 @@ $(document).ready(function() {
     let allUsers = [];
     let allGames = [];
 
+
+    $('#logoutLink').click(function(e) {
+        // Remove the preventDefault() call to allow the default action
+        // The server-side logout route will handle the session destruction and redirection
+    });
+
     function fetchAndRenderUsers() {
         $.get('/users')
           .done(function(users) {

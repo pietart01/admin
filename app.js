@@ -16,16 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Serve AdminLTE files
-app.use('/adminlte', express.static(path.join(__dirname, 'node_modules/admin-lte/dist'), {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css');
-    } else if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }
-}));
-app.use('/plugins', express.static(path.join(__dirname, 'node_modules/admin-lte/plugins'), {
+app.use('/adminlte', express.static(path.join(__dirname, 'node_modules/admin-lte'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
@@ -75,6 +66,9 @@ app.post('/login', (req, res) => {
 // Logout route
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    }
     res.redirect('/login');
   });
 });
@@ -84,7 +78,7 @@ app.get('/', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-
+// API routes
 app.get('/users', isAuthenticated, async (req, res) => {
   try {
     const query = 'SELECT id, username, balance, registrationDate FROM user';

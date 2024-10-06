@@ -16,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Serve AdminLTE files
-app.use('/adminlte', express.static(path.join(__dirname, 'node_modules/admin-lte'), {
+app.use('/admin-lte', express.static(path.join(__dirname, 'node_modules/admin-lte'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');

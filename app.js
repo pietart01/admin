@@ -27,6 +27,7 @@ app.use('/admin-lte', express.static(path.join(__dirname, 'node_modules/admin-lt
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -50,7 +51,7 @@ const isAuthenticated = (req, res, next) => {
 
 // Login route
 app.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login', { error: null });
 });
 
 app.post('/login', (req, res) => {
@@ -75,51 +76,28 @@ app.get('/logout', (req, res) => {
 
 // Protected routes
 app.get('/', isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  res.render('layout', {
+    title: 'Dashboard',
+    contentPath: 'dashboard'
+  });
 });
 
-// API routes
 app.get('/users', isAuthenticated, async (req, res) => {
   try {
     const query = 'SELECT id, username, balance, registrationDate FROM user';
     const users = await executeQuery(query);
-    res.json(users);
+    res.render('layout', {
+      title: 'User List',
+      contentPath: 'users',
+      users: users
+    });
   } catch (error) {
     console.error('Error fetching users:', error);
-    res.status(500).json({ error: 'An error occurred while fetching users' });
-  }
-});
-
-app.post('/users/:id/issue', isAuthenticated, async (req, res) => {
-  const userId = req.params.id;
-  const { points } = req.body;
-
-  if (!points || isNaN(points) || points <= 0) {
-    return res.status(400).json({ error: 'Invalid points value' });
-  }
-
-  try {
-    const updateQuery = 'UPDATE user SET balance = balance + ? WHERE id = ?';
-    await executeQuery(updateQuery, [points, userId]);
-
-    const userQuery = 'SELECT id, username, balance, registrationDate FROM user WHERE id = ?';
-    const updatedUser = await executeQuery(userQuery, [userId]);
-
-    res.json({ message: 'Points issued successfully', user: updatedUser[0] });
-  } catch (error) {
-    console.error('Error issuing points:', error);
-    res.status(500).json({ error: 'An error occurred while issuing points' });
-  }
-});
-
-app.get('/games', isAuthenticated, async (req, res) => {
-  try {
-    const query = 'SELECT DISTINCT gameName FROM gameInfo ORDER BY gameName';
-    const games = await executeQuery(query);
-    res.json(games);
-  } catch (error) {
-    console.error('Error fetching games:', error);
-    res.status(500).json({ error: 'An error occurred while fetching games' });
+    res.status(500).render('error', {
+      title: 'Error',
+      message: `An error occurred while fetching users: ${error.message}`,
+      error: error
+    });
   }
 });
 
@@ -164,17 +142,55 @@ app.get('/bets', isAuthenticated, async (req, res) => {
     query += ' ORDER BY s.createdAt DESC LIMIT 100';
 
     const bets = await executeQuery(query, queryParams);
-    res.json(bets);
+    const games = await executeQuery('SELECT DISTINCT gameName FROM gameInfo ORDER BY gameName');
+    res.render('layout', {
+      title: 'Bet List',
+      contentPath: 'bets',
+      bets: bets,
+      games: games
+    });
   } catch (error) {
     console.error('Error fetching bets:', error);
-    res.status(500).json({ error: 'An error occurred while fetching bets' });
+    res.status(500).render('error', {
+      title: 'Error',
+      message: `An error occurred while fetching bets: ${error.message}`,
+      error: error
+    });
+  }
+});
+
+// API routes
+app.post('/api/users/:id/issue', isAuthenticated, async (req, res) => {
+  const userId = req.params.id;
+  const { points } = req.body;
+
+  if (!points || isNaN(points) || points <= 0) {
+    return res.status(400).json({ error: 'Invalid points value' });
+  }
+
+  try {
+    const updateQuery = 'UPDATE user SET balance = balance + ? WHERE id = ?';
+    await executeQuery(updateQuery, [points, userId]);
+
+    const userQuery = 'SELECT id, username, balance, registrationDate FROM user WHERE id = ?';
+    const updatedUser = await executeQuery(userQuery, [userId]);
+
+    res.json({ message: 'Points issued successfully', user: updatedUser[0] });
+  } catch (error) {
+    console.error('Error issuing points:', error);
+    res.status(500).json({ error: 'An error occurred while issuing points' });
   }
 });
 
 // Error handler
 app.use(function(err, req, res, next) {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).render('layout', {
+    title: 'Error',
+    contentPath: 'error',
+    message: 'Something broke!',
+    error: err
+  });
 });
 
 module.exports = app;

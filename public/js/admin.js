@@ -1,45 +1,89 @@
 $(document).ready(function() {
     // Bets page functionality
-    if ($('#filterButton').length) {
+    if ($('#filterButton').length && $('#gameSelect').length) {
         $('#filterButton').click(function() {
-            applyFilters();
+            applyFilters('bets');
         });
 
         $('#resetButton').click(function() {
-            resetFilters();
+            resetFilters('bets');
         });
     }
 
     // Users page functionality
-    if ($('.issue-points-btn').length) {
-        $('.issue-points-btn').click(function() {
-            const userId = $(this).data('user-id');
-            const username = $(this).data('username');
-            openIssuePointsModal(userId, username);
+    if ($('#filterButton').length && !$('#gameSelect').length) {
+        $('#filterButton').click(function() {
+            applyFilters('users');
+        });
+
+        $('#resetButton').click(function() {
+            resetFilters('users');
         });
     }
 
-    function applyFilters() {
+    $('.issue-points-btn').click(function() {
+        const userId = $(this).data('user-id');
+        const username = $(this).data('username');
+        openIssuePointsModal(userId, username);
+    });
+
+    function applyFilters(page) {
         const filters = {
             username: $('#usernameFilter').val(),
-            gameName: $('#gameSelect').val(),
             startDate: $('#startDate').val(),
             endDate: $('#endDate').val()
         };
-        window.location.href = '/bets?' + $.param(filters);
+
+        if (page === 'bets') {
+            filters.gameName = $('#gameSelect').val();
+        }
+
+        window.location.href = `/${page}?` + $.param(filters);
     }
 
-    function resetFilters() {
+    function resetFilters(page) {
         $('#usernameFilter').val('');
-        $('#gameSelect').val('');
         $('#startDate').val('');
         $('#endDate').val('');
-        window.location.href = '/bets';
+
+        if (page === 'bets') {
+            $('#gameSelect').val('');
+        }
+
+        window.location.href = `/${page}`;
     }
 
     function openIssuePointsModal(userId, username) {
-        // Implement the modal opening logic here
-        console.log(`Opening modal for user ${username} (ID: ${userId})`);
-        // You can use Bootstrap's modal or implement your own modal logic
+        $('#issuePointsModalLabel').text(`Issue Points to ${username}`);
+        $('#userId').val(userId);
+        $('#points').val('');
+        $('#issuePointsModal').modal('show');
     }
+
+    $('#issuePointsSubmit').click(function() {
+        const userId = $('#userId').val();
+        const points = $('#points').val();
+
+        if (!points || isNaN(points) || points <= 0) {
+            alert('Please enter a valid number of points.');
+            return;
+        }
+
+        $.ajax({
+            url: `/api/users/${userId}/issue`,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ points: parseInt(points, 10) }),
+            success: function(response) {
+                alert(response.message);
+                $('#issuePointsModal').modal('hide');
+                // Refresh the user list to show updated balance
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error issuing points:', errorThrown);
+                alert('Failed to issue points. Please try again.');
+            }
+        });
+    });
 });

@@ -93,7 +93,31 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
+<!-- Modal -->
+<div class="modal fade" id="issuePointsModal" tabindex="-1" aria-labelledby="issuePointsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="issuePointsModalLabel">Issue Points</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="issuePointsForm">
+                    <input type="hidden" id="userId" name="userId">
+                    <div class="form-group">
+                        <label for="points">Points to Issue</label>
+                        <input type="number" class="form-control" id="points" name="points" required min="1">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="issuePointsSubmit">Issue Points</button>
+            </div>
+        </div>
+    </div>
 
 <!-- jQuery -->
 <script src="/admin-lte/plugins/jquery/jquery.min.js"></script>

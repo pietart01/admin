@@ -84,8 +84,26 @@ app.get('/', isAuthenticated, (req, res) => {
 
 app.get('/users', isAuthenticated, async (req, res) => {
   try {
-    const query = 'SELECT id, username, balance, registrationDate FROM user';
-    const users = await executeQuery(query);
+    const { username, startDate, endDate } = req.query;
+    let query = 'SELECT id, username, balance, registrationDate FROM user WHERE 1=1';
+    const queryParams = [];
+
+    if (username) {
+      query += ' AND username LIKE ?';
+      queryParams.push(`%${username}%`);
+    }
+    if (startDate) {
+      query += ' AND registrationDate >= ?';
+      queryParams.push(startDate);
+    }
+    if (endDate) {
+      query += ' AND registrationDate <= ?';
+      queryParams.push(endDate);
+    }
+
+    query += ' ORDER BY registrationDate DESC';
+
+    const users = await executeQuery(query, queryParams);
     res.render('layout', {
       title: 'User List',
       contentPath: 'users',

@@ -48,16 +48,120 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item">
-                        <a href="/users" class="nav-link">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>Users</p>
+                        <a href="/dashboard" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="/bets" class="nav-link">
-                            <i class="nav-icon fas fa-dice"></i>
-                            <p>Bets</p>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Users
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/users/list" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>User List</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/users/partners" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Partner List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-gamepad"></i>
+                            <p>
+                                Games
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/games/slot-history" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Slot Betting History</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-exchange-alt"></i>
+                            <p>
+                                Transactions
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/transactions/partner-history" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Partner Transaction History</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/transactions/user-history" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>User Transaction History</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/settlements" class="nav-link">
+                            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                            <p>Settlement List</p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>
+                                Admin
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/admin/boards" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Boards</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/inquiries" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Inquiries</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/messages" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Messages</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/deposit-requests" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Deposit Requests</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/withdrawal-requests" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Withdrawal Requests</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </nav>
@@ -92,32 +196,6 @@
     </footer>
 </div>
 <!-- ./wrapper -->
-
-<!-- Modal -->
-<div class="modal fade" id="issuePointsModal" tabindex="-1" aria-labelledby="issuePointsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="issuePointsModalLabel">Issue Points</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="issuePointsForm">
-                    <input type="hidden" id="userId" name="userId">
-                    <div class="form-group">
-                        <label for="points">Points to Issue</label>
-                        <input type="number" class="form-control" id="points" name="points" required min="1">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="issuePointsSubmit">Issue Points</button>
-            </div>
-        </div>
-    </div>
 
 <!-- jQuery -->
 <script src="/admin-lte/plugins/jquery/jquery.min.js"></script>

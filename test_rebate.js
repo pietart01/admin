@@ -108,28 +108,28 @@ async function getEffectiveAncestorsWithRebates(userId, gameInfoId) {
         console.log('maxTotalLosingRebate', maxTotalLosingRebate);
 
         const result = [];
-        let childRollingRebate = 0;
-        let childLosingRebate = 0;
+        let directChildRollingRebate = 0;
+        let directChildLosingRebate = 0;
 
         for (let i = 0; i < rows.length; i++) {
             const currentUser = rows[i];
-            const rollingRebatePercentage = Number(currentUser.rollingRebatePercentage);
-            const losingRebatePercentage = Number(currentUser.losingRebatePercentage);
+            const receivedRollingRebate = Number(currentUser.rollingRebatePercentage);
+            const receivedLosingRebate = Number(currentUser.losingRebatePercentage);
 
             let effectiveRollingRebate, effectiveLosingRebate;
 
             if (i === 0) {
                 // This is the leaf node
-                effectiveRollingRebate = rollingRebatePercentage;
-                effectiveLosingRebate = losingRebatePercentage;
+                effectiveRollingRebate = receivedRollingRebate;
+                effectiveLosingRebate = receivedLosingRebate;
             } else if (i === rows.length - 1) {
                 // This is the root node
-                effectiveRollingRebate = maxTotalRollingRebate - childRollingRebate;
-                effectiveLosingRebate = maxTotalLosingRebate - childLosingRebate;
+                effectiveRollingRebate = maxTotalRollingRebate - directChildRollingRebate;
+                effectiveLosingRebate = maxTotalLosingRebate - directChildLosingRebate;
             } else {
                 // This is an intermediate node
-                effectiveRollingRebate = rollingRebatePercentage - childRollingRebate;
-                effectiveLosingRebate = losingRebatePercentage - childLosingRebate;
+                effectiveRollingRebate = receivedRollingRebate - directChildRollingRebate;
+                effectiveLosingRebate = receivedLosingRebate - directChildLosingRebate;
             }
 
             result.unshift({
@@ -139,8 +139,8 @@ async function getEffectiveAncestorsWithRebates(userId, gameInfoId) {
                 effectiveLosingRebate: Number(effectiveLosingRebate.toFixed(2))
             });
 
-            childRollingRebate = rollingRebatePercentage;
-            childLosingRebate = losingRebatePercentage;
+            directChildRollingRebate = receivedRollingRebate;
+            directChildLosingRebate = receivedLosingRebate;
         }
 
         return result;
@@ -151,7 +151,7 @@ async function getEffectiveAncestorsWithRebates(userId, gameInfoId) {
 }
 
 async function main() {
-    const userId = 13; // rebate001
+    const userId = 12; // rebate001
     const gameInfoId = 1;
 
     try {

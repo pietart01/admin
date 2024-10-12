@@ -26,11 +26,11 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Balance</th>
-                        <th>Registration Date</th>
-                        <th>Actions</th>
+                        <th><%= translations.id %></th>
+                        <th><%= translations.username %></th>
+                        <th><%= translations.balance %></th>
+                        <th><%= translations.registration_date %></th>
+                        <th><%= translations.actions %></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,11 +38,11 @@
                         <tr>
                             <td><%= user.id %></td>
                             <td><%= user.username %></td>
-                            <td>$<%= (user.balance / 100).toFixed(2) %></td>
+                            <td><%= (user.balance / 100).toFixed(2) %></td>
                             <td><%= user.registrationDate %></td>
                             <td>
                                 <button class="btn btn-sm btn-primary issue-points-btn" data-user-id="<%= user.id %>" data-username="<%= user.username %>">
-                                    Issue Points
+                                    <%= translations.issue_points %>
                                 </button>
                             </td>
                         </tr>

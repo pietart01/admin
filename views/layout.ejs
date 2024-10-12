@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/admin-lte/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/admin-lte/dist/css/adminlte.min.css">
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -39,7 +41,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="/" class="brand-link">
-            <span class="brand-text font-weight-light">Admin Panel</span>
+            <span class="brand-text font-weight-light">Admin</span>
         </a>
 
         <!-- Sidebar -->
@@ -50,14 +52,14 @@
                     <li class="nav-item">
                         <a href="/dashboard" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>Dashboard</p>
+                            <p><%= translations.dashboard %></p>
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
-                                Users
+                                <%= translations.users %>
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -65,13 +67,13 @@
                             <li class="nav-item">
                                 <a href="/users/list" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>User List</p>
+                                    <p><%= translations.user_list %></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/users/partners" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Partner List</p>
+                                    <p><%= translations.partner_list %></p>
                                 </a>
                             </li>
                         </ul>
@@ -80,7 +82,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-gamepad"></i>
                             <p>
-                                Games
+                                <%= translations.games %>
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -88,7 +90,13 @@
                             <li class="nav-item">
                                 <a href="/games/slot-history" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Slot Betting History</p>
+                                    <p><%= translations.slot_betting_history %></p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/games/poker-history" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p><%= translations.poker_betting_history %></p>
                                 </a>
                             </li>
                         </ul>
@@ -97,7 +105,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-exchange-alt"></i>
                             <p>
-                                Transactions
+                                <%= translations.transactions %>
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -105,13 +113,13 @@
                             <li class="nav-item">
                                 <a href="/transactions/partner-history" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Partner Transaction History</p>
+                                    <p><%= translations.partner_transaction_history %></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/transactions/user-history" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>User Transaction History</p>
+                                    <p><%= translations.user_transaction_history %></p>
                                 </a>
                             </li>
                         </ul>
@@ -119,14 +127,14 @@
                     <li class="nav-item">
                         <a href="/settlements" class="nav-link">
                             <i class="nav-icon fas fa-file-invoice-dollar"></i>
-                            <p>Settlement List</p>
+                            <p><%= translations.settlement_list %></p>
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-cogs"></i>
                             <p>
-                                Admin
+                                <%= translations.admin %>
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -134,31 +142,31 @@
                             <li class="nav-item">
                                 <a href="/admin/boards" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Boards</p>
+                                    <p><%= translations.boards %></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/inquiries" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Inquiries</p>
+                                    <p><%= translations.inquiries %></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/messages" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Messages</p>
+                                    <p><%= translations.messages %></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/deposit-requests" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Deposit Requests</p>
+                                    <p><%= translations.deposit_requests %></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/withdrawal-requests" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Withdrawal Requests</p>
+                                    <p><%= translations.withdrawal_requests %></p>
                                 </a>
                             </li>
                         </ul>
@@ -192,7 +200,7 @@
 
     <!-- Main Footer -->
     <footer class="main-footer">
-        <strong>Copyright &copy; 2024 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2024 <a href="/">Admin</a>.</strong> All rights reserved.
     </footer>
 </div>
 <!-- ./wrapper -->

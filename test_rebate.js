@@ -26,18 +26,18 @@ async function flushRebateCache() {
 }
 
 
-async function flushRebateData(gameInfoId) {
+async function flushRebateData(gameCategoryId) {
     const query = `
-    DELETE FROM userRebateSetting WHERE gameInfoId = ?;
-    UPDATE rebateConfiguration SET maxTotalRollingRebate = 1.00, maxTotalLosingRebate = 5.00 WHERE gameInfoId = ?;
+    DELETE FROM userRebateSetting WHERE gameCategoryId = ?;
+    UPDATE rebateConfiguration SET maxTotalRollingRebate = 1.00, maxTotalLosingRebate = 5.00 WHERE gameCategoryId = ?;
   `;
-    await executeQuery(query, [gameInfoId, gameInfoId]);
-    console.log(`Flushed rebate data for gameInfoId: ${gameInfoId}`);
+    await executeQuery(query, [gameCategoryId, gameCategoryId]);
+    console.log(`Flushed rebate data for gameCategoryId: ${gameCategoryId}`);
 }
 
-async function insertTestRebateData(gameInfoId) {
+async function insertTestRebateData(gameCategoryId) {
     const query = `
-    INSERT INTO userRebateSetting (userId, childUserId, gameInfoId, rollingRebatePercentage, losingRebatePercentage)
+    INSERT INTO userRebateSetting (userId, childUserId, gameCategoryId, rollingRebatePercentage, losingRebatePercentage)
     VALUES 
     (7, 8, ?, 0.90, 4.50),   -- rebate0 gives 0.90% rolling and 4.50% losing to rebate00
     (7, 14, ?, 0.90, 4.50),   -- rebate0 gives 0.90% rolling and 4.50% losing to rebate00
@@ -46,8 +46,8 @@ async function insertTestRebateData(gameInfoId) {
     ;  -- rebate00 gives 0.60% rolling and 3.00% losing to rebate001
   `;
     try {
-        await executeQuery(query, [gameInfoId, gameInfoId, gameInfoId, gameInfoId]);
-        console.log(`Inserted test rebate data for gameInfoId: ${gameInfoId}`);
+        await executeQuery(query, [gameCategoryId, gameCategoryId, gameCategoryId, gameCategoryId]);
+        console.log(`Inserted test rebate data for gameCategoryId: ${gameCategoryId}`);
     } catch (error) {
         console.error('Error inserting test data:', error);
         throw error;
@@ -55,7 +55,7 @@ async function insertTestRebateData(gameInfoId) {
 }
 
 
-async function getEffectiveAncestorsWithRebates(userId, gameInfoId) {
+async function getEffectiveAncestorsWithRebates(userId, gameCategoryId) {
     const query = `
     WITH RECURSIVE userHierarchy AS (
       SELECT 
@@ -65,7 +65,7 @@ async function getEffectiveAncestorsWithRebates(userId, gameInfoId) {
         COALESCE(urs.rollingRebatePercentage, 0) AS rollingRebatePercentage,
         COALESCE(urs.losingRebatePercentage, 0) AS losingRebatePercentage
       FROM user u
-      LEFT JOIN userRebateSetting urs ON u.parentUserId = urs.userId AND u.id = urs.childUserId AND urs.gameInfoId = ?
+      LEFT JOIN userRebateSetting urs ON u.parentUserId = urs.userId AND u.id = urs.childUserId AND urs.gameCategoryId = ?
       WHERE u.id = ?
       
       UNION ALL
@@ -78,7 +78,7 @@ async function getEffectiveAncestorsWithRebates(userId, gameInfoId) {
         COALESCE(urs.losingRebatePercentage, 0) AS losingRebatePercentage
       FROM user u
       INNER JOIN userHierarchy uh ON u.id = uh.parentUserId
-      LEFT JOIN userRebateSetting urs ON u.parentUserId = urs.userId AND u.id = urs.childUserId AND urs.gameInfoId = ?
+      LEFT JOIN userRebateSetting urs ON u.parentUserId = urs.userId AND u.id = urs.childUserId AND urs.gameCategoryId = ?
     )
     SELECT 
       uh.userId,
@@ -90,12 +90,12 @@ async function getEffectiveAncestorsWithRebates(userId, gameInfoId) {
       rc.maxTotalLosingRebate
     FROM userHierarchy uh
     CROSS JOIN rebateConfiguration rc
-    WHERE rc.gameInfoId = ?
+    WHERE rc.gameCategoryId = ?
     ORDER BY uh.level DESC;
   `;
 
     try {
-        const rows = await executeQuery(query, [gameInfoId, userId, gameInfoId, gameInfoId]);
+        const rows = await executeQuery(query, [gameCategoryId, userId, gameCategoryId, gameCategoryId]);
 
         if (rows.length === 0) {
             return [];
@@ -152,18 +152,18 @@ async function getEffectiveAncestorsWithRebates(userId, gameInfoId) {
 
 async function main() {
     const userId = 12; // rebate001
-    const gameInfoId = 1;
+    const gameCategoryId = 1;
 
     try {
         // Flush Redis cache
         await flushRebateCache();
 
         // Flush and reset database rebate data
-        await flushRebateData(gameInfoId);
-        await insertTestRebateData(gameInfoId);
+        await flushRebateData(gameCategoryId);
+        await insertTestRebateData(gameCategoryId);
 
-        const effectiveAncestors = await getEffectiveAncestorsWithRebates(userId, gameInfoId);
-        console.log(`Effective ancestors with rebates for user ${userId} and game ${gameInfoId}:`, effectiveAncestors);
+        const effectiveAncestors = await getEffectiveAncestorsWithRebates(userId, gameCategoryId);
+        console.log(`Effective ancestors with rebates for user ${userId} and game ${gameCategoryId}:`, effectiveAncestors);
     } catch (error) {
         console.error('Error:', error);
     }

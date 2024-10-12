@@ -41,6 +41,14 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use((req, res, next) => {
+  // This is a simple example. You might want to use a more robust method
+  // to determine the language, such as from a URL parameter or user settings.
+  res.locals.lang = req.query.lang || 'kr';
+  res.locals.translations = require(`./locales/${res.locals.lang}.json`);
+  next();
+});
+
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
   if (req.session.isAuthenticated) {
@@ -83,7 +91,7 @@ app.get('/', isAuthenticated, (req, res) => {
   });
 });
 
-app.get('/users', isAuthenticated, async (req, res) => {
+app.get('/users/list', isAuthenticated, async (req, res) => {
   try {
     const { username, startDate, endDate } = req.query;
     let query = 'SELECT id, username, balance, registrationDate FROM user WHERE 1=1';
@@ -120,8 +128,8 @@ app.get('/users', isAuthenticated, async (req, res) => {
     });
 
     res.render('layout', {
-      title: 'User List',
-      contentPath: 'users',
+      title: res.locals.translations.user_list,
+      contentPath: 'users-list',
       users: users
     });
   } catch (error) {
@@ -134,14 +142,14 @@ app.get('/users', isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/bets', isAuthenticated, async (req, res) => {
+app.get('/games/slot-history', isAuthenticated, async (req, res) => {
   try {
     const { username, gameName, startDate, endDate } = req.query;
     let query = `
       SELECT u.username, 
              gi.gameName AS game, 
              gi.gameCode,
-             gi.gameType,
+             gi.gameCategoryId,
              gi.rtpRate,
              s.payout, 
              s.betAmount, 
@@ -189,8 +197,8 @@ app.get('/bets', isAuthenticated, async (req, res) => {
     });
 
     res.render('layout', {
-      title: 'Bet List',
-      contentPath: 'bets',
+      title: res.locals.translations.slot_betting_history,
+      contentPath: 'slot-history',
       bets: bets,
       games: games
     });

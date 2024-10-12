@@ -102,48 +102,63 @@ app.get('/users/list', isAuthenticated, async (req, res) => {
     const currentUserId = req.session.user.id;
 
     // Recursive function to fetch all descendants
-    async function getDescendants(parentId, level = 0) {
+    async function getDescendants(parentId) {
+      // Fetch all immediate children of the current parentId
       let query = `
-        SELECT id, username, balance, registrationDate, parentUserId 
-        FROM user 
-        WHERE parentUserId = ?
-      `;
+    SELECT id, username, balance, registrationDate, parentUserId 
+    FROM user 
+    WHERE parentUserId = ?
+    ORDER BY registrationDate DESC
+  `;
       const queryParams = [parentId];
 
-      if (username) {
-        query += ' AND username LIKE ?';
-        queryParams.push(`%${username}%`);
-      }
-      if (startDate) {
-        const parsedStartDate = parseFormattedDate(startDate);
-        if (parsedStartDate) {
-          query += ' AND registrationDate >= ?';
-          queryParams.push(parsedStartDate);
-        }
-      }
-      if (endDate) {
-        const parsedEndDate = parseFormattedDate(endDate);
-        if (parsedEndDate) {
-          query += ' AND registrationDate <= ?';
-          queryParams.push(parsedEndDate);
-        }
-      }
-
-      query += ' ORDER BY registrationDate DESC';
-
       const users = await executeQuery(query, queryParams);
+      const result = [];
+      let anyMatches = false;
 
       for (let user of users) {
         user.registrationDate = formatDate(new Date(user.registrationDate));
-        user.level = level;
-        user.children = await getDescendants(user.id, level + 1);
+
+        // Recursively fetch descendants
+        const childResult = await getDescendants(user.id);
+        user.children = childResult.users;
+
+        // Determine whether this user matches the filters
+        let matchesFilter = true;
+
+        // Apply username filter
+        if (username && !user.username.includes(username)) {
+          matchesFilter = false;
+        }
+        // Apply startDate filter
+        if (startDate) {
+          const parsedStartDate = parseFormattedDate(startDate);
+          if (parsedStartDate && new Date(user.registrationDate) < parsedStartDate) {
+            matchesFilter = false;
+          }
+        }
+        // Apply endDate filter
+        if (endDate) {
+          const parsedEndDate = parseFormattedDate(endDate);
+          if (parsedEndDate && new Date(user.registrationDate) > parsedEndDate) {
+            matchesFilter = false;
+          }
+        }
+
+        // If user doesn't match the filter but any of its descendants do, include the user
+        if (matchesFilter || childResult.anyMatches) {
+          result.push(user);
+          anyMatches = true;
+        }
       }
 
-      return users;
+      return { users: result, anyMatches: anyMatches };
     }
 
+
     // Get the entire tree starting from the current user
-    const userTree = await getDescendants(currentUserId);
+    const userTreeResult = await getDescendants(currentUserId, username, startDate, endDate);
+    const userTree = userTreeResult.users;
 
     res.render('layout', {
       title: res.locals.translations.user_list,
@@ -160,6 +175,7 @@ app.get('/users/list', isAuthenticated, async (req, res) => {
     });
   }
 });
+
 
 
 app.get('/users/tree', isAuthenticated, async (req, res) => {

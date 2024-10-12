@@ -1,27 +1,8 @@
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1><%= translations.user_list %></h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/"><%= translations.home %></a></li>
-                    <li class="breadcrumb-item active"><%= translations.user_list %></li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title"><%= translations.filter_users %></h3>
-                    </div>
                     <div class="card-body">
                         <form id="filterForm" method="GET" action="/users/list">
                             <div class="row">
@@ -52,179 +33,140 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title"><%= translations.user_hierarchy %></h3>
-                    </div>
-                    <div class="card-body">
-                        <table id="userTable" class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th><%= translations.username %></th>
-                                <th><%= translations.balance %></th>
-                                <th><%= translations.registration_date %></th>
-                                <th><%= translations.actions %></th>
-                            </tr>
-                            </thead>
-                        </table>
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><%= translations.user_hierarchy %></h3>
+                </div>
+                <div class="card-body">
+                    <table id="userTable" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th><%= translations.username %></th>
+                            <th><%= translations.balance %></th>
+                            <th><%= translations.registration_date %></th>
+                            <th><%= translations.actions %></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% function renderRows(users, level) { %>
+                            <% users.forEach(function(user) { %>
+                                <tr data-id="<%= user.id %>" data-level="<%= level %>" data-parent-id="<%= user.parentUserId %>" class="level-<%= level %>">
+                                    <td class="details-control">
+                                        <% if (user.children && user.children.length > 0) { %>
+                                            <i class="fas fa-plus-square"></i>
+                                        <% } %>
+                                    </td>
+                                    <td><%= user.username %></td>
+                                    <td><%= (user.balance / 100).toFixed(2) %></td>
+                                    <td><%= user.registrationDate %></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-success issue-points-btn" data-user-id="<%= user.id %>" data-username="<%= user.username %>">
+                                            <%= translations.issue_points %>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <% if (user.children && user.children.length > 0) { %>
+                                    <%= renderRows(user.children, level + 1) %>
+                                <% } %>
+                            <% }); %>
+                        <% } %>
+                        <% renderRows(userTree, 0); %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </section>
 
+<!-- Include necessary scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <script>
-  function format(d, indent) {
-    if (!d || !d.children || d.children.length === 0) {
-      return '';
-    }
-
-    var html = '<div class="child-table-container" style="padding-left: ' + indent + 'px;">';
-    html += '<table class="table table-bordered table-striped child-table">';
-    html += '<thead><tr>' +
-      '<th></th>' +
-      '<th><%= translations.username %></th>' +
-      '<th><%= translations.balance %></th>' +
-      '<th><%= translations.registration_date %></th>' +
-      '<th><%= translations.actions %></th>' +
-      '</tr></thead><tbody>';
-    d.children.forEach(function(child) {
-      html += '<tr data-child-id="' + child.id + '">' +
-        '<td class="details-control">' + (child.children && child.children.length > 0 ? '<i class="fas fa-plus-square"></i>' : '') + '</td>' +
-        '<td>' + child.username + '</td>' +
-        '<td>' + (child.balance / 100).toFixed(2) + '</td>' +
-        '<td>' + child.registrationDate + '</td>' +
-        '<td><button class="btn btn-sm btn-success issue-points-btn" data-user-id="' + child.id + '" data-username="' + child.username + '">' +
-        '<%= translations.issue_points %>' +
-        '</button></td>' +
-        '</tr>';
-    });
-    html += '</tbody></table></div>';
-    return html;
-  }
-
-
   $(document).ready(function() {
+    // Initialize the DataTable
     var table = $('#userTable').DataTable({
-      data: <%- JSON.stringify(userTree) %>,
-      columns: [
-        {
-          className: 'details-control',
-          orderable: false,
-          data: null,
-          defaultContent: '',
-          render: function(data, type, row) {
-            if (row.children && row.children.length > 0) {
-              return '<i class="fas fa-plus-square"></i>';
-            }
-            return '';
-          },
-          width: "15px"
-        },
-        { data: 'username' },
-        {
-          data: 'balance',
-          render: function(data, type, row) {
-            return (data / 100).toFixed(2);
-          }
-        },
-        { data: 'registrationDate' },
-        {
-          data: null,
-          render: function(data, type, row) {
-            return '<button class="btn btn-sm btn-success issue-points-btn" data-user-id="' + row.id + '" data-username="' + row.username + '">' +
-              '<%= translations.issue_points %>' +
-              '</button>';
-          }
-        }
-      ],
-      order: [[1, 'asc']],
-      responsive: true
+      paging: false,
+      searching: false,
+      info: false,
+      ordering: false,
+      columnDefs: [
+        { targets: [0], orderable: false },
+      ]
     });
 
+    // Hide all child rows initially
+    $('tr[data-level][data-level!="0"]').hide();
+
+    // Event delegation for expand/collapse
     $(document).on('click', 'td.details-control', function() {
       var tr = $(this).closest('tr');
-      var tdi = tr.find("i.fas");
-      var rowData;
-      var indent;
-
-      if ($(this).closest('table').attr('id') == 'userTable') {
-        // The clicked row is in the main DataTable
-        var row = table.row(tr);
-        rowData = row.data();
-        indent = 15; // Base indent for the first level
-      } else {
-        // The clicked row is in a child table
-        var childId = tr.data('child-id');
-        rowData = findNestedChild(table.data(), childId);
-        // Calculate the indent based on the parent container's padding
-        indent = parseInt($(this).closest('.child-table-container').css('padding-left')) + 15;
-      }
-
-      if (!rowData) {
-        console.log("Row data not found");
-        return;
-      }
+      var tdi = tr.find('i.fas');
+      var level = parseInt(tr.attr('data-level'));
+      var id = tr.attr('data-id');
 
       if (tr.hasClass('shown')) {
-        // Hide the child content
-        tr.next('tr').remove();
+        // Row is already expanded, collapse it
         tr.removeClass('shown');
-        tdi.first().removeClass('fa-minus-square').addClass('fa-plus-square');
+        tdi.removeClass('fa-minus-square').addClass('fa-plus-square');
+        collapseRows(id);
       } else {
-        // Show the child content
-        var childContent = format(rowData, indent);
-        tr.after('<tr class="child-row"><td colspan="5">' + childContent + '</td></tr>');
+        // Row is collapsed, expand it
         tr.addClass('shown');
-        tdi.first().removeClass('fa-plus-square').addClass('fa-minus-square');
+        tdi.removeClass('fa-plus-square').addClass('fa-minus-square');
+        expandRows(id);
       }
     });
 
-  });
-
-  function findNestedChild(data, childId) {
-    console.log("Searching for child with ID:", childId);
-    for (var i = 0; i < data.length; i++) {
-      if (data[i].id === childId) {
-        console.log("Child found:", data[i]);
-        return data[i];
-      }
-      if (data[i].children && data[i].children.length > 0) {
-        var found = findNestedChild(data[i].children, childId);
-        if (found) return found;
-      }
+    function expandRows(parentId) {
+      $('tr[data-parent-id="' + parentId + '"]').each(function() {
+        $(this).show();
+        // If the row was previously expanded, expand its children as well
+        if ($(this).hasClass('shown')) {
+          var childId = $(this).attr('data-id');
+          expandRows(childId);
+        }
+      });
     }
-    console.log("Child not found");
-    return null;
-  }
+
+    function collapseRows(parentId) {
+      $('tr[data-parent-id="' + parentId + '"]').each(function() {
+        $(this).hide();
+        $(this).removeClass('shown');
+        $(this).find('i.fas').removeClass('fa-minus-square').addClass('fa-plus-square');
+        var childId = $(this).attr('data-id');
+        collapseRows(childId);
+      });
+    }
+  });
 </script>
 
 <style>
     td.details-control {
         cursor: pointer;
+        width: 30px;
     }
     td.details-control i {
         display: block;
         text-align: center;
     }
-    .child-table {
-        width: 100%;
+    tr.level-0 td:first-child {
+        padding-left: 10px;
     }
-    .no-padding {
-        padding: 0 !important;
+    tr.level-1 td:first-child {
+        padding-left: 30px;
     }
-    .child-table-container {
-        padding-top: 10px;
-        padding-bottom: 10px;
+    tr.level-2 td:first-child {
+        padding-left: 50px;
     }
-    .child-row {
-        background-color: #f9f9f9;
+    tr.level-3 td:first-child {
+        padding-left: 70px;
     }
-
+    /* Add more levels as needed */
 </style>
-

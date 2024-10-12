@@ -80,14 +80,12 @@
 
 <script>
   function format(d, indent) {
-    console.log("format function called with data:", d);
     if (!d || !d.children || d.children.length === 0) {
-      console.log("No children found for this row");
       return '';
     }
 
     var html = '<div class="child-table-container" style="padding-left: ' + indent + 'px;">';
-    html += '<table class="table table-bordered table-striped child-table" style="width:100%;">';
+    html += '<table class="table table-bordered table-striped child-table">';
     html += '<thead><tr>' +
       '<th></th>' +
       '<th><%= translations.username %></th>' +
@@ -107,9 +105,9 @@
         '</tr>';
     });
     html += '</tbody></table></div>';
-    console.log("Generated HTML for child rows:", html);
     return html;
   }
+
 
   $(document).ready(function() {
     var table = $('#userTable').DataTable({
@@ -149,66 +147,44 @@
       responsive: true
     });
 
-    $('#userTable').on('click', 'td.details-control', function() {
+    $(document).on('click', 'td.details-control', function() {
       var tr = $(this).closest('tr');
-      var row = table.row(tr);
       var tdi = tr.find("i.fas");
-      var indent = parseInt(tr.find('td:first').css('padding-left')) + 15;
+      var rowData;
+      var indent;
 
-      console.log("Click event triggered on row:", tr);
-
-      if (row.child.isShown()) {
-        console.log("Hiding child row");
-        row.child.hide();
-        tr.removeClass('shown');
-        tdi.first().removeClass('fa-minus-square');
-        tdi.first().addClass('fa-plus-square');
+      if ($(this).closest('table').attr('id') == 'userTable') {
+        // The clicked row is in the main DataTable
+        var row = table.row(tr);
+        rowData = row.data();
+        indent = 15; // Base indent for the first level
+      } else {
+        // The clicked row is in a child table
+        var childId = tr.data('child-id');
+        rowData = findNestedChild(table.data(), childId);
+        // Calculate the indent based on the parent container's padding
+        indent = parseInt($(this).closest('.child-table-container').css('padding-left')) + 15;
       }
-      else {
-        console.log("Attempting to show child row");
-        var rowData = row.data();
-        console.log("Row data:", rowData);
 
-        if (!rowData) {
-          console.log("No row data found, searching for parent data");
-          var childId = tr.data('child-id');
-          rowData = findNestedChild(table.data(), childId);
-          console.log("Found parent data:", rowData);
-        }
+      if (!rowData) {
+        console.log("Row data not found");
+        return;
+      }
 
-        if (rowData && rowData.children && rowData.children.length > 0) {
-          console.log("Generating child row content");
-          var childContent = format(rowData, indent);
-          console.log("Child content generated:", childContent);
-
-          row.child(childContent).show();
-          tr.addClass('shown');
-          tdi.first().removeClass('fa-plus-square');
-          tdi.first().addClass('fa-minus-square');
-
-          // Add click event to the new child rows
-          row.child().find('td.details-control').on('click', function() {
-            var childTr = $(this).closest('tr');
-            var childId = childTr.data('child-id');
-            var childData = findNestedChild(table.data(), childId);
-            var childIndent = indent + 15;
-
-            var childRow = table.row(childTr);
-
-            if (childRow.child.isShown()) {
-              childRow.child.hide();
-              $(this).find('i').removeClass('fa-minus-square').addClass('fa-plus-square');
-            } else {
-              var grandchildContent = format(childData, childIndent);
-              childRow.child(grandchildContent).show();
-              $(this).find('i').removeClass('fa-plus-square').addClass('fa-minus-square');
-            }
-          });
-        } else {
-          console.log("No children found for this row");
-        }
+      if (tr.hasClass('shown')) {
+        // Hide the child content
+        tr.next('tr').remove();
+        tr.removeClass('shown');
+        tdi.first().removeClass('fa-minus-square').addClass('fa-plus-square');
+      } else {
+        // Show the child content
+        var childContent = format(rowData, indent);
+        tr.after('<tr class="child-row"><td colspan="5">' + childContent + '</td></tr>');
+        tr.addClass('shown');
+        tdi.first().removeClass('fa-plus-square').addClass('fa-minus-square');
       }
     });
+
   });
 
   function findNestedChild(data, childId) {
@@ -246,5 +222,9 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
+    .child-row {
+        background-color: #f9f9f9;
+    }
+
 </style>
 

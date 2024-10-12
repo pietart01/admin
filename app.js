@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const bodyParser = require('body-parser'); // If using older version of Express
 const { formatDate, parseFormattedDate } = require('./public/js/dateUtils');
 
 dotenv.config({path: '../.env'});
@@ -29,8 +30,8 @@ app.use('/admin-lte', express.static(path.join(__dirname, 'node_modules/admin-lt
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));  // Parse URL-encoded bodies (form submissions)
+app.use(express.json());  // Parse JSON bodies
 app.use(cookieParser());
 app.use(logger('dev'));
 
@@ -73,6 +74,7 @@ app.post('/login', async (req, res) => {
   }
 
   req.session.user = rows[0];
+  console.log('User logged in:', JSON.stringify(req.session.user))
   req.session.isAuthenticated = true;
   res.redirect('/');
 });
@@ -176,8 +178,6 @@ app.get('/users/list', isAuthenticated, async (req, res) => {
   }
 });
 
-
-
 app.get('/users/tree', isAuthenticated, async (req, res) => {
   try {
     const currentUserId = req.session.user.id;
@@ -216,6 +216,82 @@ app.get('/users/tree', isAuthenticated, async (req, res) => {
     });
   }
 });
+
+// Render the form
+app.get('/create-user', (req, res) => {
+  res.render('layout', {
+    title: '',//res.locals.translations.user_tree,
+    contentPath: 'create-user',
+  });
+  // res.render('create-user', {
+  //   prevurl: '', // Example, can be dynamic
+  // });
+});
+
+app.post('/create-user', async (req, res) => {
+  try {
+    console.log('User logged in:', JSON.stringify(req.session.user))
+
+    const currentUserId = req.session.user.id;  // Ensure user is authenticated
+    const { uid, nic, password, bankinfo, bankcode, bankowner, mm_slot, mm_live } = req.body;
+
+    // Password is already hashed in this example (if hashing is needed, use bcrypt)
+    const passwordHash = password;
+
+    // Check for duplicate username or displayName
+    const duplicateUsernameQuery = 'SELECT id FROM user WHERE username = ?';
+    const duplicateDisplayNameQuery = 'SELECT id FROM user WHERE displayName = ?';
+    const usernameExists = await executeQuery(duplicateUsernameQuery, [uid]);
+    const displayNameExists = await executeQuery(duplicateDisplayNameQuery, [nic]);
+
+    // If either username or nickname already exists, send error response
+    if (usernameExists.length > 0 || displayNameExists.length > 0) {
+      return res.status(400).render('error', {
+        title: 'Duplicate Entry',
+        message: 'Username or Nickname already exists. Please choose another.',
+        error: new Error('Duplicate Entry')
+      });
+    }
+
+    // Insert into user table
+    const insertUserQuery = `
+      INSERT INTO user (parentUserId, username, displayName, passwordHash, bankName, accountNumber, accountHolder)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    const result = await executeQuery(insertUserQuery, [currentUserId, uid, nic, passwordHash, bankinfo, bankcode, bankowner]);
+
+    const newUserId = result.insertId;
+
+    // Insert into userRebateSetting table for 'slot' and 'live' rebates
+    const insertSlotRebateQuery = `
+      INSERT INTO userRebateSetting (userId, childUserId, rollingRebatePercentage, gameCategoryId)
+      VALUES (?, ?, ?, 0)
+    `;
+    const insertLiveRebateQuery = `
+      INSERT INTO userRebateSetting (userId, childUserId, rollingRebatePercentage, gameCategoryId)
+      VALUES (?, ?, ?, 1)
+    `;
+
+    // Insert rebates for 'slot' and 'live' settings
+
+    console.log('currentUserId:', currentUserId, 'newUserId:', newUserId, 'mm_slot:', mm_slot, 'mm_live:', mm_live);
+
+    await executeQuery(insertSlotRebateQuery, [currentUserId, newUserId, mm_slot]);
+    await executeQuery(insertLiveRebateQuery, [currentUserId, newUserId, mm_live]);
+
+    // On success, redirect to the user list page with a success message
+    res.redirect('/users/list?success=User successfully created');
+
+  } catch (error) {
+    // Handle any errors (database issues, unexpected errors)
+    res.status(500).render('error', {
+      title: 'Error',
+      message: `An error occurred while creating the user: ${error.message}`,
+      error: error
+    });
+  }
+});
+
 
 app.get('/games/slot-history', isAuthenticated, async (req, res) => {
   try {
@@ -307,6 +383,34 @@ app.post('/api/users/:id/issue', isAuthenticated, async (req, res) => {
   } catch (error) {
     console.error('Error issuing points:', error);
     res.status(500).json({ error: 'An error occurred while issuing points' });
+  }
+});
+
+app.get('/check-duplicate', async (req, res) => {
+  const { type, value } = req.query;
+
+  if (!type || !value) {
+    return res.status(400).json({ error: 'Invalid request parameters' });
+  }
+
+  try {
+    let query = '';
+    if (type === 'username') {
+      query = 'SELECT id FROM user WHERE username = ?';
+    } else if (type === 'displayName') {
+      query = 'SELECT id FROM user WHERE displayName = ?';
+    }
+
+    const results = await executeQuery(query, [value]);
+
+    if (results.length > 0) {
+      return res.json({ exists: true });
+    } else {
+      return res.json({ exists: false });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
   }
 });
 

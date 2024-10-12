@@ -99,43 +99,57 @@ app.get('/', isAuthenticated, (req, res) => {
 app.get('/users/list', isAuthenticated, async (req, res) => {
   try {
     const { username, startDate, endDate } = req.query;
-    let query = 'SELECT id, username, balance, registrationDate FROM user WHERE 1=1';
-    const queryParams = [];
+    const currentUserId = req.session.user.id;
 
-    if (username) {
-      query += ' AND username LIKE ?';
-      queryParams.push(`%${username}%`);
-    }
-    if (startDate) {
-      const parsedStartDate = parseFormattedDate(startDate);
-      if (parsedStartDate) {
-        query += ' AND registrationDate >= ?';
-        queryParams.push(parsedStartDate);
+    // Recursive function to fetch all descendants
+    async function getDescendants(parentId, level = 0) {
+      let query = `
+        SELECT id, username, balance, registrationDate, parentUserId 
+        FROM user 
+        WHERE parentUserId = ?
+      `;
+      const queryParams = [parentId];
+
+      if (username) {
+        query += ' AND username LIKE ?';
+        queryParams.push(`%${username}%`);
       }
-    }
-    if (endDate) {
-      const parsedEndDate = parseFormattedDate(endDate);
-      if (parsedEndDate) {
-        query += ' AND registrationDate <= ?';
-        queryParams.push(parsedEndDate);
+      if (startDate) {
+        const parsedStartDate = parseFormattedDate(startDate);
+        if (parsedStartDate) {
+          query += ' AND registrationDate >= ?';
+          queryParams.push(parsedStartDate);
+        }
       }
+      if (endDate) {
+        const parsedEndDate = parseFormattedDate(endDate);
+        if (parsedEndDate) {
+          query += ' AND registrationDate <= ?';
+          queryParams.push(parsedEndDate);
+        }
+      }
+
+      query += ' ORDER BY registrationDate DESC';
+
+      const users = await executeQuery(query, queryParams);
+
+      for (let user of users) {
+        user.registrationDate = formatDate(new Date(user.registrationDate));
+        user.level = level;
+        user.children = await getDescendants(user.id, level + 1);
+      }
+
+      return users;
     }
 
-    query += ' ORDER BY registrationDate DESC';
-
-    const users = await executeQuery(query, queryParams);
-
-    // Format dates for display
-    users.forEach(user => {
-      console.log('#1', user.registrationDate);
-      user.registrationDate = formatDate(new Date(user.registrationDate));
-      console.log('#2', user.registrationDate);
-    });
+    // Get the entire tree starting from the current user
+    const userTree = await getDescendants(currentUserId);
 
     res.render('layout', {
       title: res.locals.translations.user_list,
       contentPath: 'users-list',
-      users: users
+      userTree: userTree,
+      filters: { username, startDate, endDate }
     });
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -146,6 +160,7 @@ app.get('/users/list', isAuthenticated, async (req, res) => {
     });
   }
 });
+
 
 app.get('/users/tree', isAuthenticated, async (req, res) => {
   try {

@@ -1,55 +1,250 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="mb-3">
-                    <div class="row">
-                        <div class="col-md-4 mb-2">
-                            <input type="text" id="usernameFilter" class="form-control" placeholder="Filter by username">
-                        </div>
-                        <div class="col-md-3 mb-2">
-                            <input type="date" id="startDate" class="form-control" placeholder="Start Date">
-                        </div>
-                        <div class="col-md-3 mb-2">
-                            <input type="date" id="endDate" class="form-control" placeholder="End Date">
-                        </div>
-                        <div class="col-md-2 mb-2">
-                            <button id="filterButton" class="btn btn-primary w-100">Filter</button>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2">
-                            <button id="resetButton" class="btn btn-secondary w-100">Reset</button>
-                        </div>
-                    </div>
-                </div>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th><%= translations.id %></th>
-                        <th><%= translations.username %></th>
-                        <th><%= translations.balance %></th>
-                        <th><%= translations.registration_date %></th>
-                        <th><%= translations.actions %></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <% users.forEach(user => { %>
-                        <tr>
-                            <td><%= user.id %></td>
-                            <td><%= user.username %></td>
-                            <td><%= (user.balance / 100).toFixed(2) %></td>
-                            <td><%= user.registrationDate %></td>
-                            <td>
-                                <button class="btn btn-sm btn-primary issue-points-btn" data-user-id="<%= user.id %>" data-username="<%= user.username %>">
-                                    <%= translations.issue_points %>
-                                </button>
-                            </td>
-                        </tr>
-                    <% }); %>
-                    </tbody>
-                </table>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1><%= translations.user_list %></h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/"><%= translations.home %></a></li>
+                    <li class="breadcrumb-item active"><%= translations.user_list %></li>
+                </ol>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><%= translations.filter_users %></h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="filterForm" method="GET" action="/users/list">
+                            <div class="row">
+                                <div class="col-md-3 mb-2">
+                                    <div class="form-group">
+                                        <label for="usernameFilter"><%= translations.username %></label>
+                                        <input type="text" id="usernameFilter" name="username" class="form-control" placeholder="<%= translations.filter_by_username %>" value="<%= filters.username || '' %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-2">
+                                    <div class="form-group">
+                                        <label for="startDate"><%= translations.start_date %></label>
+                                        <input type="date" id="startDate" name="startDate" class="form-control" value="<%= filters.startDate || '' %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-2">
+                                    <div class="form-group">
+                                        <label for="endDate"><%= translations.end_date %></label>
+                                        <input type="date" id="endDate" name="endDate" class="form-control" value="<%= filters.endDate || '' %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-2 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-primary mr-2"><%= translations.filter %></button>
+                                    <a href="/users/list" class="btn btn-secondary"><%= translations.reset %></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><%= translations.user_hierarchy %></h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="userTable" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th><%= translations.username %></th>
+                                <th><%= translations.balance %></th>
+                                <th><%= translations.registration_date %></th>
+                                <th><%= translations.actions %></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+  function format(d, indent) {
+    console.log("format function called with data:", d);
+    if (!d || !d.children || d.children.length === 0) {
+      console.log("No children found for this row");
+      return '';
+    }
+
+    var html = '<div class="child-table-container" style="padding-left: ' + indent + 'px;">';
+    html += '<table class="table table-bordered table-striped child-table" style="width:100%;">';
+    html += '<thead><tr>' +
+      '<th></th>' +
+      '<th><%= translations.username %></th>' +
+      '<th><%= translations.balance %></th>' +
+      '<th><%= translations.registration_date %></th>' +
+      '<th><%= translations.actions %></th>' +
+      '</tr></thead><tbody>';
+    d.children.forEach(function(child) {
+      html += '<tr data-child-id="' + child.id + '">' +
+        '<td class="details-control">' + (child.children && child.children.length > 0 ? '<i class="fas fa-plus-square"></i>' : '') + '</td>' +
+        '<td>' + child.username + '</td>' +
+        '<td>' + (child.balance / 100).toFixed(2) + '</td>' +
+        '<td>' + child.registrationDate + '</td>' +
+        '<td><button class="btn btn-sm btn-success issue-points-btn" data-user-id="' + child.id + '" data-username="' + child.username + '">' +
+        '<%= translations.issue_points %>' +
+        '</button></td>' +
+        '</tr>';
+    });
+    html += '</tbody></table></div>';
+    console.log("Generated HTML for child rows:", html);
+    return html;
+  }
+
+  $(document).ready(function() {
+    var table = $('#userTable').DataTable({
+      data: <%- JSON.stringify(userTree) %>,
+      columns: [
+        {
+          className: 'details-control',
+          orderable: false,
+          data: null,
+          defaultContent: '',
+          render: function(data, type, row) {
+            if (row.children && row.children.length > 0) {
+              return '<i class="fas fa-plus-square"></i>';
+            }
+            return '';
+          },
+          width: "15px"
+        },
+        { data: 'username' },
+        {
+          data: 'balance',
+          render: function(data, type, row) {
+            return (data / 100).toFixed(2);
+          }
+        },
+        { data: 'registrationDate' },
+        {
+          data: null,
+          render: function(data, type, row) {
+            return '<button class="btn btn-sm btn-success issue-points-btn" data-user-id="' + row.id + '" data-username="' + row.username + '">' +
+              '<%= translations.issue_points %>' +
+              '</button>';
+          }
+        }
+      ],
+      order: [[1, 'asc']],
+      responsive: true
+    });
+
+    $('#userTable').on('click', 'td.details-control', function() {
+      var tr = $(this).closest('tr');
+      var row = table.row(tr);
+      var tdi = tr.find("i.fas");
+      var indent = parseInt(tr.find('td:first').css('padding-left')) + 15;
+
+      console.log("Click event triggered on row:", tr);
+
+      if (row.child.isShown()) {
+        console.log("Hiding child row");
+        row.child.hide();
+        tr.removeClass('shown');
+        tdi.first().removeClass('fa-minus-square');
+        tdi.first().addClass('fa-plus-square');
+      }
+      else {
+        console.log("Attempting to show child row");
+        var rowData = row.data();
+        console.log("Row data:", rowData);
+
+        if (!rowData) {
+          console.log("No row data found, searching for parent data");
+          var childId = tr.data('child-id');
+          rowData = findNestedChild(table.data(), childId);
+          console.log("Found parent data:", rowData);
+        }
+
+        if (rowData && rowData.children && rowData.children.length > 0) {
+          console.log("Generating child row content");
+          var childContent = format(rowData, indent);
+          console.log("Child content generated:", childContent);
+
+          row.child(childContent).show();
+          tr.addClass('shown');
+          tdi.first().removeClass('fa-plus-square');
+          tdi.first().addClass('fa-minus-square');
+
+          // Add click event to the new child rows
+          row.child().find('td.details-control').on('click', function() {
+            var childTr = $(this).closest('tr');
+            var childId = childTr.data('child-id');
+            var childData = findNestedChild(table.data(), childId);
+            var childIndent = indent + 15;
+
+            var childRow = table.row(childTr);
+
+            if (childRow.child.isShown()) {
+              childRow.child.hide();
+              $(this).find('i').removeClass('fa-minus-square').addClass('fa-plus-square');
+            } else {
+              var grandchildContent = format(childData, childIndent);
+              childRow.child(grandchildContent).show();
+              $(this).find('i').removeClass('fa-plus-square').addClass('fa-minus-square');
+            }
+          });
+        } else {
+          console.log("No children found for this row");
+        }
+      }
+    });
+  });
+
+  function findNestedChild(data, childId) {
+    console.log("Searching for child with ID:", childId);
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].id === childId) {
+        console.log("Child found:", data[i]);
+        return data[i];
+      }
+      if (data[i].children && data[i].children.length > 0) {
+        var found = findNestedChild(data[i].children, childId);
+        if (found) return found;
+      }
+    }
+    console.log("Child not found");
+    return null;
+  }
+</script>
+
+<style>
+    td.details-control {
+        cursor: pointer;
+    }
+    td.details-control i {
+        display: block;
+        text-align: center;
+    }
+    .child-table {
+        width: 100%;
+    }
+    .no-padding {
+        padding: 0 !important;
+    }
+    .child-table-container {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+

@@ -95,6 +95,7 @@ app.get('/', isAuthenticated, (req, res) => {
   });
 });
 
+// session.user.parantUserId
 app.get('/users/list', isAuthenticated, async (req, res) => {
   try {
     const { username, startDate, endDate } = req.query;
@@ -141,6 +142,45 @@ app.get('/users/list', isAuthenticated, async (req, res) => {
     res.status(500).render('error', {
       title: 'Error',
       message: `An error occurred while fetching users: ${error.message}`,
+      error: error
+    });
+  }
+});
+
+app.get('/users/tree', isAuthenticated, async (req, res) => {
+  try {
+    const currentUserId = req.session.user.id;
+
+    // Recursive function to fetch all descendants
+    async function getDescendants(parentId) {
+      const query = `
+        SELECT id, username, balance, registrationDate, parentUserId 
+        FROM user 
+        WHERE parentUserId = ?
+      `;
+      const users = await executeQuery(query, [parentId]);
+
+      for (let user of users) {
+        user.registrationDate = formatDate(new Date(user.registrationDate));
+        user.children = await getDescendants(user.id);
+      }
+
+      return users;
+    }
+
+    // Get the entire tree starting from the current user
+    const userTree = await getDescendants(currentUserId);
+
+    res.render('layout', {
+      title: res.locals.translations.user_tree,
+      contentPath: 'users-tree',
+      userTree: userTree
+    });
+  } catch (error) {
+    console.error('Error fetching user tree:', error);
+    res.status(500).render('error', {
+      title: 'Error',
+      message: `An error occurred while fetching the user tree: ${error.message}`,
       error: error
     });
   }

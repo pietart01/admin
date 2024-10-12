@@ -63,14 +63,18 @@ app.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  if (username === 'admin' && password === 'admin2580') {
-    req.session.isAuthenticated = true;
-    res.redirect('/');
-  } else {
+
+  const rows = await executeQuery('SELECT * FROM user WHERE username = ? AND passwordHash = ?', [username, password]);
+  if (rows.length === 0) {
     res.render('login', { error: 'Invalid credentials' });
+    return;
   }
+
+  req.session.user = rows[0];
+  req.session.isAuthenticated = true;
+  res.redirect('/');
 });
 
 // Logout route

@@ -5,6 +5,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser'); // If using older version of Express
+const { modalManager } = require('./modalManager');
 const { formatDate, parseFormattedDate } = require('./public/js/dateUtils');
 
 dotenv.config({path: '../.env'});
@@ -95,6 +96,22 @@ app.get('/', isAuthenticated, (req, res) => {
     title: 'Dashboard',
     contentPath: 'dashboard'
   });
+});
+
+
+app.get('/user/:id', (req, res) => {
+  const userData = {};//fetchUserData(req.params.id); // Assume this fetches user data
+  if (userData) {
+    res.render('modal-user', {
+      openModal: true,
+      userData: JSON.stringify(userData)
+    });
+  } else {
+    res.render('modal-user', {
+      openModal: false,
+      userData: null
+    });
+  }
 });
 
 // session.user.parantUserId

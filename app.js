@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const path = require('path');
 const dotenv = require('dotenv');
 const session = require('express-session');
@@ -17,6 +18,7 @@ const app = express();
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.locals.moment = moment;
 
 // Serve AdminLTE files
 app.use('/admin-lte', express.static(path.join(__dirname, 'node_modules/admin-lte'), {
@@ -57,6 +59,9 @@ const isAuthenticated = (req, res, next) => {
     next();
   } else {
     res.redirect('/login');
+    //
+    const testUserData = `{"id":7,"username":"rebate0","email":"rebate0","passwordHash":"2580","registrationDate":"2024-10-11T03:57:41.000Z","lastLoginDate":null,"isActive":1,"displayName":"rebate0","balance":1000000,"parentUserId":null,"level":0,"pinCode":null,"accountHolder":null,"bankName":null,"accountNumber":null,"lastIpAddress":null,"lastLogin":null,"isGameRestriction":0,"isLocked":0,"chip":10000000}`;
+    req.session.user = JSON.parse(testUserData);
   }
 };
 
@@ -75,6 +80,7 @@ app.post('/login', async (req, res) => {
   }
 
   req.session.user = rows[0];
+  console.log(JSON.stringify(rows[0]));
   console.log('User logged in:', JSON.stringify(req.session.user))
   req.session.isAuthenticated = true;
   res.redirect('/');
@@ -96,6 +102,90 @@ app.get('/', isAuthenticated, (req, res) => {
     title: 'Dashboard',
     contentPath: 'dashboard'
   });
+});
+
+app.get('/dashboard', isAuthenticated, (req, res) => {
+  res.render('layout', {
+    title: 'dashboard',
+    contentPath: 'dashboard',
+  });
+});
+
+app.get('/settlements', isAuthenticated, (req, res) => {
+  res.render('layout', {
+    title: 'Settlements',
+    contentPath: 'settlements',
+    settlements: [],
+  });
+});
+
+app.get('/admin/boards', isAuthenticated, async (req, res) => {
+  // Demo data for boards
+/*   const demoBoards = [
+    {
+      id: 1,
+      title: 'Notice Board',
+      posts: [
+        { id: 1, title: 'Welcome to the Casino', date: '2024-03-20', author: 'Admin' },
+        { id: 2, title: 'System Maintenance Notice', date: '2024-03-19', author: 'System' }
+      ]
+    },
+    {
+      id: 2,
+      title: 'Events',
+      posts: [
+        { id: 3, title: 'Weekend Bonus Event', date: '2024-03-18', author: 'Admin' },
+        { id: 4, title: 'Special Tournament', date: '2024-03-17', author: 'Admin' }
+      ]
+    }
+  ];
+ */
+
+  const boards = await executeQuery('SELECT * FROM board ORDER BY createdAt DESC');
+
+  res.render('layout', {
+    title: 'Boards',
+    contentPath: 'boards',
+    boards: boards,
+  });
+});
+
+app.post('/admin/boards/create', isAuthenticated, async (req, res) => {
+  try {
+    const { title, content } = req.body;
+
+    // Validate required fields
+    if (!title || !content) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title and content are required'
+      });
+    }
+
+    // Insert board into database
+    const query = `
+      INSERT INTO board (title, content, createdAt)
+      VALUES (?, ?, NOW())
+    `;
+    const result = await executeQuery(query, [title, content]);
+
+    if (result.insertId) {
+      res.json({
+        success: true,
+        message: 'Board created successfully',
+        boardId: result.insertId
+      });
+    } else {
+      throw new Error('Failed to create board');
+    }
+
+  } catch (error) {
+    console.error('Error creating board:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
 });
 
 

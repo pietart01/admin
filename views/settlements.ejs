@@ -1,0 +1,98 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><%= translations.settlements %></h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="settlementsTable" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th><%= translations.date %></th>
+                                    <th><%= translations.username %></th>
+                                    <th><%= translations.amount %></th>
+                                    <th><%= translations.status %></th>
+                                    <th><%= translations.actions %></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% settlements.forEach(function(settlement) { %>
+                                    <tr>
+                                        <td><%= settlement.date %></td>
+                                        <td><%= settlement.username %></td>
+                                        <td><%= (settlement.amount / 100).toFixed(2) %></td>
+                                        <td><%= settlement.status %></td>
+                                        <td>
+                                            <% if (settlement.status === 'pending') { %>
+                                                <button class="btn btn-sm btn-success approve-settlement" data-id="<%= settlement.id %>">
+                                                    <%= translations.approve %>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger reject-settlement" data-id="<%= settlement.id %>">
+                                                    <%= translations.reject %>
+                                                </button>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Demo data for settlements
+const demoSettlements = [
+    {
+        id: 1,
+        date: '2024-01-15',
+        username: 'user1',
+        amount: 50000, // 500.00
+        status: 'pending'
+    },
+    {
+        id: 2,
+        date: '2024-01-14',
+        username: 'user2',
+        amount: 75000, // 750.00
+        status: 'approved'
+    },
+    {
+        id: 3,
+        date: '2024-01-13',
+        username: 'user3',
+        amount: 25000, // 250.00
+        status: 'rejected'
+    }
+];
+
+// Add route handler in your Express app:
+/*
+app.get('/settlements', isAuthenticated, (req, res) => {
+    const { startDate, endDate } = req.query;
+    
+    // Filter demo data if dates are provided
+    let filteredSettlements = demoSettlements;
+    if (startDate && endDate) {
+        filteredSettlements = demoSettlements.filter(s => {
+            const settlementDate = new Date(s.date);
+            return settlementDate >= new Date(startDate) && 
+                   settlementDate <= new Date(endDate);
+        });
+    }
+
+    res.render('layout', {
+        title: 'Settlements',
+        contentPath: 'settlements',
+        settlements: filteredSettlements,
+        filters: { startDate, endDate }
+    });
+});
+*/
+</script>
+

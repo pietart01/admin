@@ -142,6 +142,7 @@ app.get('/admin/boards', isAuthenticated, async (req, res) => {
  */
 
   const boards = await executeQuery('SELECT * FROM board ORDER BY createdAt DESC');
+  console.log(boards);
 
   res.render('layout', {
     title: 'Boards',

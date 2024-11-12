@@ -1,4 +1,4 @@
-function formatDate(date) {
+/* function formatDate(date) {
     if (!(date instanceof Date) || isNaN(date)) {
         // If it's not a Date object or it's an invalid Date, try to parse it
         date = new Date(date);
@@ -43,4 +43,18 @@ function parseFormattedDate(dateString) {
 // If using CommonJS
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { formatDate, parseFormattedDate };
-}
+} */
+
+
+    // dateUtils.js
+const formatDate = (date) => {
+    if (!(date instanceof Date)) return date; // Return non-date values as-is
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+};
+
+const parseFormattedDate = (dateString) => {
+    if (!dateString) return null;
+    return new Date(dateString);
+};
+
+module.exports = { formatDate, parseFormattedDate };

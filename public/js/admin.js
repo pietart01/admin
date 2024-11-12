@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('table td').each(function() {
+    $('table td.date-column').each(function() {  // Add class="date-column" to date cells
         let content = $(this).text().trim();
         if (content && !isNaN(new Date(content).getTime())) {
             let formattedDate = formatDate(new Date(content));

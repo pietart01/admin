@@ -119,31 +119,17 @@ app.get('/settlements', isAuthenticated, (req, res) => {
   });
 });
 
+app.use((req, res, next) => {
+  const originalJson = res.json;
+  res.json = function(obj) {
+      console.log('Response before formatting:', obj);
+      return originalJson.call(this, obj);
+  }
+  next();
+});
+
 app.get('/admin/boards', isAuthenticated, async (req, res) => {
-  // Demo data for boards
-/*   const demoBoards = [
-    {
-      id: 1,
-      title: 'Notice Board',
-      posts: [
-        { id: 1, title: 'Welcome to the Casino', date: '2024-03-20', author: 'Admin' },
-        { id: 2, title: 'System Maintenance Notice', date: '2024-03-19', author: 'System' }
-      ]
-    },
-    {
-      id: 2,
-      title: 'Events',
-      posts: [
-        { id: 3, title: 'Weekend Bonus Event', date: '2024-03-18', author: 'Admin' },
-        { id: 4, title: 'Special Tournament', date: '2024-03-17', author: 'Admin' }
-      ]
-    }
-  ];
- */
-
   const boards = await executeQuery('SELECT * FROM board ORDER BY createdAt DESC');
-  console.log(boards);
-
   res.render('layout', {
     title: 'Boards',
     contentPath: 'boards',

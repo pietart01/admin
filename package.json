@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"  
   },
   "dependencies": {
     "admin-lte": "3.2",
@@ -26,5 +27,8 @@
     "mysql2": "^3.11.0",
     "yarn": "^1.22.22",
     "zustand": "^5.0.0-rc.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22" 
   }
 }

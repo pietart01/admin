@@ -11,6 +11,7 @@ const { formatDate, parseFormattedDate } = require('./public/js/dateUtils');
 
 dotenv.config({path: '../.env'});
 
+
 const { executeQuery } = require('./config/database');
 
 const app = express();

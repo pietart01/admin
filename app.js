@@ -175,6 +175,35 @@ app.post('/admin/boards/create', isAuthenticated, async (req, res) => {
   }
 });
 
+app.post('/admin/boards/delete/:id', isAuthenticated, async (req, res) => {
+  try {
+    const boardId = req.params.id;
+    console.log('boardId:', boardId);
+    
+    // Delete the board from database
+    const query = 'DELETE FROM board WHERE id = ?';
+    const result = await executeQuery(query, [boardId]);
+
+    if (result.affectedRows > 0) {
+      res.json({
+        success: true,
+        message: 'Board deleted successfully'
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'Board not found'
+      });
+    }
+
+  } catch (error) {
+    console.error('Error deleting board:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
 
 app.get('/user/:id', (req, res) => {
   const userData = {};//fetchUserData(req.params.id); // Assume this fetches user data

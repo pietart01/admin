@@ -57,4 +57,6 @@ const parseFormattedDate = (dateString) => {
     return new Date(dateString);
 };
 
-module.exports = { formatDate, parseFormattedDate };
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { formatDate, parseFormattedDate };
+} 

@@ -146,8 +146,11 @@ $(document).ready(function() {
     const result = await response.json();
 
     if (result.success) {
-      alert('Board created successfully!');
-      $('#createBoardModal').modal('hide');
+        $('#createBoardModal').modal('hide');
+        // Clear the form
+        $('#createBoardForm')[0].reset();
+        // Reload the page to show the new board
+        window.location.reload();
     } else {
       alert(`Error: ${result.message}`);
     }

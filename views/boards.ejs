@@ -178,7 +178,7 @@ $(document).ready(function() {
       const result = await response.json();
 
       if (result.success) {
-        alert('Board deleted successfully!');
+        // alert('Board deleted successfully!');
         location.reload();
       } else {
       }
@@ -188,6 +188,65 @@ $(document).ready(function() {
       $('#deleteConfirmModal').modal('hide');
       boardIdToDelete = null;
     }
+  });
+
+  // Add click handler for edit buttons
+  document.querySelectorAll('.edit-board').forEach(button => {
+    button.addEventListener('click', async (e) => {
+      const boardId = e.target.closest('.edit-board').dataset.id;
+      
+      // Fetch the board data
+      const response = await fetch(`/admin/boards/${boardId}`);
+      const board = await response.json();
+      
+      // Populate the edit form
+      document.getElementById('editId').value = board.id;
+      document.getElementById('editTitle').value = board.title;
+      document.getElementById('editContent').value = board.content;
+      
+      // Show the edit modal
+      $('#editBoardModal').modal('show');
+    });
+  });
+
+  // Handle edit form submission
+  document.getElementById('updateBoard').addEventListener('click', async () => {
+    const id = document.getElementById('editId').value;
+    const title = document.getElementById('editTitle').value;
+    const content = document.getElementById('editContent').value;
+
+    const response = await fetch(`/admin/boards/update/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, content })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      $('#editBoardModal').modal('hide');
+      // Reload the page to show the updated board
+      window.location.reload();
+    } else {
+      alert(`Error: ${result.message}`);
+    }
+  });
+
+   // Modal close handlers
+   $('.modal .close, .modal .btn-secondary').on('click', function() {
+    $(this).closest('.modal').modal('hide');
+  });
+
+  // Reset form when create modal is closed
+  $('#createBoardModal').on('hidden.bs.modal', function() {
+    $('#createBoardForm')[0].reset();
+  });
+
+  // Reset form when edit modal is closed
+  $('#editBoardModal').on('hidden.bs.modal', function() {
+    $('#editBoardForm')[0].reset();
   });
 });
 

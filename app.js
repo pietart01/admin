@@ -205,6 +205,57 @@ app.post('/admin/boards/delete/:id', isAuthenticated, async (req, res) => {
   }
 });
 
+app.get('/admin/boards/:id', isAuthenticated, async (req, res) => {
+  try {
+    const boardId = req.params.id;
+    const board = await executeQuery('SELECT * FROM board WHERE id = ?', [boardId]);
+
+    if (board.length > 0) {
+      res.json({
+        success: true,
+        board: board[0]
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'Board not found'
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching board:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+app.post('/admin/boards/update/:id', isAuthenticated, async (req, res) => {
+  try {
+    const boardId = req.params.id;
+    const { title, content } = req.body;
+    const result = await executeQuery('UPDATE board SET title = ?, content = ? WHERE id = ?', [title, content, boardId]);
+
+    if (result.affectedRows > 0) {
+      res.json({
+        success: true,
+        message: 'Board updated successfully'
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'Board not found'
+      });
+    }
+  } catch (error) {
+    console.error('Error updating board:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
 app.get('/user/:id', (req, res) => {
   const userData = {};//fetchUserData(req.params.id); // Assume this fetches user data
   if (userData) {

@@ -14,5 +14,6 @@
             "username": "pie",
             "password": "Pie7890$"
         }
-    ]
+    ],
+    "livePreview.defaultPreviewPath": "/views/index.html"
 }

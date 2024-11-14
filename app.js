@@ -56,14 +56,18 @@ app.use((req, res, next) => {
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
-  if (req.session.isAuthenticated) {
-    next();
-  } else {
-    res.redirect('/login');
-    //
-    const testUserData = `{"id":7,"username":"rebate0","email":"rebate0","passwordHash":"2580","registrationDate":"2024-10-11T03:57:41.000Z","lastLoginDate":null,"isActive":1,"displayName":"rebate0","balance":1000000,"parentUserId":null,"level":0,"pinCode":null,"accountHolder":null,"bankName":null,"accountNumber":null,"lastIpAddress":null,"lastLogin":null,"isGameRestriction":0,"isLocked":0,"chip":10000000}`;
-    req.session.user = JSON.parse(testUserData);
-  }
+  const testUserData = `{"id":7,"username":"rebate0","email":"rebate0","passwordHash":"2580","registrationDate":"2024-10-11T03:57:41.000Z","lastLoginDate":null,"isActive":1,"displayName":"rebate0","balance":1000000,"parentUserId":null,"level":0,"pinCode":null,"accountHolder":null,"bankName":null,"accountNumber":null,"lastIpAddress":null,"lastLogin":null,"isGameRestriction":0,"isLocked":0,"chip":10000000}`;
+  req.session.user = JSON.parse(testUserData);
+  next()
+  // if (req.session.isAuthenticated) {
+  //   next();
+  // } else {
+  //   // res.redirect('/login');
+  //   //
+  //   const testUserData = `{"id":7,"username":"rebate0","email":"rebate0","passwordHash":"2580","registrationDate":"2024-10-11T03:57:41.000Z","lastLoginDate":null,"isActive":1,"displayName":"rebate0","balance":1000000,"parentUserId":null,"level":0,"pinCode":null,"accountHolder":null,"bankName":null,"accountNumber":null,"lastIpAddress":null,"lastLogin":null,"isGameRestriction":0,"isLocked":0,"chip":10000000}`;
+  //   req.session.user = JSON.parse(testUserData);
+  //   next();
+  // }
 };
 
 // Login route
@@ -98,7 +102,7 @@ app.get('/logout', (req, res) => {
 });
 
 // Protected routes
-app.get('/', isAuthenticated, (req, res) => {
+app.get('/', (req, res) => {
   res.render('layout', {
     title: 'Dashboard',
     contentPath: 'dashboard'

@@ -28,8 +28,7 @@ export const userService = {
   
       if (!response.ok) {
         throw new Error('Failed to add bonus');
-      }
-  
+      }  
       return response.json();
     }
   };

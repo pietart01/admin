@@ -78,8 +78,6 @@ async function getUsers(req, res) {
       searchPattern
     ]);
 
-    console.log('users', users);
-
     // Send response
     return res.status(200).json({
         users,

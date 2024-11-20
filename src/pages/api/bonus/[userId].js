@@ -12,6 +12,8 @@ export default async function handler(req, res) {
 
 async function createBonus(req, res) {
   const { userId } = req.query;
+  console.log('createBonus', userId);
+
   // const { points } = req.body;
 
   // if (!userId || !points) {
@@ -19,10 +21,16 @@ async function createBonus(req, res) {
   // }
 
   try {
-    // const connection = await pool.getConnection();
-    // const updateQuery = 'UPDATE user SET balance = balance + ? WHERE id = ?';
-    // await connection.execute(updateQuery, [points, userId]);
-    // connection.release();
+    const response = await fetch(`${process.env.API_URL}/integrator/bonus`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId,
+        bonusAmount: 1
+      })
+    });
 
     return res.status(200).json({ message: 'Points added successfully' });
   } catch (error) {

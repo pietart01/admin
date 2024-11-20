@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    // Make sure you don't have any redirects or rewrites blocking this path
-  }
+  output: 'standalone',
+  // If you're running behind a proxy
+  assetPrefix: process.env.NODE_ENV === 'production' ? '' : undefined,
+}
 
-export default nextConfig;
+module.exports = nextConfig

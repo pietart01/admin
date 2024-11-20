@@ -5,4 +5,4 @@ const nextConfig = {
   assetPrefix: process.env.NODE_ENV === 'production' ? '' : undefined,
 }
 
-module.exports = nextConfig
+export default nextConfig;

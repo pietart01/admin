@@ -46,6 +46,16 @@ export default function Users() {
     }
   };
 
+  const handleCreateUser = async (user) => {
+/*     try {
+      await userService.createUser(user);
+      setIsCreateUserModalOpen(false);
+      refreshUsers();
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
+ */  }
+
   return (
     <div className="p-4">
       {/* <h2 className="text-2xl font-bold mb-4">Users Management</h2> */}
@@ -59,17 +69,6 @@ export default function Users() {
         ) : (
           <>
             {users.length > 0 && (
-/*              <UsersTable
-                users={users}
-                onAddPoints={(userId) => {
-                  setSelectedUserId(userId);
-                  setIsModalOpen(true);
-                }}
-                onAddBonus={(userId) => {
-                  setSelectedUserId(userId);
-                  setIsBonusModalOpen(true);
-                }}
-              />*/
               <HierarchicalUsersTable
                 users={users}
                 onAddPoints={(userId) => {
@@ -107,10 +106,11 @@ export default function Users() {
           onClose={() => setIsBonusModalOpen(false)}
           onSubmit={handleAddBonus}
         />
-        {/* <button onClick={() => setIsCreateUserModalOpen(true)}>Add User</button> */}
         <CreateUserModal
+          selectedUserId={selectedUserId}
           isOpen={isCreateUserModalOpen}
           onClose={() => setIsCreateUserModalOpen(false)}
+          onSubmit={handleCreateUser}
         />
       </div>
     </div>

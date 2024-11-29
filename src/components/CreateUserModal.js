@@ -1,6 +1,55 @@
 import React, { useState } from 'react';
 
-export function CreateUserModal({ isOpen, onClose }) {
+
+const InputGroup = ({
+  label,
+  id,
+  type,
+  value,
+  onChange,
+  required,
+  min,
+  max,
+  step,
+  helper,
+  children,
+  checkDuplicate,
+}) => (
+  <div className="mb-6">
+    <label htmlFor={id} className="block text-sm font-semibold text-gray-700 mb-2">
+      {label}
+    </label>
+    <div className="flex gap-2">
+      <div className="flex-1">
+        {children || (
+          <input
+            type={type === 'check' ? 'text' : type} // Adjust type if necessary
+            id={id}
+            value={value}
+            onChange={onChange}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            required={required}
+            min={min}
+            max={max}
+            step={step}
+          />
+        )}
+      </div>
+      {type === 'check' && checkDuplicate && (
+        <button
+          type="button"
+          onClick={() => checkDuplicate(id === 'uid' ? 'username' : 'displayName')}
+          className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-w-[120px]"
+        >
+          확인
+        </button>
+      )}
+    </div>
+    {helper && <p className="mt-2 text-sm text-gray-500">{helper}</p>}
+  </div>
+);
+
+export function CreateUserModal({ selectedUserId, isOpen, onClose }) {
   const [uid, setUid] = useState('');
   const [nic, setNic] = useState('');
   const [password, setPassword] = useState('');
@@ -11,6 +60,7 @@ export function CreateUserModal({ isOpen, onClose }) {
   const [bankOwner, setBankOwner] = useState('');
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [isDisplayNameValid, setIsDisplayNameValid] = useState(false);
+  
 
   const checkDuplicate = (type) => {
     let value = type === 'username' ? uid : nic;
@@ -19,7 +69,7 @@ export function CreateUserModal({ isOpen, onClose }) {
       return;
     }
 
-    fetch(`/check-duplicate?type=${type}&value=${encodeURIComponent(value)}`)
+    fetch(`/api/validation/${type}?value=${encodeURIComponent(value)}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.exists) {
@@ -42,10 +92,10 @@ export function CreateUserModal({ isOpen, onClose }) {
     if (isFormValid()) {
       const formData = {
         uid, nic, password, mm_slot: mmSlot, mm_live: mmLive,
-        bankinfo: bankInfo, bankcode: bankCode, bankowner: bankOwner
+        bankinfo: bankInfo, bankcode: bankCode, bankowner: bankOwner,selectedUserId:selectedUserId
       };
 
-      fetch('/create-user', {
+      fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -66,41 +116,6 @@ export function CreateUserModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const InputGroup = ({ label, id, type, value, onChange, required, min, max, step, helper, children }) => (
-    <div className="mb-6">
-      <label htmlFor={id} className="block text-sm font-semibold text-gray-700 mb-2">
-        {label}
-      </label>
-      <div className="flex gap-2">
-        <div className="flex-1">
-          {children || (
-            <input
-              type={type}
-              id={id}
-              value={value}
-              onChange={onChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-              required={required}
-              min={min}
-              max={max}
-              step={step}
-            />
-          )}
-        </div>
-        {type === 'check' && (
-          <button
-            type="button"
-            onClick={() => checkDuplicate(id === 'uid' ? 'username' : 'displayName')}
-            className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-w-[120px]"
-          >
-            확인
-          </button>
-        )}
-      </div>
-      {helper && <p className="mt-2 text-sm text-gray-500">{helper}</p>}
-    </div>
-  );
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -120,14 +135,18 @@ export function CreateUserModal({ isOpen, onClose }) {
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <InputGroup
+              <InputGroup
               label="아이디"
               id="uid"
               type="check"
               value={uid}
-              onChange={(e) => { setUid(e.target.value); setIsUsernameValid(false); }}
+              onChange={(e) => {
+                setUid(e.target.value);
+                setIsUsernameValid(false);
+              }}
               required
               helper="고유 식별자를 입력하세요 (2-20자)"
+              checkDuplicate={checkDuplicate} // Add this line
             />
 
             <InputGroup
@@ -135,10 +154,14 @@ export function CreateUserModal({ isOpen, onClose }) {
               id="nic"
               type="check"
               value={nic}
-              onChange={(e) => { setNic(e.target.value); setIsDisplayNameValid(false); }}
-              required
-              helper="닉네임을 선택하세요 (2-8자)"
-            />
+              onChange={(e) => {
+            setNic(e.target.value);
+            setIsDisplayNameValid(false);
+          }}
+          required
+          helper="닉네임을 선택하세요 (2-8자)"
+          checkDuplicate={checkDuplicate} // Add this line
+        />
           </div>
 
           <InputGroup

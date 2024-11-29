@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="env">
-      <change beforePath="$PROJECT_DIR$/src/pages/api/bonus/[userId].js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/bonus/[userId].js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CreateUserModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateUserModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Users.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Users.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/users/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/users/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +25,12 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../.env" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/next.config.mjs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/.env.local" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/jsconfig.json" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="2movm45jc0oUnm8ghzoMOt10OnD" />
   <component name="ProjectViewState">
@@ -74,7 +82,7 @@
       <workItem from="1731733118782" duration="5781000" />
       <workItem from="1731750652868" duration="2053000" />
       <workItem from="1731829251787" duration="2000" />
-      <workItem from="1731927573840" duration="7346000" />
+      <workItem from="1731927573840" duration="9232000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>

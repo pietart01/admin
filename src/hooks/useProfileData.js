@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
 
-export function useProfileData() {
+export function useProfileData(userId) {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchProfileData();
-  }, []);
+    if (userId) {
+      fetchProfileData(userId);
+    }
+  }, [userId]);
 
   const fetchProfileData = async () => {
     try {
       setLoading(true);
       // Replace with your actual API endpoint
-      const response = await fetch('/api/profile/1');
+      const response = await fetch(`/api/profile/${userId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch profile data');
       }

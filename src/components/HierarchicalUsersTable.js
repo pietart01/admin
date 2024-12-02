@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useMemo } from 'react';
-import {ChevronDown, ChevronRight, PlusCircle, Gift, UserPlus} from "lucide-react";
+import { ChevronDown, ChevronRight, PlusCircle, Gift, UserPlus } from "lucide-react";
 
 export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUser, onUserClick, isLoading }) => {
   // Convert flat users array into hierarchical structure
@@ -65,7 +65,7 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
               <span className={`mr-2 px-2 py-0.5 text-xs rounded-full ${getLevelLabel(user.level).color}`}>
                 {getLevelLabel(user.level).text}
               </span>
-              <button 
+              <button
                 onClick={() => onUserClick?.(user)}
                 className="text-sm font-medium text-gray-900 hover:text-blue-600 cursor-pointer"
               >
@@ -73,7 +73,7 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
               </button>
             </div>
           </td>
-          <td className="px-6 py-4 whitespace-nowrap">{user.level}</td>
+          {/* <td className="px-6 py-4 whitespace-nowrap">{user.level}</td> */}
           <td className="px-6 py-4 whitespace-nowrap">{user.balance.toLocaleString()}</td>
           <td className="px-6 py-4 whitespace-nowrap">{user.dealerFeeBalance?.toLocaleString() || '0'}</td>
           <td className="px-6 py-4 whitespace-nowrap">{user.charging?.toLocaleString() || '0'}</td>
@@ -123,24 +123,24 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
-        <tr>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">사용자 이름</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">LEVEL</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">잔액</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">보유딜러비</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">충전</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">환전</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">충환수익</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">베팅</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">딜러비</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">등록 날짜</th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">작업</th>
-        </tr>
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">사용자 이름</th>
+            {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">LEVEL</th> */}
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">잔액</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">보유딜러비</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">충전</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">환전</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">충환수익</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">베팅</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">딜러비</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">등록 날짜</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">작업</th>
+          </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-        {hierarchicalUsers.map(user => (
-          <UserRow key={user.id} user={user} />
-        ))}
+          {hierarchicalUsers.map(user => (
+            <UserRow key={user.id} user={user} />
+          ))}
         </tbody>
       </table>
     </div>

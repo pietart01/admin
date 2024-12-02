@@ -65,6 +65,7 @@ export default function Dashboard() {
     switch (activeComponent) {
       case 'users':
         return <Users onOpenProfile={(userData) => {
+          // alert(JSON.stringify(userData.id));
           setUser(userData);
           setIsProfileModalOpen(true);
         }} />;
@@ -142,7 +143,7 @@ export default function Dashboard() {
                 <button
                   onClick={() => {
                     setIsProfileMenuOpen(!isProfileMenuOpen);
-                    setIsProfileModalOpen(true);
+                    // setIsProfileModalOpen(true);
                   }}
                   className="flex items-center space-x-2 p-1.5 rounded-md text-gray-700 hover:bg-gray-100"
                 >

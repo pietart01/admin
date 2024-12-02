@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useProfileData } from '../hooks/useProfileData';
 
-export function ProfileInfoTab() {
-  const { profileData, loading, error } = useProfileData();
+export function ProfileInfoTab({userId}) {
+  const { profileData, loading, error } = useProfileData(userId);
 
   if (loading) {
     return <div>Loading...</div>;

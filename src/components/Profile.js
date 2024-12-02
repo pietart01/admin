@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, Percent, Target, List, Receipt, X } from 'lucide-react';
 import { ProfileInfoTab } from '@/components/ProfileInfoTab';
 
@@ -11,8 +11,16 @@ const EmptyTab = ({ title }) => (
 
 export default function Profile({ isOpen, onClose, userData }) {
   const [activeTab, setActiveTab] = useState('profile');
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  useEffect(() => {
+    if (userData?.id) {
+      setRefreshKey(prev => prev + 1);
+    }
+  }, [userData?.id]);
 
   if (!isOpen) return null;
+
 
   const tabs = [
     { id: 'profile', label: '회원정보', icon: Users, color: 'bg-blue-400 hover:bg-blue-500' },
@@ -93,7 +101,7 @@ export default function Profile({ isOpen, onClose, userData }) {
 
           {/* Tab Content Area */}
           <div className="mt-6 bg-white rounded-xl shadow-sm p-6">
-            {activeTab === 'profile' && <ProfileInfoTab />}
+            {activeTab === 'profile' && <ProfileInfoTab key={refreshKey} userId={userData?.id} />}
             {activeTab === 'rate' && <EmptyTab title="요율" />}
             {activeTab === 'target' && <EmptyTab title="쪽지" />}
             {activeTab === 'history' && <EmptyTab title="내 손익" />}

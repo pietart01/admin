@@ -16,6 +16,7 @@ export default function Dashboard() {
   const router = useRouter();
   const [activeComponent, setActiveComponent] = useState('dashboard');
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [notifications, setNotifications] = useState(3);
 
@@ -64,8 +65,6 @@ export default function Dashboard() {
     switch (activeComponent) {
       case 'users':
         return <Users />;
-      case 'profile':
-        return <Profile />;
       case 'spins':
         return <Spins />;
       case 'exchange':
@@ -138,7 +137,10 @@ export default function Dashboard() {
               {/* Profile Dropdown */}
               <div className="relative">
                 <button
-                  onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                  onClick={() => {
+                    setIsProfileMenuOpen(!isProfileMenuOpen);
+                    setIsProfileModalOpen(true);
+                  }}
                   className="flex items-center space-x-2 p-1.5 rounded-md text-gray-700 hover:bg-gray-100"
                 >
                   <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
@@ -150,15 +152,6 @@ export default function Dashboard() {
 
                 {isProfileMenuOpen && (
                   <div id="profile-menu-container" className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
-                    <button
-                      onClick={() => {
-                        setActiveComponent('profile');
-                        setIsProfileMenuOpen(false);
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      내 프로필
-                    </button>
                     <button
                       onClick={() => {
                         handleLogout();
@@ -238,6 +231,13 @@ export default function Dashboard() {
       <main className="max-w-7xl mx-auto px-4 py-6">
         {renderComponent()}
       </main>
+
+      {/* Profile Modal */}
+      <Profile 
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        userData={user}
+      />
     </div>
   );
 }

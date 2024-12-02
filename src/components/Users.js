@@ -21,6 +21,8 @@ export default function Users() {
     refreshUsers
   } = useUsers();
 
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isBonusModalOpen, setIsBonusModalOpen] = useState(false);
@@ -57,62 +59,76 @@ export default function Users() {
  */  }
 
   return (
-    <div className="p-4">
-      {/* <h2 className="text-2xl font-bold mb-4">Users Management</h2> */}
-      <div className="bg-white shadow rounded-lg p-6">
-        <UserSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
-        {isLoading ? (
-          <div className="flex justify-center p-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-          </div>
-        ) : (
-          <>
-            {users.length > 0 && (
-              <HierarchicalUsersTable
-                users={users}
-                onAddPoints={(userId) => {
-                  setSelectedUserId(userId);
-                  setIsModalOpen(true);
-                }}
-                onAddBonus={(userId) => {
-                  setSelectedUserId(userId);
-                  setIsBonusModalOpen(true);
-                }}
-                onAddUser={(userId) => {
-                  console.log('onAddUser', userId);
-                  setSelectedUserId(userId);
-                  setIsCreateUserModalOpen(true);
-                }}
-              />
-            )}
-
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
-          </>
-        )}
-
-        <AddPointsModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onSubmit={handleAddPoints}
-        />
-
-        <AddBonusModal
-          isOpen={isBonusModalOpen}
-          onClose={() => setIsBonusModalOpen(false)}
-          onSubmit={handleAddBonus}
-        />
-        <CreateUserModal
-          selectedUserId={selectedUserId}
-          isOpen={isCreateUserModalOpen}
-          onClose={() => setIsCreateUserModalOpen(false)}
-          onSubmit={handleCreateUser}
-        />
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Users</h1>
+        <button
+          onClick={() => setIsCreateUserModalOpen(true)}
+          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Create User
+        </button>
       </div>
+
+      <UserSearch 
+        searchTerm={searchTerm} 
+        setSearchTerm={setSearchTerm}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+      />
+
+      {isLoading ? (
+        <div className="flex justify-center p-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        </div>
+      ) : (
+        <>
+          {users.length > 0 && (
+            <HierarchicalUsersTable
+              users={users}
+              onAddPoints={(userId) => {
+                setSelectedUserId(userId);
+                setIsModalOpen(true);
+              }}
+              onAddBonus={(userId) => {
+                setSelectedUserId(userId);
+                setIsBonusModalOpen(true);
+              }}
+              onAddUser={(userId) => {
+                console.log('onAddUser', userId);
+                setSelectedUserId(userId);
+                setIsCreateUserModalOpen(true);
+              }}
+            />
+          )}
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </>
+      )}
+
+      <AddPointsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleAddPoints}
+      />
+
+      <AddBonusModal
+        isOpen={isBonusModalOpen}
+        onClose={() => setIsBonusModalOpen(false)}
+        onSubmit={handleAddBonus}
+      />
+      <CreateUserModal
+        selectedUserId={selectedUserId}
+        isOpen={isCreateUserModalOpen}
+        onClose={() => setIsCreateUserModalOpen(false)}
+        onSubmit={handleCreateUser}
+      />
     </div>
   );
 }

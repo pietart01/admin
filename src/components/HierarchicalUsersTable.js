@@ -21,6 +21,23 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
     return rootUsers;
   }, [users]);
 
+  const getLevelLabel = (level) => {
+    switch (level) {
+      case 1:
+        return { text: "본사", color: "bg-red-100 text-red-800" };
+      case 2:
+        return { text: "부본사", color: "bg-blue-100 text-blue-800" };
+      case 3:
+        return { text: "총판", color: "bg-green-100 text-green-800" };
+      case 4:
+        return { text: "매장", color: "bg-purple-100 text-purple-800" };
+      case 5:
+        return { text: "회원", color: "bg-gray-100 text-gray-800" };
+      default:
+        return { text: "", color: "" };
+    }
+  };
+
   const UserRow = ({ user, level = 0, isExpanded = true }) => {
     const [expanded, setExpanded] = React.useState(isExpanded);
     const hasChildren = user.children && user.children.length > 0;
@@ -44,6 +61,10 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
                 </button>
               )}
               {!hasChildren && <div className="w-6" />}
+              {/* Add the level label here */}
+              <span className={`mr-2 px-2 py-0.5 text-xs rounded-full ${getLevelLabel(user.level).color}`}>
+                {getLevelLabel(user.level).text}
+              </span>
               <span className={level > 0 ? "text-gray-600" : "font-medium"}>
                 {user.username}
               </span>

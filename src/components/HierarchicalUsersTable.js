@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useMemo } from 'react';
-import {ChevronDown, ChevronRight} from "lucide-react";
+import {ChevronDown, ChevronRight, PlusCircle, Gift, UserPlus} from "lucide-react";
 
 export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUser }) => {
   // Convert flat users array into hierarchical structure
@@ -49,30 +49,38 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
               </span>
             </div>
           </td>
-          {/* <td className="px-6 py-4 whitespace-nowrap">{user.id}</td> */}
           <td className="px-6 py-4 whitespace-nowrap">{user.level}</td>
           <td className="px-6 py-4 whitespace-nowrap">{user.balance.toLocaleString()}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.dealerFeeBalance?.toLocaleString() || '0'}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.charging?.toLocaleString() || '0'}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.exchange?.toLocaleString() || '0'}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.chargeExchangeProfit?.toLocaleString() || '0'}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.betting?.toLocaleString() || '0'}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.dealerFee?.toLocaleString() || '0'}</td>
           <td className="px-6 py-4 whitespace-nowrap">
             {new Date(user.registrationDate).toLocaleDateString()}
           </td>
           <td className="px-6 py-4 whitespace-nowrap">
             <button
               onClick={() => onAddPoints(user.id)}
-              className="px-4 py-2 border rounded-md text-sm font-medium hover:bg-gray-50 mr-2"
+              className="p-2 border rounded-md text-sm font-medium hover:bg-gray-50 mr-2 text-blue-600"
+              title="포인트 추가"
             >
-              포인트 추가
+              <PlusCircle className="w-4 h-4" />
             </button>
             <button
               onClick={() => onAddBonus(user.id)}
-              className="px-4 py-2 border rounded-md text-sm font-medium hover:bg-gray-50 bg-green-50 mr-2"
+              className="p-2 border rounded-md text-sm font-medium hover:bg-gray-50 bg-green-50 mr-2 text-green-600"
+              title="보너스 추가"
             >
-              보너스 추가
+              <Gift className="w-4 h-4" />
             </button>
             <button
               onClick={() => onAddUser(user.id)}
-              className="px-4 py-2 border rounded-md text-sm font-medium hover:bg-gray-50 bg-blue-50"
+              className="p-2 border rounded-md text-sm font-medium hover:bg-gray-50 bg-blue-50 text-blue-600"
+              title="사용자 추가"
             >
-              사용자 추가
+              <UserPlus className="w-4 h-4" />
             </button>
           </td>
         </tr>
@@ -93,9 +101,14 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
         <thead className="bg-gray-50">
         <tr>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">사용자 이름</th>
-          {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th> */}
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">LEVEL</th>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">잔액</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">보유딜러비</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">충전</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">환전</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">충환수익</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">베팅</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">딜러비</th>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">등록 날짜</th>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">작업</th>
         </tr>

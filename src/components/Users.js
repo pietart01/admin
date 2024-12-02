@@ -9,7 +9,7 @@ import {useUsers} from '@/hooks/useUsers';
 import {HierarchicalUsersTable} from '@/components/HierarchicalUsersTable';
 import { CreateUserModal } from '@/components/CreateUserModal';
 
-export default function Users() {
+export default function Users({ onOpenProfile }) {
   const {
     users,
     currentPage,
@@ -86,22 +86,21 @@ export default function Users() {
       ) : (
         <>
           {users.length > 0 && (
-            <HierarchicalUsersTable
-              users={users}
-              onAddPoints={(userId) => {
-                setSelectedUserId(userId);
-                setIsModalOpen(true);
-              }}
-              onAddBonus={(userId) => {
-                setSelectedUserId(userId);
-                setIsBonusModalOpen(true);
-              }}
-              onAddUser={(userId) => {
-                console.log('onAddUser', userId);
-                setSelectedUserId(userId);
-                setIsCreateUserModalOpen(true);
-              }}
-            />
+            <div className="mt-8">
+              <HierarchicalUsersTable
+                users={users}
+                onAddPoints={(userId) => {
+                  setSelectedUserId(userId);
+                  setIsModalOpen(true);
+                }}
+                onAddBonus={(userId) => {
+                  setSelectedUserId(userId);
+                  setIsBonusModalOpen(true);
+                }}
+                onUserClick={(user) => onOpenProfile?.(user)}
+                isLoading={isLoading}
+              />
+            </div>
           )}
 
           <Pagination

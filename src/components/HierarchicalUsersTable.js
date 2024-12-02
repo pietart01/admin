@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useMemo } from 'react';
 import {ChevronDown, ChevronRight, PlusCircle, Gift, UserPlus} from "lucide-react";
 
-export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUser }) => {
+export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUser, onUserClick, isLoading }) => {
   // Convert flat users array into hierarchical structure
   const hierarchicalUsers = useMemo(() => {
     const userMap = new Map(users.map(user => [user.id, { ...user, children: [] }]));
@@ -65,9 +65,12 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
               <span className={`mr-2 px-2 py-0.5 text-xs rounded-full ${getLevelLabel(user.level).color}`}>
                 {getLevelLabel(user.level).text}
               </span>
-              <span className={level > 0 ? "text-gray-600" : "font-medium"}>
+              <button 
+                onClick={() => onUserClick?.(user)}
+                className="text-sm font-medium text-gray-900 hover:text-blue-600 cursor-pointer"
+              >
                 {user.username}
-              </span>
+              </button>
             </div>
           </td>
           <td className="px-6 py-4 whitespace-nowrap">{user.level}</td>

@@ -64,7 +64,10 @@ export default function Dashboard() {
   const renderComponent = () => {
     switch (activeComponent) {
       case 'users':
-        return <Users />;
+        return <Users onOpenProfile={(userData) => {
+          setUser(userData);
+          setIsProfileModalOpen(true);
+        }} />;
       case 'spins':
         return <Spins />;
       case 'exchange':

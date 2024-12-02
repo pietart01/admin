@@ -26,6 +26,20 @@ export default function Dashboard() {
     }
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const profileMenu = document.getElementById('profile-menu-container');
+      if (profileMenu && !profileMenu.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     router.push('/admin/login');
@@ -135,15 +149,21 @@ export default function Dashboard() {
                 </button>
 
                 {isProfileMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                  <div id="profile-menu-container" className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
                     <button
-                      onClick={() => setActiveComponent('profile')}
+                      onClick={() => {
+                        setActiveComponent('profile');
+                        setIsProfileMenuOpen(false);
+                      }}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     >
                       내 프로필
                     </button>
                     <button
-                      onClick={handleLogout}
+                      onClick={() => {
+                        handleLogout();
+                        setIsProfileMenuOpen(false);
+                      }}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     >
                       로그아웃

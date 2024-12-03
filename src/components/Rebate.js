@@ -28,6 +28,9 @@ export default function Rebate() {
           </div>
         ) : (
           <>
+            <div className="text-gray-600 mb-4 text-sm">
+              3분 마다 롤링이 지급됩니다
+            </div>
             {rebates.length > 0 && (
               <RebateTable
                 rebates={rebates}

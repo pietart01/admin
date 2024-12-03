@@ -16,8 +16,11 @@ export default function Login() {
     });
 
     if (res.ok) {
-      const { token } = await res.json();
+      const { token, user } = await res.json();
+      console.log('token', token);
+      console.log('user', user);
       localStorage.setItem('adminToken', token);
+      localStorage.setItem('user', JSON.stringify(user));
       router.push('/admin/dashboard');
     }
   };

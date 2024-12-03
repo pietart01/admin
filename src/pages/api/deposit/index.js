@@ -71,19 +71,21 @@ async function handler(req, res) {
     // Get deposits with pagination and search
     const depositsQuery = `
       SELECT 
-        id,
-        userId,
-        transactionType,
-        currencyType,
-        amount,
-        recipientUserId,
-        description,
-        transactionDate
-      FROM userTransaction
-      WHERE transactionType = 'DEPOSIT'
-      ${search ? 'AND (' + searchCondition.replace('WHERE', '') + ')' : ''}
-      ORDER BY transactionDate DESC
-      LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}
+  ut.id,
+  ut.userId,
+  u.username,
+  ut.transactionType,
+  ut.currencyType,
+  ut.amount,
+  ut.recipientUserId,
+  ut.description,
+  ut.transactionDate
+FROM userTransaction ut
+JOIN user u ON ut.userId = u.id
+WHERE ut.transactionType = 'DEPOSIT'
+${search ? 'AND (' + searchCondition.replace('WHERE', '') + ')' : ''}
+ORDER BY ut.transactionDate DESC
+LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}
     `;
 
     const deposits = await executeQuery(

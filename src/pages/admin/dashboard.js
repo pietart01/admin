@@ -13,6 +13,7 @@ import Profile from '@/components/Profile';
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
+  const [myUser, setMyUser] = useState(null);
   const router = useRouter();
   const [activeComponent, setActiveComponent] = useState('dashboard');
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -22,6 +23,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
+    const userStr = localStorage.getItem('user');
+    const t = userStr ? JSON.parse(userStr) : null;
+    setMyUser(t);
     if (!token) {
       router.push('/admin/login');
     }
@@ -43,6 +47,7 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
+    localStorage.removeItem('user');
     router.push('/admin/login');
   };
 
@@ -131,11 +136,11 @@ export default function Dashboard() {
               {/* Notification Bell */}
               <button className="relative p-1 rounded-full text-gray-600 hover:bg-gray-100">
                 <Bell className="w-6 h-6" />
-                {notifications > 0 && (
+                {/* {notifications > 0 && (
                   <span className="absolute top-0 right-0 block h-4 w-4 rounded-full bg-red-500 text-xs text-white flex items-center justify-center transform translate-x-1/2 -translate-y-1/2">
                     {notifications}
                   </span>
-                )}
+                )} */}
               </button>
 
               {/* Profile Dropdown */}
@@ -150,7 +155,7 @@ export default function Dashboard() {
                   <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                     <span className="text-sm font-medium text-gray-600">A</span>
                   </div>
-                  <span className="text-sm font-medium">관리자</span>
+                  <span className="text-sm font-medium">{myUser?.username}</span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 

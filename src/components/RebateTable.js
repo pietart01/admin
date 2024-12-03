@@ -8,16 +8,10 @@ export function RebateTable({ rebates }) {
               회원
             </th>
             <th className="px-6 py-3 text-left font-medium text-gray-700 border-b border-gray-300">
-              유형
-            </th>
-            <th className="px-6 py-3 text-left font-medium text-gray-700 border-b border-gray-300">
               금액
             </th>
             <th className="px-6 py-3 text-left font-medium text-gray-700 border-b border-gray-300">
-              상태
-            </th>
-            <th className="px-6 py-3 text-left font-medium text-gray-700 border-b border-gray-300">
-              생성일
+              일시
             </th>
           </tr>
         </thead>
@@ -33,19 +27,7 @@ export function RebateTable({ rebates }) {
                 {rebate.username}
               </td>
               <td className="px-6 py-4 border-b border-gray-300 text-gray-800">
-                {rebate.rebateType}
-              </td>
-              <td className="px-6 py-4 border-b border-gray-300 text-gray-800">
                 {rebate.amount}
-              </td>
-              <td className="px-6 py-4 border-b border-gray-300 text-gray-800">
-                <span
-                  className={`px-3 py-1 text-sm rounded ${getStatusColor(
-                    rebate.status
-                  )}`}
-                >
-                  {rebate.status}
-                </span>
               </td>
               <td className="px-6 py-4 border-b border-gray-300 text-gray-800">
                 {new Date(rebate.createdAt).toLocaleString()}

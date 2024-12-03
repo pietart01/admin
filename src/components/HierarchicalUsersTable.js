@@ -75,15 +75,15 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
           </td>
           {/* <td className="px-6 py-4 whitespace-nowrap">{user.level}</td> */}
           <td className="px-6 py-4 whitespace-nowrap">{user.balance.toLocaleString()}</td>
-          <td className="px-6 py-4 whitespace-nowrap">{user.dealerFeeBalance?.toLocaleString() || '0'}</td>
-          <td className="px-6 py-4 whitespace-nowrap">{user.charging?.toLocaleString() || '0'}</td>
-          <td className="px-6 py-4 whitespace-nowrap">{user.exchange?.toLocaleString() || '0'}</td>
-          <td className="px-6 py-4 whitespace-nowrap">{user.chargeExchangeProfit?.toLocaleString() || '0'}</td>
-          <td className="px-6 py-4 whitespace-nowrap">{user.betting?.toLocaleString() || '0'}</td>
-          <td className="px-6 py-4 whitespace-nowrap">{user.dealerFee?.toLocaleString() || '0'}</td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            {new Date(user.registrationDate).toLocaleDateString()}
-          </td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.rebateBalance?.toLocaleString() || '0'}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.deposit ? parseInt(user.deposit).toLocaleString() : '0'}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.widthdraw ? parseInt(user.widthdraw).toLocaleString() : '0'}</td>
+          {/* <td className="px-6 py-4 whitespace-nowrap">{user.chargeExchangeProfit?.toLocaleString() || '0'}</td> */}
+          <td className="px-6 py-4 whitespace-nowrap">{user.betting ? parseInt(user.betting).toLocaleString() : '0'}</td>
+          <td className="px-6 py-4 whitespace-nowrap">{user.rebate?.toLocaleString() || '0'}</td>
+          {/* <td className="px-6 py-4 whitespace-nowrap"> */}
+            {/* {new Date(user.registrationDate).toLocaleDateString()} */}
+          {/* </td> */}
           <td className="px-6 py-4 whitespace-nowrap">
             <button
               onClick={() => onAddPoints(user.id)}
@@ -130,10 +130,10 @@ export const HierarchicalUsersTable = ({ users, onAddPoints, onAddBonus, onAddUs
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">보유딜러비</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">충전</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">환전</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">충환수익</th>
+            {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">충환수익</th> */}
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">베팅</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">딜러비</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">등록 날짜</th>
+            {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">등록 날짜</th> */}
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">작업</th>
           </tr>
         </thead>

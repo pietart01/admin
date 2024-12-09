@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="env" />
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="env">
+      <change beforePath="$PROJECT_DIR$/src/components/DepositTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DepositTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Exchange.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Exchange.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,9 +30,9 @@
     <setting file="file://$PROJECT_DIR$/.env.local" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/jsconfig.json" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2movm45jc0oUnm8ghzoMOt10OnD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -42,7 +45,9 @@
     "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/mac/project/pie/admin",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
     "vue.rearranger.settings.migration": "true"
   }
@@ -89,6 +94,7 @@
       <workItem from="1731750652868" duration="2053000" />
       <workItem from="1731829251787" duration="2000" />
       <workItem from="1731927573840" duration="9232000" />
+      <workItem from="1733300786070" duration="1116000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>

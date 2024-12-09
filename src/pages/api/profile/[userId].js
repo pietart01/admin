@@ -31,16 +31,31 @@ export default async function handler(req, res) {
       WHERE id = ?
     `;
 
+    const rebateQuery = `
+      SELECT 
+        rollingRebatePercentage,
+        losingRebatePercentage
+      FROM userRebateSetting
+      WHERE childUserId = ?
+    `;
+
     const results = await executeQuery(query, [userId]);
 
     if (results.length === 0) {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    const rebateResults = await executeQuery(rebateQuery, [userId]);
+    const rebate = rebateResults.length > 0 ? rebateResults[0] : null;
+    console.log('rebate', rebate);
+    console.log('userId', userId);
+
     // Remove sensitive information
-    const user = results[0];
+    let user = results[0];
     delete user.passwordHash;
 
+    user = {...user, ...rebate};
+    console.log('user', user);
     return res.status(200).json(user);
 
   } catch (error) {

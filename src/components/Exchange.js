@@ -39,9 +39,9 @@ export default function Exchange() {
             </div>
           ) : (
             <>
-              {deposits.length > 0 && (
+              {/* {deposits.length > 0 && (
                 <DepositTable deposits={deposits} />
-              )}
+              )} */}
               
               <Pagination
                 currentPage={currentPage}

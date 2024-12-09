@@ -21,7 +21,7 @@ export function DepositTable({ deposits }) {
               <td className="px-6 py-4 whitespace-nowrap"><TransactionTypeIcon type={deposit.transactionType} /></td>
               {/* <td className="px-6 py-4 whitespace-nowrap">{deposit.currencyType}</td> */}
               <td className="px-6 py-4 whitespace-nowrap">{deposit.amount ? parseInt(deposit.amount).toLocaleString() :'0'}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{new Date(deposit.transactionDate).toLocaleDateString()}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{new Date(deposit.transactionDate).toLocaleString()}</td>
               <td className="px-6 py-4 whitespace-nowrap">{deposit.description}</td>
             </tr>
           ))}

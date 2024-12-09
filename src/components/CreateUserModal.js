@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect} from 'react';
 
 const InputGroup = ({
   label,
@@ -13,7 +12,7 @@ const InputGroup = ({
   step,
   helper,
   children,
-  checkDuplicate,
+  onBlurCheck, // new prop for onBlur event
 }) => (
   <div className="mb-6">
     <label htmlFor={id} className="block text-sm font-semibold text-gray-700 mb-2">
@@ -23,10 +22,11 @@ const InputGroup = ({
       <div className="flex-1">
         {children || (
           <input
-            type={type === 'check' ? 'text' : type} // Adjust type if necessary
+            type={type === 'check' ? 'text' : type}
             id={id}
             value={value}
             onChange={onChange}
+            onBlur={type === 'check' && onBlurCheck ? onBlurCheck : undefined} 
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             required={required}
             min={min}
@@ -35,15 +35,7 @@ const InputGroup = ({
           />
         )}
       </div>
-      {type === 'check' && checkDuplicate && (
-        <button
-          type="button"
-          onClick={() => checkDuplicate(id === 'uid' ? 'username' : 'displayName')}
-          className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-w-[120px]"
-        >
-          확인
-        </button>
-      )}
+      {/* Remove the button since we are now checking automatically */}
     </div>
     {helper && <p className="mt-2 text-sm text-gray-500">{helper}</p>}
   </div>
@@ -60,12 +52,25 @@ export function CreateUserModal({ selectedUserId, isOpen, onClose }) {
   const [bankOwner, setBankOwner] = useState('');
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [isDisplayNameValid, setIsDisplayNameValid] = useState(false);
-  
 
-  const checkDuplicate = (type) => {
-    let value = type === 'username' ? uid : nic;
+  const [rebatePercentage, setRebatePercentage] = useState(0);
+
+  useEffect(() => {
+    if (selectedUserId) {
+      
+      fetch(`/api/profile/${selectedUserId}`)
+        .then((response) => response.json())
+        .then(data => {
+          console.log('rebatePercentage',data);
+          setRebatePercentage(data.rebatePercentage);
+        });
+    }
+  }, [selectedUserId]);
+
+  const checkDuplicate = (type, value) => {
     if (value.length < 2) {
       alert(`유효한 ${type === 'username' ? '아이디' : '닉네임'}를 입력해주세요.`);
+      type === 'username' ? setIsUsernameValid(false) : setIsDisplayNameValid(false);
       return;
     }
 
@@ -76,11 +81,21 @@ export function CreateUserModal({ selectedUserId, isOpen, onClose }) {
           alert(`이미 사용중인 ${type === 'username' ? '아이디' : '닉네임'}입니다. 다른 것을 선택해주세요.`);
           type === 'username' ? setIsUsernameValid(false) : setIsDisplayNameValid(false);
         } else {
-          alert(`사용 가능한 ${type === 'username' ? '아이디' : '닉네임'}입니다!`);
+          // alert(`사용 가능한 ${type === 'username' ? '아이디' : '닉네임'}입니다!`);
           type === 'username' ? setIsUsernameValid(true) : setIsDisplayNameValid(true);
         }
       })
       .catch((error) => console.error('Error:', error));
+  };
+
+  const handleUidBlur = () => {
+    // Check duplicate for username
+    checkDuplicate('username', uid);
+  };
+
+  const handleNicBlur = () => {
+    // Check duplicate for display name
+    checkDuplicate('displayName', nic);
   };
 
   const isFormValid = () => {
@@ -91,8 +106,15 @@ export function CreateUserModal({ selectedUserId, isOpen, onClose }) {
     e.preventDefault();
     if (isFormValid()) {
       const formData = {
-        uid, nic, password, mm_slot: mmSlot, mm_live: mmLive,
-        bankinfo: bankInfo, bankcode: bankCode, bankowner: bankOwner,selectedUserId:selectedUserId
+        uid,
+        nic,
+        password,
+        mm_slot: mmSlot,
+        mm_live: mmLive,
+        bankinfo: bankInfo,
+        bankcode: bankCode,
+        bankowner: bankOwner,
+        selectedUserId: selectedUserId,
       };
 
       fetch('/api/users', {
@@ -135,7 +157,7 @@ export function CreateUserModal({ selectedUserId, isOpen, onClose }) {
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InputGroup
+            <InputGroup
               label="아이디"
               id="uid"
               type="check"
@@ -144,9 +166,9 @@ export function CreateUserModal({ selectedUserId, isOpen, onClose }) {
                 setUid(e.target.value);
                 setIsUsernameValid(false);
               }}
+              onBlurCheck={handleUidBlur}
               required
               helper="고유 식별자를 입력하세요 (2-20자)"
-              checkDuplicate={checkDuplicate} // Add this line
             />
 
             <InputGroup
@@ -155,13 +177,13 @@ export function CreateUserModal({ selectedUserId, isOpen, onClose }) {
               type="check"
               value={nic}
               onChange={(e) => {
-            setNic(e.target.value);
-            setIsDisplayNameValid(false);
-          }}
-          required
-          helper="닉네임을 선택하세요 (2-8자)"
-          checkDuplicate={checkDuplicate} // Add this line
-        />
+                setNic(e.target.value);
+                setIsDisplayNameValid(false);
+              }}
+              onBlurCheck={handleNicBlur}
+              required
+              helper="닉네임을 선택하세요 (2-8자)"
+            />
           </div>
 
           <InputGroup
@@ -184,7 +206,7 @@ export function CreateUserModal({ selectedUserId, isOpen, onClose }) {
               min="0"
               max="4.30"
               step="0.01"
-              helper="범위: 0% - 4.30%"
+              helper={`범위: 0% - ${rebatePercentage}%`}
             />
 
             <InputGroup

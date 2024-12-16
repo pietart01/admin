@@ -7,7 +7,7 @@ import { useSpins } from '@/hooks/useSpins';
 import PokerHandsTable from "./PokerHandsTable";
 import {usePokerHands} from "../hooks/usePokerHands";
 
-export default function Poker() {
+export default function Poker({onOpen}) {
     const {
         pokerHands,
         currentPage,
@@ -34,6 +34,7 @@ export default function Poker() {
                         {pokerHands.length > 0 && (
                             <PokerHandsTable
                                 hands={pokerHands}
+                                onClick={(data) => onOpen?.(data)}
                             />
                         )}
 

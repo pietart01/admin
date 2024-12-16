@@ -22,6 +22,7 @@ import Rebate from '@/components/Rebate';
 import Deposit from '@/components/Deposit';
 import Withdraw from '@/components/Withdraw';
 import Profile from '@/components/Profile';
+import PokerHandModal from "../../components/PokerHandModal";
 
 const PokerIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -38,6 +39,8 @@ export default function Dashboard() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isPokerHandModalOpen, setIsPokerHandModalOpen] = useState(true);
+  const [handModalData, setHandModalData] = useState(null);
   const [notifications, setNotifications] = useState(3);
 
   useEffect(() => {
@@ -97,7 +100,10 @@ export default function Dashboard() {
       case 'spins':
         return <Spins />;
       case 'poker':
-        return <Poker />;
+        return <Poker onOpen={({id}) => {
+          setHandModalData({id});
+          setIsPokerHandModalOpen(true);
+        }} />;
       case 'exchange':
         return <Exchange />;
       case 'rebate':
@@ -269,6 +275,12 @@ export default function Dashboard() {
         onClose={() => setIsProfileModalOpen(false)}
         userData={user}
       />
+
+      <PokerHandModal
+        isOpen={isPokerHandModalOpen}
+        onClose={() => setIsPokerHandModalOpen(false)}
+        handModalData={handModalData}
+        />
     </div>
   );
 }

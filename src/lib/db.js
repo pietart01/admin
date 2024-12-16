@@ -1,5 +1,9 @@
 // db.js
 import mysql from 'mysql2/promise';
+// import dotenv from 'dotenv';
+// dotenv.config('./.env.local'); // Load environment variables
+
+console.log(`process.env.DB_HOST: ${process.env.DB_HOST}`);
 
 let pool;
 

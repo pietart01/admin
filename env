@@ -1,6 +1,0 @@
-// .env.local
-DB_HOST=mysql
-DB_USER=pie
-DB_PASSWORD=Pie7890$
-DB_NAME=pie_db
-JWT_SECRET=secret

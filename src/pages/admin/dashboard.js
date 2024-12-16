@@ -1,14 +1,35 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Bell, Menu, X, ChevronDown, Home, Users as UsersIcon, Dice5, CreditCard, Wallet, RefreshCw } from 'lucide-react';
+import {
+  Bell,
+  Menu,
+  X,
+  ChevronDown,
+  Home,
+  Users as UsersIcon,
+  Dice5,
+  CreditCard,
+  Wallet,
+  RefreshCw,
+  Dices
+} from 'lucide-react';
 import Users from '@/components/Users';
 import Spins from '@/components/Spins';
+import Poker from '@/components/Poker';
 import DashboardOverview from '@/components/Dashboard';
 import Exchange from '@/components/Exchange';
 import Rebate from '@/components/Rebate';
 import Deposit from '@/components/Deposit';
 import Withdraw from '@/components/Withdraw';
 import Profile from '@/components/Profile';
+
+const PokerIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10 3L14 3L22 10L14 17L10 17L2 10Z" />
+      <circle cx="12" cy="10" r="2" />
+    </svg>
+);
+
 
 
 export default function Dashboard() {
@@ -54,7 +75,8 @@ export default function Dashboard() {
   const navItems = [
     { id: 'dashboard', label: '홈', icon: Home },
     { id: 'users', label: '회원', icon: UsersIcon },
-    { id: 'spins', label: '베팅', icon: Dice5 }, // Updated icon
+    { id: 'spins', label: '슬롯', icon: Dice5 }, // Updated icon
+    { id: 'poker', label: '홀덤', icon: Dices }, // Updated icon
     { id: 'rebate', label: '롤링', icon: RefreshCw },
     { id: 'deposit', label: '충전', icon: CreditCard },
     { id: 'withdraw', label: '환전', icon: Wallet },
@@ -76,6 +98,8 @@ export default function Dashboard() {
         }} />;
       case 'spins':
         return <Spins />;
+      case 'poker':
+        return <Poker />;
       case 'exchange':
         return <Exchange />;
       case 'rebate':

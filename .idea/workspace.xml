@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="env">
-      <change beforePath="$PROJECT_DIR$/src/components/DepositTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DepositTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Exchange.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Exchange.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Poker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/db.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,42 +33,47 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../.env" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/next.config.mjs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/.env.local" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/jsconfig.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/next.config.mjs" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
-}</component>
   <component name="ProjectId" id="2movm45jc0oUnm8ghzoMOt10OnD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/mac/project/pie/admin",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.1.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\project\pie\admin" />
       <recent name="C:\project\pie\admin\routes" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="test_rebate.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/test_rebate.js" working-dir="$PROJECT_DIR$">
+  <component name="RunManager" selected="npm.run next dev">
+    <configuration name="test_rebate.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="test_rebate.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
+    <configuration name="run next dev" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Node.js.test_rebate.js" />
+      <item itemvalue="npm.run next dev" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Node.js.test_rebate.js" />
@@ -95,6 +107,9 @@
       <workItem from="1731829251787" duration="2000" />
       <workItem from="1731927573840" duration="9232000" />
       <workItem from="1733300786070" duration="1116000" />
+      <workItem from="1734315953967" duration="271000" />
+      <workItem from="1734316241732" duration="12000" />
+      <workItem from="1734316287705" duration="1071000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -175,6 +190,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="lib" />

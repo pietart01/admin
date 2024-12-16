@@ -30,8 +30,6 @@ const PokerIcon = () => (
     </svg>
 );
 
-
-
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [myUser, setMyUser] = useState(null);

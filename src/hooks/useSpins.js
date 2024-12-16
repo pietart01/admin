@@ -11,7 +11,6 @@ export const useSpins = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
 
-
   useEffect(() => {
     const fetchSpins = async () => {
       try {
@@ -29,10 +28,9 @@ export const useSpins = () => {
           throw new Error('Failed to fetch spins');
         }
         const data = await response.json();
-        console.log(data);
         const {spins, pagination} = data;
         setSpins(spins);
-        console.log(`totalPages: ${data.pagination.total}`);
+        // console.log(`totalPages: ${data.pagination.total}`);
         setTotalPages(Math.ceil(data.pagination.total / ITEMS_PER_PAGE));
       } catch (error) {
         setError(error.message);
@@ -40,7 +38,6 @@ export const useSpins = () => {
         setLoading(false);
       }
     };
-
     fetchSpins();
   }, [currentPage, searchTerm]);
 

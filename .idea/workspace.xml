@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="env">
-      <change afterPath="$PROJECT_DIR$/src/components/Poker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="add Poker tab">
+      <change afterPath="$PROJECT_DIR$/src/components/PokerHandsTable.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/usePokerHands.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/pokerHands/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/db.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Poker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Poker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SpinsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SpinsTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useSpins.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useSpins.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/admin/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +44,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
@@ -55,6 +54,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\project\pie\admin\src\components" />
+      <recent name="C:\project\pie\admin\src\pages\api\pokerHands" />
       <recent name="C:\project\pie\admin" />
       <recent name="C:\project\pie\admin\routes" />
     </key>
@@ -109,7 +110,7 @@
       <workItem from="1733300786070" duration="1116000" />
       <workItem from="1734315953967" duration="271000" />
       <workItem from="1734316241732" duration="12000" />
-      <workItem from="1734316287705" duration="1071000" />
+      <workItem from="1734316287705" duration="2945000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -174,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1732088664162</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="add Poker tab">
+      <created>1734317414818</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1734317414818</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,6 +207,7 @@
     <MESSAGE value="port" />
     <MESSAGE value="docker" />
     <MESSAGE value="env" />
-    <option name="LAST_COMMIT_MESSAGE" value="env" />
+    <MESSAGE value="add Poker tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="add Poker tab" />
   </component>
 </project>

@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="PokerHandsTable">
-      <change afterPath="$PROJECT_DIR$/src/components/PokerHandDisplay.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/PokerHandModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/PokerPlayersTable.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/PokerPots.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/PokerPotsTable.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/usePokerPots.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/api/pokerPots/[pokerHandId].js" afterDir="false" />
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="PokerHandDisplay - Details">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Poker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Poker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PokerHandsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PokerHandsTable.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/admin/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/dashboard.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -114,7 +105,7 @@
       <workItem from="1733300786070" duration="1116000" />
       <workItem from="1734315953967" duration="271000" />
       <workItem from="1734316241732" duration="12000" />
-      <workItem from="1734316287705" duration="7837000" />
+      <workItem from="1734316287705" duration="10326000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -193,7 +184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1734319318881</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="PokerHandDisplay - Details">
+      <created>1734324229938</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1734324229938</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,6 +218,7 @@
     <MESSAGE value="env" />
     <MESSAGE value="add Poker tab" />
     <MESSAGE value="PokerHandsTable" />
-    <option name="LAST_COMMIT_MESSAGE" value="PokerHandsTable" />
+    <MESSAGE value="PokerHandDisplay - Details" />
+    <option name="LAST_COMMIT_MESSAGE" value="PokerHandDisplay - Details" />
   </component>
 </project>

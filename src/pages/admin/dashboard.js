@@ -39,7 +39,7 @@ export default function Dashboard() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isPokerHandModalOpen, setIsPokerHandModalOpen] = useState(true);
+  const [isPokerHandModalOpen, setIsPokerHandModalOpen] = useState(false);
   const [handModalData, setHandModalData] = useState(null);
   const [notifications, setNotifications] = useState(3);
 

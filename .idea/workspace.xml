@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="PokerHandDisplay - Details">
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment=".">
+      <change beforePath="$PROJECT_DIR$/.idea/admin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/homepage.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/dashboard.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +39,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
@@ -105,7 +106,11 @@
       <workItem from="1733300786070" duration="1116000" />
       <workItem from="1734315953967" duration="271000" />
       <workItem from="1734316241732" duration="12000" />
-      <workItem from="1734316287705" duration="10326000" />
+      <workItem from="1734316287705" duration="11139000" />
+      <workItem from="1734508904089" duration="24000" />
+      <workItem from="1734508929756" duration="683000" />
+      <workItem from="1736206104113" duration="1024000" />
+      <workItem from="1737984992192" duration="460000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -191,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1734324229938</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary=".">
+      <created>1734337803823</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1734337803823</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,13 +224,13 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="lib" />
     <MESSAGE value="bet list" />
-    <MESSAGE value="." />
     <MESSAGE value="port" />
     <MESSAGE value="docker" />
     <MESSAGE value="env" />
     <MESSAGE value="add Poker tab" />
     <MESSAGE value="PokerHandsTable" />
     <MESSAGE value="PokerHandDisplay - Details" />
-    <option name="LAST_COMMIT_MESSAGE" value="PokerHandDisplay - Details" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
 </project>

@@ -4,20 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment=".">
-      <change afterPath="$PROJECT_DIR$/src/lib/api/client.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/api/methods.js" afterDir="false" />
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="use admin api">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useDeposits.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDeposits.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useSpins.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useSpins.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useUsers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useUsers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/auth/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/users/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/users/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/rebateService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/rebateService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/api/client.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +38,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../api" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
@@ -120,7 +109,8 @@
       <workItem from="1734508904089" duration="24000" />
       <workItem from="1734508929756" duration="683000" />
       <workItem from="1736206104113" duration="1024000" />
-      <workItem from="1737984992192" duration="7891000" />
+      <workItem from="1737984992192" duration="7975000" />
+      <workItem from="1738042888840" duration="3113000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -220,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1737985666894</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="use admin api">
+      <created>1738026841180</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1738026841180</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,6 +245,7 @@
     <MESSAGE value="PokerHandsTable" />
     <MESSAGE value="PokerHandDisplay - Details" />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="use admin api" />
+    <option name="LAST_COMMIT_MESSAGE" value="use admin api" />
   </component>
 </project>

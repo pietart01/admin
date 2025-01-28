@@ -15,21 +15,13 @@ import {
 } from 'lucide-react';
 import Users from '@/components/Users';
 import Spins from '@/components/Spins';
-import Poker from '@/components/Poker';
+import Holdem from '@/components/Holdem';
 import DashboardOverview from '@/components/Dashboard';
 import Exchange from '@/components/Exchange';
 import Rebate from '@/components/Rebate';
 import Deposit from '@/components/Deposit';
 import Withdraw from '@/components/Withdraw';
 import Profile from '@/components/Profile';
-import PokerHandModal from "../../components/PokerHandModal";
-
-const PokerIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M10 3L14 3L22 10L14 17L10 17L2 10Z" />
-      <circle cx="12" cy="10" r="2" />
-    </svg>
-);
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
@@ -39,8 +31,6 @@ export default function Dashboard() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isPokerHandModalOpen, setIsPokerHandModalOpen] = useState(false);
-  const [handModalData, setHandModalData] = useState(null);
   const [notifications, setNotifications] = useState(3);
 
   useEffect(() => {
@@ -76,8 +66,8 @@ export default function Dashboard() {
   const navItems = [
     { id: 'dashboard', label: '홈', icon: Home },
     { id: 'users', label: '회원', icon: UsersIcon },
-    { id: 'spins', label: '슬롯', icon: Dice5 }, // Updated icon
-    { id: 'poker', label: '홀덤', icon: Dices }, // Updated icon
+    { id: 'spins', label: '슬롯', icon: Dice5 },
+    { id: 'holdem', label: '홀덤', icon: Dices },
     { id: 'rebate', label: '롤링', icon: RefreshCw },
     { id: 'deposit', label: '충전', icon: CreditCard },
     { id: 'withdraw', label: '환전', icon: Wallet },
@@ -93,17 +83,13 @@ export default function Dashboard() {
     switch (activeComponent) {
       case 'users':
         return <Users onOpenProfile={(userData) => {
-          // alert(JSON.stringify(userData.id));
           setUser(userData);
           setIsProfileModalOpen(true);
         }} />;
       case 'spins':
         return <Spins />;
-      case 'poker':
-        return <Poker onOpen={({id}) => {
-          setHandModalData({id});
-          setIsPokerHandModalOpen(true);
-        }} />;
+      case 'holdem':
+        return <Holdem />;
       case 'exchange':
         return <Exchange />;
       case 'rebate':
@@ -116,14 +102,12 @@ export default function Dashboard() {
         return <DashboardOverview />;
     }
   };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            {/* Logo Section */}
-
-
             {/* Navigation Items - Desktop */}
             <div className="hidden md:flex items-center space-x-1">
               {navItems.map((item) => {
@@ -164,20 +148,12 @@ export default function Dashboard() {
               {/* Notification Bell */}
               <button className="relative p-1 rounded-full text-gray-600 hover:bg-gray-100">
                 <Bell className="w-6 h-6" />
-                {/* {notifications > 0 && (
-                  <span className="absolute top-0 right-0 block h-4 w-4 rounded-full bg-red-500 text-xs text-white flex items-center justify-center transform translate-x-1/2 -translate-y-1/2">
-                    {notifications}
-                  </span>
-                )} */}
               </button>
 
               {/* Profile Dropdown */}
               <div className="relative">
                 <button
-                  onClick={() => {
-                    setIsProfileMenuOpen(!isProfileMenuOpen);
-                    // setIsProfileModalOpen(true);
-                  }}
+                  onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                   className="flex items-center space-x-2 p-1.5 rounded-md text-gray-700 hover:bg-gray-100"
                 >
                   <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
@@ -275,12 +251,6 @@ export default function Dashboard() {
         onClose={() => setIsProfileModalOpen(false)}
         userData={user}
       />
-
-      <PokerHandModal
-        isOpen={isPokerHandModalOpen}
-        onClose={() => setIsPokerHandModalOpen(false)}
-        handModalData={handModalData}
-        />
     </div>
   );
 }

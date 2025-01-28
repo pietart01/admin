@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { spinService } from '../services/SpinService';
 import { ITEMS_PER_PAGE } from '../constants/constants';
+import {get} from "../lib/api/methods";
 
 export const useSpins = () => {
   const [spins, setSpins] = useState([]);
@@ -14,7 +15,7 @@ export const useSpins = () => {
   useEffect(() => {
     const fetchSpins = async () => {
       try {
-        const token = localStorage.getItem('adminToken');
+/*        const token = localStorage.getItem('adminToken');
         if (!token) {
           throw new Error('No token found');
         }
@@ -31,7 +32,15 @@ export const useSpins = () => {
         const {spins, pagination} = data;
         setSpins(spins);
         // console.log(`totalPages: ${data.pagination.total}`);
+        setTotalPages(Math.ceil(data.pagination.total / ITEMS_PER_PAGE));*/
+
+        const data = await get('/spins', { page: currentPage, limit: ITEMS_PER_PAGE, search: searchTerm });
+        console.log(data);
+        const {spins, pagination} = data;
+        setSpins(spins);
+        // console.log(`totalPages: ${data.pagination.total}`);
         setTotalPages(Math.ceil(data.pagination.total / ITEMS_PER_PAGE));
+
       } catch (error) {
         setError(error.message);
       } finally {

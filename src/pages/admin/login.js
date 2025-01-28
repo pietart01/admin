@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import {post} from "../../lib/api/methods";
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -9,6 +10,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+/*
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -23,6 +25,21 @@ export default function Login() {
       localStorage.setItem('user', JSON.stringify(user));
       router.push('/admin/dashboard');
     }
+*/
+
+    try {
+      const data = await post('/auth/login', {username, password});
+      const { token, user } = data;
+      console.log('token', token);
+      console.log('user', user);
+      localStorage.setItem('adminToken', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      router.push('/admin/dashboard');
+
+    } catch (error) {
+        console.error(error);
+    }
+
   };
 
   return (

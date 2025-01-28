@@ -1,4 +1,5 @@
 // hooks/useUsers.js
+import {get} from "../lib/api/methods";
 import { useState, useEffect } from 'react';
 import { ITEMS_PER_PAGE } from '../constants/constants';
 
@@ -13,8 +14,11 @@ export const useUsers = () => {
     const fetchUsers = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`/api/users?page=${currentPage}&limit=${ITEMS_PER_PAGE}&search=${searchTerm}`);
-        const data = await response.json();
+
+        const data = await get('/users', { page: currentPage, limit: ITEMS_PER_PAGE, search: searchTerm });
+
+        // const response = await fetch(`/api/users?page=${currentPage}&limit=${ITEMS_PER_PAGE}&search=${searchTerm}`);
+        // const data = await response.json();
         console.log('data', data);
         setUsers(data.users);
         setTotalPages(Math.ceil(data.pagination.total / ITEMS_PER_PAGE));

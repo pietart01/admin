@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import {get} from "../lib/api/methods";
+import {ITEMS_PER_PAGE} from "../constants/constants";
 
 export function useDeposits() {
   const [deposits, setDeposits] = useState([]);
@@ -11,7 +13,7 @@ export function useDeposits() {
     setIsLoading(true);
     try {
 
-      const token = localStorage.getItem('adminToken');
+      /*const token = localStorage.getItem('adminToken');
       if (!token) {
         throw new Error('No token found');
       }
@@ -23,7 +25,10 @@ export function useDeposits() {
       // Replace with your actual API endpoint
       const response = await fetch(`/api/deposit?page=${currentPage}&search=${searchTerm}`, { headers });
       const data = await response.json();
-      console.log('Deposits data:', data);
+      console.log('Deposits data:', data);*/
+      const data = await get('/deposit', { page: currentPage, limit: ITEMS_PER_PAGE, search: searchTerm });
+      console.log(data);
+
       setDeposits(data.deposits);
       setTotalPages(data.totalPages);
     } catch (error) {
@@ -47,4 +52,4 @@ export function useDeposits() {
     setCurrentPage,
     fetchDeposits
   };
-} 
+}

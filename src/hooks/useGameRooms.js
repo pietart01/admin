@@ -93,14 +93,14 @@ export function useGameRooms() {
             ws.send(JSON.stringify({
                 type: 'createRoom',
                 roomData: {
-                    roomName: roomData.roomName || `Room ${Date.now()}`,
+                    roomName: roomData.title || `${Date.now()}`,
                     maxPlayers: roomData.maxPlayers || 6,
                     password: roomData.password || '',
                     bingMoney: roomData.bingMoney || 1000,
                     enterMoney: roomData.enterMoney || 1000,
                     minMoney: roomData.minMoney || 1000,
                     maxMoney: roomData.maxMoney || 1000,
-                    gameMode: roomData.gameMode || 0
+                    gameMode: 0,//roomData.gameMode || 0
                 }
             }));
         } else {

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useProfileData } from '../hooks/useProfileData';
-import GameRooms from "./GameRoomList";
-import WSTest from "./WSTest";
 
 export default function DashboardOverview() {
   const [user, setUser] = useState(null);
@@ -16,13 +14,11 @@ export default function DashboardOverview() {
   const { profileData } = useProfileData(user?.id); // Using optional chaining
 
   const balance = profileData?.balance ?? 0; // Using nullish coalescing
-  const rebateBalance = profileData?.rebateBalance ?? 0;;//JSON.stringify(profileData);//profileData?.rebateBalance ?? 0;
+  const rebateBalance = profileData?.rebateBalance ?? 0;
 
   return (
       <div className="p-4">
-        <GameRooms />
-        {/*<WSTest/>*/}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> {/* Changed to 2 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-white p-4 rounded-lg shadow">
             <h3 className="text-lg font-semibold mb-2">잔액</h3>
             <p className="text-3xl font-bold text-blue-600">
@@ -33,7 +29,6 @@ export default function DashboardOverview() {
             <h3 className="text-lg font-semibold mb-2">딜러비</h3>
             <p className="text-3xl font-bold text-green-600">
               {typeof rebateBalance === 'number' ? rebateBalance.toLocaleString() : '0'}
-              {/*{rebateBalance}*/}
             </p>
           </div>
         </div>

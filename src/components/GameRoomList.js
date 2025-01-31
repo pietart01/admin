@@ -1,4 +1,6 @@
 import { useGameRooms } from '../hooks/useGameRooms';
+import { CreateRoomModal } from './CreateRoomModal';
+import { useState } from 'react';
 
 export default function GameRooms() {
     const {
@@ -10,56 +12,51 @@ export default function GameRooms() {
         isConnected
     } = useGameRooms();
 
-    const handleCreateRoom = () => {
-        createRoom({
-            title: `Room ${Date.now()}`,
-            maxRoomUserLimit: 6,
-            isProtected: false,
-            pingMoney: 300,
-            minLimitMoney: 0,
-            maxLimitMoney: 0,
-            playMode: 0
-        });
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+    const handleCreateRoom = (roomData) => {
+        console.log('Create room:', JSON.stringify(roomData));
+        // createRoom(roomData);
     };
 
     const getRoomStateLabel = (state) => {
         switch (state) {
             case 0:
-                return 'Waiting';
+                return '대기중';
             case 1:
-                return 'In Progress';
+                return '게임중';
             default:
-                return 'Unknown';
+                return '알수없음';
         }
     };
 
     const getPlayModeLabel = (mode) => {
         switch (mode) {
             case 0:
-                return 'Classic';
+                return '일반';
             case 1:
-                return 'Tournament';
+                return '토너먼트';
             default:
-                return 'Unknown';
+                return '알수없음';
         }
     };
 
     return (
         <div className="p-4">
             <div className="flex items-center justify-between mb-4">
-                <h1 className="text-2xl font-bold">Game Rooms</h1>
+                <h1 className="text-2xl font-bold">게임방 목록</h1>
                 <div className="flex items-center gap-4">
                     <span className={`px-2 py-1 rounded ${
                         isConnected ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                     }`}>
-                        {status}
+                        {isConnected ? '연결됨' : '연결안됨'}
                     </span>
                     <button
-                        onClick={handleCreateRoom}
+                        onClick={() => setIsCreateModalOpen(true)}
                         disabled={!isConnected}
                         className="bg-blue-500 text-white px-4 py-2 rounded disabled:bg-gray-300 hover:bg-blue-600"
                     >
-                        Create Room
+                        방 만들기
                     </button>
                 </div>
             </div>
@@ -79,43 +76,43 @@ export default function GameRooms() {
                                     {room.title}
                                     {room.isProtected && (
                                         <span className="ml-2 text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
-                                            Protected
+                                            비밀방
                                         </span>
                                     )}
                                 </h3>
-                                <span className="text-xs text-gray-500">Room #{room.roomNo}</span>
+                                <span className="text-xs text-gray-500">방번호 #{room.roomNo}</span>
                             </div>
                             <button
                                 onClick={() => removeRoom(room.roomId)}
                                 className="text-red-500 hover:text-red-700"
                             >
-                                Remove
+                                삭제
                             </button>
                         </div>
                         <div className="text-sm text-gray-600 space-y-1">
                             <div className="flex justify-between">
-                                <span>Players:</span>
+                                <span>인원:</span>
                                 <span>{room.userCount}/{room.maxRoomUserLimit}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span>Ping Money:</span>
-                                <span>{room.pingMoney}</span>
+                                <span>핑머니:</span>
+                                <span>{room.pingMoney.toLocaleString()}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span>Mode:</span>
+                                <span>모드:</span>
                                 <span>{getPlayModeLabel(room.playMode)}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span>Status:</span>
+                                <span>상태:</span>
                                 <span>{getRoomStateLabel(room.roomState)}</span>
                             </div>
                             {(room.minLimitMoney > 0 || room.maxLimitMoney > 0) && (
                                 <div className="flex justify-between">
-                                    <span>Limits:</span>
+                                    <span>제한:</span>
                                     <span>
-                                        {room.minLimitMoney > 0 ? `Min ${room.minLimitMoney}` : ''}
+                                        {room.minLimitMoney > 0 ? `최소 ${room.minLimitMoney.toLocaleString()}` : ''}
                                         {room.minLimitMoney > 0 && room.maxLimitMoney > 0 ? ' - ' : ''}
-                                        {room.maxLimitMoney > 0 ? `Max ${room.maxLimitMoney}` : ''}
+                                        {room.maxLimitMoney > 0 ? `최대 ${room.maxLimitMoney.toLocaleString()}` : ''}
                                     </span>
                                 </div>
                             )}
@@ -125,10 +122,16 @@ export default function GameRooms() {
 
                 {rooms.length === 0 && isConnected && (
                     <div className="col-span-full text-center py-8 text-gray-500">
-                        No rooms available. Create one to get started!
+                        생성된 방이 없습니다. 새로운 방을 만들어보세요!
                     </div>
                 )}
             </div>
+
+            <CreateRoomModal
+                isOpen={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+                onSubmit={handleCreateRoom}
+            />
         </div>
     );
 }

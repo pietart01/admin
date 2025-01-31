@@ -9,9 +9,10 @@ import { MoneyTransactionsTable } from './MoneyTransactionsTable';
 import { GameResultSearch } from './GameResultSearch';
 import { GameDetailsModal } from './GameDetailsModal';
 import { Pagination } from './Pagination';
+import GameRooms from "./GameRoomList";
 
 export default function Holdem() {
-  const [activeView, setActiveView] = useState('player');
+  const [activeView, setActiveView] = useState('rooms');
   const [selectedGame, setSelectedGame] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -101,6 +102,16 @@ export default function Holdem() {
       <div className="bg-white shadow rounded-lg p-6">
         <div className="mb-6 flex space-x-4">
           <button
+            onClick={() => setActiveView('rooms')}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              activeView === 'rooms'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            게임방
+          </button>
+          <button
             onClick={() => setActiveView('player')}
             className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
               activeView === 'player'
@@ -132,10 +143,12 @@ export default function Holdem() {
           </button>
         </div>
 
-        <GameResultSearch
-          searchTerm=""
-          setSearchTerm={setSearchTerm}
-        />
+        {activeView !== 'rooms' && (
+          <GameResultSearch
+            searchTerm=""
+            setSearchTerm={setSearchTerm}
+          />
+        )}
         
         {loading ? (
           <div className="flex justify-center p-4">
@@ -143,6 +156,7 @@ export default function Holdem() {
           </div>
         ) : (
           <>
+            {activeView === 'rooms' && <GameRooms />}
             {activeView === 'player' && <GameResultsTable results={gameResults} />}
             {activeView === 'game' && (
               <GameSummaryTable 
@@ -157,11 +171,13 @@ export default function Holdem() {
               />
             )}
             
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
+            {activeView !== 'rooms' && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            )}
           </>
         )}
       </div>

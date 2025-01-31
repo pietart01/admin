@@ -25,9 +25,9 @@ class GameRoomClient {
         this.isAuthenticated = false;
         this.roomListeners = new Set();
         this.rooms = new Map();
+        this.onDisconnect = null; // New callback for disconnect handling
     }
 
-    // Connection management
     connect() {
         return new Promise((resolve, reject) => {
             this.ws = new WebSocket(this.url);
@@ -47,6 +47,9 @@ class GameRoomClient {
             this.ws.onclose = () => {
                 console.log('Disconnected from server');
                 this.cleanup();
+                if (this.onDisconnect) {
+                    this.onDisconnect();
+                }
             };
 
             this.ws.onerror = (error) => {
@@ -61,7 +64,6 @@ class GameRoomClient {
     async authenticate() {
         // Step 1: Login with ID
         await this.loginID(this.credentials.id, '127.0.0.1', 'AA:BB:CC:DD:EE:FF', 0);
-
         // Step 2: Login with password happens in message handler
         // Step 3: Select channel happens in message handler
     }
@@ -73,9 +75,13 @@ class GameRoomClient {
         }
         this.isAuthenticated = false;
         this.rooms.clear();
+        this.sendPacketId = 0;
+        this.lastRecvPacketId = 0;
     }
 
-    // Room operations
+    // Rest of the GameRoomClient implementation remains the same...
+    // [Previous methods for room operations, message handling, etc.]
+
     createRoom({
                    roomName,
                    password = '',
@@ -87,7 +93,6 @@ class GameRoomClient {
                    maxPlayers = 6
                }) {
         if (!this.isAuthenticated) {
-            return;
             throw new Error('Must be authenticated to create room');
         }
 
@@ -116,8 +121,7 @@ class GameRoomClient {
 
     removeRoom(roomId) {
         if (!this.isAuthenticated) {
-            return;
-            // throw new Error('Must be authenticated to create room');
+            throw new Error('Must be authenticated to remove room');
         }
 
         const dataItems = [
@@ -138,7 +142,6 @@ class GameRoomClient {
     requestRoomList() {
         if (!this.isAuthenticated) {
             return;
-            // throw new Error('Must be authenticated to request room list');
         }
 
         const buffer = createPacket(
@@ -152,18 +155,16 @@ class GameRoomClient {
         this.ws.send(buffer);
     }
 
-    // Event listeners for room updates
     onRoomUpdate(callback) {
         this.roomListeners.add(callback);
-        return () => this.roomListeners.delete(callback); // Returns cleanup function
+        return () => this.roomListeners.delete(callback);
     }
 
     notifyRoomListeners(action, data) {
         this.roomListeners.forEach(listener => listener({ action, data }));
     }
 
-    // Message handling
-    async handleMessage(event) {
+    handleMessage(event) {
         try {
             const packet = parsePacket(event.data);
             const {
@@ -179,19 +180,17 @@ class GameRoomClient {
             switch (msgCode) {
                 case NETMSG_CLIENTLOGINID:
                     console.log('Login ID successful, sending password');
-                    await this.loginPwd(this.credentials.id, this.credentials.password);
+                    this.loginPwd(this.credentials.id, this.credentials.password);
                     break;
 
                 case NETMSG_CLIENTLOGINPWD:
                     console.log('Login password successful, selecting channel');
-                    await this.selectChannel();
-                    console.log('selectChannel');
+                    this.selectChannel();
                     this.isAuthenticated = true;
-                    // this.requestRoomList(); // Get initial room list
                     break;
 
                 case NETMSG_ROOMLIST:
-                    console.log('Room list received:', dataItems)
+                    console.log('Room list received:', dataItems);
                     this.handleRoomList(dataNum, dataItems);
                     break;
 
@@ -201,7 +200,6 @@ class GameRoomClient {
 
                 case NETMSG_ROOMREMOVE:
                     this.handleRoomRemoved(dataItems);
-                    // this.requestRoomList();
                     break;
             }
         } catch (error) {
@@ -209,25 +207,7 @@ class GameRoomClient {
         }
     }
 
-    // Room event handlers
     handleRoomList(dataNum, dataItems) {
-        // Process room list from server
-        // Format will depend on your server's implementation
-        console.log('Room list received:', dataNum);
-
-        /*
-                            room.RoomNo = (int)netdata.Pop();
-                    room.RoomId = (int)netdata.Pop();
-                    room.Title = (string)netdata.Pop();
-                    room.IsProtected = (byte)netdata.Pop() != 0 ? true : false;     //암호길이가 0이 아니면 비밀방이다.
-                    room.PlayMode = (int)((byte)netdata.Pop());
-                    room.RoomState = (int)((byte)netdata.Pop());
-                    room.PingMoney = (int)netdata.Pop();
-                    room.MinLimitMoney = (int)((double)netdata.Pop());
-                    room.MaxLimitMoney = (int)((double)netdata.Pop());
-                    room.UserCount = (int)((byte)netdata.Pop());
-                    room.MaxRoomUserLimit = (int)((byte)netdata.Pop());
-         */
         let roomList = [];
         let roomCount = dataItems[0];
         for (let i = 0; i < roomCount; i++) {
@@ -252,32 +232,6 @@ class GameRoomClient {
     }
 
     handleRoomCreated(dataItems) {
-        /*
-        for (int i = 0; i < roomcount; i++)
-                {
-                    MTLobbyRoom room = new MTLobbyRoom();
-                    room.RoomNo = (int)netdata.Pop();
-                    room.RoomId = (int)netdata.Pop();
-                    room.Title = (string)netdata.Pop();
-                    room.IsProtected = (byte)netdata.Pop() != 0 ? true : false;     //암호길이가 0이 아니면 비밀방이다.
-                    room.PlayMode = (int)((byte)netdata.Pop());
-                    room.RoomState = (int)((byte)netdata.Pop());
-                    room.PingMoney = (int)netdata.Pop();
-                    room.MinLimitMoney = (int)((double)netdata.Pop());
-                    room.MaxLimitMoney = (int)((double)netdata.Pop());
-                    room.UserCount = (int)((byte)netdata.Pop());
-                    Debug.Log(room.RoomId + ":" + room.Title + ":" + room.UserCount);
-
-                    //room.RoomId < 0이면 가라방이다.
-                    if (room.RoomId > 0 && room.UserCount < 1)
-                        return;
-
-                    GlobalHD.Instance.m_RoomList.Add(room);
-                    GlobalHD.Instance.m_RoomListClone.Add(room);
-                    GlobalHD.Instance.m_gotRoom = room;
-                    rooms.Add(room);
-                }
-         */
         console.log('Room created:', dataItems);
         let roomList = [];
         let roomCount = dataItems[0];
@@ -305,11 +259,9 @@ class GameRoomClient {
 
     handleRoomRemoved(dataItems) {
         console.log('Room removed:', dataItems);
-        // this.requestRoomList();
-        this.notifyRoomListeners('roomRemoved', {roomId : dataItems[0]});
+        this.notifyRoomListeners('roomRemoved', {roomId: dataItems[0]});
     }
 
-    // Authentication related methods
     async loginID(id, ipAddress, macAddress, userOption) {
         const dataItems = [
             { type: TYPE_CODES.STRING, value: id },
@@ -362,7 +314,6 @@ class GameRoomClient {
         this.ws.send(buffer);
     }
 
-    // Heartbeat
     startHeartbeat() {
         this.heartbeatInterval = setInterval(() => {
             if (this.ws && this.ws.readyState === WebSocket.OPEN) {

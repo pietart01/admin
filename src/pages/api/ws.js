@@ -217,6 +217,9 @@ const handler = (req, res) => {
                             case 'removeRoom':
                                 await gameClient.removeRoom(data.roomId);
                                 break;
+                            case 'setSuperAdminFeePercentage':
+                                await gameClient.setSuperAdminFeePercentage(data.percentage);
+                                break;
                             case 'requestRoomList':
                                 await gameClient.requestRoomList();
                                 break;

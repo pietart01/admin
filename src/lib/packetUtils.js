@@ -8,6 +8,7 @@ const NETMSG_SELECTCHANNEL = 2003;
 const NETMSG_ROOMLIST    = 2100;
 const NETMSG_ROOMCREATE  = 2103;
 const NETMSG_ROOMREMOVE  = 2101;
+const NETMSG_SUPERADMIN_FEE_PERCENTAGE = 3010;
 // Constants for type codes
 const TYPE_CODES = {
     EMPTY: 0,
@@ -447,6 +448,7 @@ module.exports = {
     NETMSG_ROOMCREATE,
     NETMSG_SELECTCHANNEL,
     NETMSG_ROOMREMOVE,
+    NETMSG_SUPERADMIN_FEE_PERCENTAGE,
     createPacket,
     parsePacket,
 };

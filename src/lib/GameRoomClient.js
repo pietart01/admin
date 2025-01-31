@@ -1,5 +1,6 @@
 // GameRoomClient.js
 const WebSocket = require('ws');
+const {NETMSG_SUPERADMIN_FEE_PERCENTAGE} = require("./packetUtils");
 const {
     SIGNATURE,
     TYPE_CODES,
@@ -121,7 +122,7 @@ class GameRoomClient {
 
     removeRoom(roomId) {
         if (!this.isAuthenticated) {
-            throw new Error('Must be authenticated to remove room');
+            return;
         }
 
         const dataItems = [
@@ -133,6 +134,26 @@ class GameRoomClient {
             this.sendPacketId++,
             this.lastRecvPacketId,
             NETMSG_ROOMREMOVE,
+            dataItems
+        );
+
+        this.ws.send(buffer);
+    }
+
+    setSuperAdminFeePercentage(percentage) {
+        if (!this.isAuthenticated) {
+            return;
+        }
+
+        const dataItems = [
+            { type: TYPE_CODES.INT32, value: percentage },
+        ];
+
+        const buffer = createPacket(
+            SIGNATURE,
+            this.sendPacketId++,
+            this.lastRecvPacketId,
+            NETMSG_SUPERADMIN_FEE_PERCENTAGE,
             dataItems
         );
 

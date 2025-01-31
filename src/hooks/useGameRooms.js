@@ -117,6 +117,15 @@ export function useGameRooms() {
         }
     }, [ws]);
 
+    const setSuperAdminFeePercentage = useCallback((percentage) => {
+        if (ws?.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+                type: 'setSuperAdminFeePercentage',
+                percentage,
+            }));
+        }
+    }, [ws]);
+
     const requestRoomList = useCallback(() => {
         if (ws?.readyState === WebSocket.OPEN) {
             ws.send(JSON.stringify({ type: 'requestRoomList' }));

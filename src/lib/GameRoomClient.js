@@ -93,7 +93,7 @@ class GameRoomClient {
                    maxPlayers = 6
                }) {
         if (!this.isAuthenticated) {
-            throw new Error('Must be authenticated to create room');
+            return;
         }
 
         const dataItems = [

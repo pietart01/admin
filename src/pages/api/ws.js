@@ -186,7 +186,7 @@ const handler = (req, res) => {
             clientManager = new ClientManager();
 
             // Initialize GameClientManager
-            const GAME_SERVER_URL = 'ws://178.128.17.145:4000';
+            const GAME_SERVER_URL = 'wss://dev-holdem.emp555.com';//'ws://178.128.17.145:4000';
             gameClientManager = new GameClientManager(
                 GAME_SERVER_URL,
                 { id: 'a', password: 'a' },

@@ -87,6 +87,7 @@ class GameRoomClient {
                    maxPlayers = 6
                }) {
         if (!this.isAuthenticated) {
+            return;
             throw new Error('Must be authenticated to create room');
         }
 
@@ -99,6 +100,7 @@ class GameRoomClient {
             { type: TYPE_CODES.DOUBLE, value: maxMoney },
             { type: TYPE_CODES.BYTE, value: gameMode },
             { type: TYPE_CODES.BYTE, value: maxPlayers },
+            { type: TYPE_CODES.INT32, value: 1 },
         ];
 
         const buffer = createPacket(
@@ -112,9 +114,31 @@ class GameRoomClient {
         this.ws.send(buffer);
     }
 
+    removeRoom(roomId) {
+        if (!this.isAuthenticated) {
+            return;
+            // throw new Error('Must be authenticated to create room');
+        }
+
+        const dataItems = [
+            { type: TYPE_CODES.INT32, value: roomId },
+        ];
+
+        const buffer = createPacket(
+            SIGNATURE,
+            this.sendPacketId++,
+            this.lastRecvPacketId,
+            NETMSG_ROOMREMOVE,
+            dataItems
+        );
+
+        this.ws.send(buffer);
+    }
+
     requestRoomList() {
         if (!this.isAuthenticated) {
-            throw new Error('Must be authenticated to request room list');
+            return;
+            // throw new Error('Must be authenticated to request room list');
         }
 
         const buffer = createPacket(
@@ -207,6 +231,9 @@ class GameRoomClient {
         let roomList = [];
         let roomCount = dataItems[0];
         for (let i = 0; i < roomCount; i++) {
+            if(!dataItems[i * 8 + 1] || !dataItems[i * 8 + 2]) {
+                return;
+            }
             roomList.push({
                 roomNo: dataItems[i * 8 + 1],
                 roomId: dataItems[i * 8 + 2],
@@ -255,6 +282,9 @@ class GameRoomClient {
         let roomList = [];
         let roomCount = dataItems[0];
         for (let i = 0; i < roomCount; i++) {
+            if(!dataItems[i * 8 + 1] || !dataItems[i * 8 + 2]) {
+                return;
+            }
             roomList.push({
                 roomNo: dataItems[i * 8 + 1],
                 roomId: dataItems[i * 8 + 2],
@@ -276,7 +306,7 @@ class GameRoomClient {
     handleRoomRemoved(dataItems) {
         console.log('Room removed:', dataItems);
         // this.requestRoomList();
-        this.notifyRoomListeners('roomRemoved', dataItems);
+        this.notifyRoomListeners('roomRemoved', {roomId : dataItems[0]});
     }
 
     // Authentication related methods
@@ -345,7 +375,7 @@ class GameRoomClient {
                 );
                 this.ws.send(buffer);
             }
-        }, 30000);
+        }, 10000);
     }
 }
 

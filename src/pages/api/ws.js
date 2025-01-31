@@ -37,26 +37,71 @@ class ClientManager {
     }
 
     setRooms(rooms) {
-        console.log('Setting rooms:', rooms)
-        this.rooms = rooms;
+        console.log('Setting rooms:', rooms);
+
+        // Remove duplicates keeping only the latest room with same roomId
+        const uniqueRooms = rooms.reduce((acc, room) => {
+            const existingIndex = acc.findIndex(r => r.roomId === room.roomId);
+            if (existingIndex !== -1) {
+                // Replace existing room with new one
+                acc[existingIndex] = room;
+            } else {
+                // Add new room
+                acc.push(room);
+            }
+            return acc;
+        }, []);
+
+        this.rooms = uniqueRooms;
         this.broadcastToAll({
             type: 'roomList',
-            rooms: rooms
+            rooms: this.rooms
         });
     }
 
-    handleRoomCreated(room) {
+    handleRoomCreated(newRooms) {
+        console.log('handleRoomCreated:', newRooms);
+        const newRoom = newRooms[0];
+
+        // Check if room already exists
+        const existingRoomIndex = this.rooms.findIndex(room => room.roomId === newRoom.roomId);
+
+        if (existingRoomIndex !== -1) {
+            // Update existing room
+            this.rooms[existingRoomIndex] = newRoom;
+        } else {
+            // Add new room
+            this.rooms.push(newRoom);
+        }
+
+        // Broadcast updated room list
         this.broadcastToAll({
-            type: 'roomCreated',
-            room
+            type: 'roomList',
+            rooms: this.rooms
         });
+        // console.log('handleRoomCreated:', rooms)
+        // this.broadcastToAll({
+        //     type: 'roomCreated',
+        //     room: rooms[0]
+        // });
     }
 
-    handleRoomRemoved(roomId) {
+    handleRoomRemoved(data) {
+        console.log('handleRoomRemoved:', data);
+
+        // Remove room from the list
+        this.rooms = this.rooms.filter(room => room.roomId !== data.roomId);
+
+        // Broadcast updated room list
+        this.broadcastToAll({
+            type: 'roomList',
+            rooms: this.rooms
+        });
+/*        console.log('handleRoomRemoved:', data);
         this.broadcastToAll({
             type: 'roomRemoved',
-            roomId
-        });
+            data
+        });*/
     }
 }
 
@@ -75,7 +120,7 @@ const handler = (req, res) => {
 
             // Initialize GameRoomClient
             const GAME_SERVER_URL = 'ws://178.128.17.145:4000';
-            gameClient = new GameRoomClient(GAME_SERVER_URL);
+            const gameClient = new GameRoomClient(GAME_SERVER_URL, { id: 'a', password: 'a' });
 
             // Connect to game server and set up listeners
             gameClient.connect().then(() => {
@@ -106,14 +151,16 @@ const handler = (req, res) => {
                 ws.on('message', async (message) => {
                     try {
                         const data = JSON.parse(message);
-                        console.log('Message from web client:', data);
+                        console.log('Message from web client111:', data);
 
                         switch(data.type) {
                             case 'createRoom':
+                                console.log('=>Creating room:', data.roomData);
                                 await gameClient.createRoom(data.roomData);
                                 break;
                             case 'removeRoom':
                                 await gameClient.removeRoom(data.roomId);
+                                // await gameClient.removeRoom(data.roomId);
                                 break;
                             case 'requestRoomList':
                                 await gameClient.requestRoomList();

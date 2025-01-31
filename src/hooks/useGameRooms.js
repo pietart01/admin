@@ -8,64 +8,84 @@ export function useGameRooms() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const wsUrl = `${protocol}//${window.location.host}/api/ws`;
+        fetch('/api/ws')
+            .then(res => res.json())
+            .then(data => {
+                console.log('HTTP test successful:', data);
+                initWebSocket();
+            })
+            .catch(err => {
+                console.error('HTTP test failed:', err);
+                setError('HTTP test failed: ' + err.message);
+            });
 
-        console.log('Connecting to:', wsUrl);
-        const websocket = new WebSocket(wsUrl);
 
-        websocket.onopen = () => {
-            console.log('Connected to game server');
-            setStatus('Connected');
-            setError(null);
-            websocket.send(JSON.stringify({ type: 'requestRoomList' }));
-        };
+        function initWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/api/ws`;
 
-        websocket.onclose = (event) => {
-            console.log('Disconnected from game server:', event);
-            setStatus('Disconnected');
-            setWs(null);
-        };
+            console.log('Connecting to:', wsUrl);
+            const websocket = new WebSocket(wsUrl);
 
-        websocket.onerror = (error) => {
-            console.error('WebSocket error:', error);
-            setError('Connection error occurred');
-        };
+            websocket.onopen = () => {
+                console.log('Connected to game server');
+                setStatus('Connected');
+                setError(null);
+                websocket.send(JSON.stringify({type: 'requestRoomList'}));
+            };
 
-        websocket.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data);
-                console.log('Received:', data);
+            websocket.onclose = (event) => {
+                console.log('Disconnected from game server:', event);
+                setStatus('Disconnected');
+                setWs(null);
+            };
 
-                switch (data.type) {
-                    case 'roomList':
-                        setRooms(data.rooms);
-                        break;
+            websocket.onerror = (error) => {
+                console.error('WebSocket error:', error);
+                setError('Connection error occurred');
+            };
 
-                    case 'roomCreated':
-                        setRooms(prevRooms => [...prevRooms, data.room]);
-                        break;
+            websocket.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    console.log('Received:', data);
 
-                    case 'roomRemoved':
-                        setRooms(prevRooms =>
-                            prevRooms.filter(room => room.id !== data.roomId)
-                        );
-                        break;
+                    switch (data.type) {
+                        case 'roomList':
+                            setRooms(data.rooms);
+                            break;
 
-                    case 'error':
-                        setError(data.message);
-                        break;
+                        case 'roomCreated':
+                            setRooms(prevRooms => {
+                                // Check if room with same roomId already exists
+                                const roomExists = prevRooms.some(room => room.roomId === data.room.roomId);
+
+                                // Only add the room if it doesn't exist
+                                return roomExists ? prevRooms : [...prevRooms, data.room];
+                            });
+                            break;
+
+                        case 'roomRemoved':
+                            setRooms(prevRooms =>
+                                prevRooms.filter(room => room.id !== data.roomId)
+                            );
+                            break;
+
+                        case 'error':
+                            setError(data.message);
+                            break;
+                    }
+                } catch (error) {
+                    console.error('Error processing message:', error);
                 }
-            } catch (error) {
-                console.error('Error processing message:', error);
-            }
-        };
+            };
 
-        setWs(websocket);
+            setWs(websocket);
 
-        return () => {
-            websocket.close();
-        };
+            return () => {
+                websocket.close();
+            };
+        }
     }, []);
 
     const createRoom = useCallback((roomData) => {

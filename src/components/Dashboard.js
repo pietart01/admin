@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useProfileData } from '../hooks/useProfileData';
 import GameRooms from "./GameRoomList";
-import GameRoomTest from "./GameRoomTest";
-import WebSocketTest from "./WebSocketTest";
 import WSTest from "./WSTest";
-import TestEndpoint from "./TestEndpoint";
 
 export default function DashboardOverview() {
   const [user, setUser] = useState(null);
@@ -24,10 +21,7 @@ export default function DashboardOverview() {
   return (
       <div className="p-4">
         <GameRooms />
-        {/*<GameRoomTest />*/}
-        {/*<WebSocketTest/>*/}
-        {/*<TestEndpoint/>*/}
-        <WSTest/>
+        {/*<WSTest/>*/}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> {/* Changed to 2 columns */}
           <div className="bg-white p-4 rounded-lg shadow">
             <h3 className="text-lg font-semibold mb-2">잔액</h3>

@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     const results = await executeQuery(query, [userId]);
 
     if (results.length === 0) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'User not found1' });
     }
 
     const rebateResults = await executeQuery(rebateQuery, [userId]);

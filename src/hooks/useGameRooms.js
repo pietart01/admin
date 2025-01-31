@@ -1,65 +1,115 @@
 // hooks/useGameRooms.js
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export function useGameRooms() {
-    const [isConnected, setIsConnected] = useState(false);
+    const [status, setStatus] = useState('Disconnected');
+    const [rooms, setRooms] = useState([]);
+    const [ws, setWs] = useState(null);
     const [error, setError] = useState(null);
-    const wsRef = useRef(null);
 
     useEffect(() => {
-        let ws = null;
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = `${protocol}//${window.location.host}/api/ws`;
 
-        try {
-            console.log('Attempting to connect...');
-            ws = new WebSocket(`${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/api/gamerooms/ws`);
-            wsRef.current = ws;
+        console.log('Connecting to:', wsUrl);
+        const websocket = new WebSocket(wsUrl);
 
-            ws.onopen = () => {
-                console.log('Connected successfully');
-                setIsConnected(true);
-                setError(null);
+        websocket.onopen = () => {
+            console.log('Connected to game server');
+            setStatus('Connected');
+            setError(null);
+            websocket.send(JSON.stringify({ type: 'requestRoomList' }));
+        };
 
-                // Send a test message
-                ws.send(JSON.stringify({ type: 'test', message: 'Hello server!' }));
-            };
+        websocket.onclose = (event) => {
+            console.log('Disconnected from game server:', event);
+            setStatus('Disconnected');
+            setWs(null);
+        };
 
-            ws.onclose = (event) => {
-                console.log('Connection closed:', event);
-                setIsConnected(false);
-                setError(`Connection closed (${event.code})`);
-            };
+        websocket.onerror = (error) => {
+            console.error('WebSocket error:', error);
+            setError('Connection error occurred');
+        };
 
-            ws.onerror = (error) => {
-                console.error('WebSocket error:', error);
-                setError('Connection error occurred');
-            };
+        websocket.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                console.log('Received:', data);
 
-            ws.onmessage = (event) => {
-                console.log('Received message:', event.data);
-            };
-        } catch (err) {
-            console.error('Setup error:', err);
-            setError(err.message);
-        }
+                switch (data.type) {
+                    case 'roomList':
+                        setRooms(data.rooms);
+                        break;
+
+                    case 'roomCreated':
+                        setRooms(prevRooms => [...prevRooms, data.room]);
+                        break;
+
+                    case 'roomRemoved':
+                        setRooms(prevRooms =>
+                            prevRooms.filter(room => room.id !== data.roomId)
+                        );
+                        break;
+
+                    case 'error':
+                        setError(data.message);
+                        break;
+                }
+            } catch (error) {
+                console.error('Error processing message:', error);
+            }
+        };
+
+        setWs(websocket);
 
         return () => {
-            if (ws) {
-                ws.close();
-            }
+            websocket.close();
         };
     }, []);
 
-    const sendTestMessage = () => {
-        if (wsRef.current?.readyState === WebSocket.OPEN) {
-            wsRef.current.send(JSON.stringify({ type: 'test', message: 'Test message' }));
+    const createRoom = useCallback((roomData) => {
+        if (ws?.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+                type: 'createRoom',
+                roomData: {
+                    roomName: roomData.roomName || `Room ${Date.now()}`,
+                    maxPlayers: roomData.maxPlayers || 6,
+                    password: roomData.password || '',
+                    bingMoney: roomData.bingMoney || 1000,
+                    enterMoney: roomData.enterMoney || 1000,
+                    minMoney: roomData.minMoney || 1000,
+                    maxMoney: roomData.maxMoney || 1000,
+                    gameMode: roomData.gameMode || 0
+                }
+            }));
         } else {
-            setError('Not connected');
+            setError('Not connected to server');
         }
-    };
+    }, [ws]);
+
+    const removeRoom = useCallback((roomId) => {
+        if (ws?.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+                type: 'removeRoom',
+                roomId
+            }));
+        }
+    }, [ws]);
+
+    const requestRoomList = useCallback(() => {
+        if (ws?.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ type: 'requestRoomList' }));
+        }
+    }, [ws]);
 
     return {
-        isConnected,
+        status,
+        rooms,
         error,
-        sendTestMessage
+        createRoom,
+        removeRoom,
+        requestRoomList,
+        isConnected: status === 'Connected'
     };
 }

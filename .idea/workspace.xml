@@ -4,27 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="holdem">
-      <change afterPath="$PROJECT_DIR$/src/components/GameRoomList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/GameRoomTest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TestEndpoint.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/WSTest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/WebSocketTest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/useGameRooms.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/GameRoomClient.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/packetUtils.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/middleware.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/api/gamerooms/ws.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/api/ws.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/GameRoomService.js" afterDir="false" />
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="ws working">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.mjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useProfileData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useProfileData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/profile/[userId].js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/profile/[userId].js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GameRoomList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GameRoomList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useGameRooms.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useGameRooms.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/GameRoomClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/GameRoomClient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware.js_" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/gamerooms/ws.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/gamerooms/ws.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/ws.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/ws.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +118,7 @@
       <workItem from="1737984992192" duration="7975000" />
       <workItem from="1738042888840" duration="3189000" />
       <workItem from="1738109732594" duration="3549000" />
-      <workItem from="1738291430771" duration="2676000" />
+      <workItem from="1738291430771" duration="6840000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -244,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1738087210043</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="ws working">
+      <created>1738294295997</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1738294295997</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,6 +269,7 @@
     <MESSAGE value="." />
     <MESSAGE value="use admin api" />
     <MESSAGE value="holdem" />
-    <option name="LAST_COMMIT_MESSAGE" value="holdem" />
+    <MESSAGE value="ws working" />
+    <option name="LAST_COMMIT_MESSAGE" value="ws working" />
   </component>
 </project>

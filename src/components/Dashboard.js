@@ -23,7 +23,7 @@ export default function DashboardOverview() {
 
   return (
       <div className="p-4">
-        {/*<GameRooms />*/}
+        <GameRooms />
         {/*<GameRoomTest />*/}
         {/*<WebSocketTest/>*/}
         {/*<TestEndpoint/>*/}

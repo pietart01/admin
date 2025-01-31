@@ -1,5 +1,5 @@
 // GameRoomClient.js
-import WebSocket from 'ws';
+const WebSocket = require('ws');
 const {
     SIGNATURE,
     TYPE_CODES,
@@ -146,6 +146,7 @@ class GameRoomClient {
                 sendPacketId,
                 lastRecvPacketId,
                 msgCode,
+                dataNum,
                 dataItems,
             } = packet;
 
@@ -167,7 +168,7 @@ class GameRoomClient {
 
                 case NETMSG_ROOMLIST:
                     console.log('Room list received:', dataItems)
-                    this.handleRoomList(dataItems);
+                    this.handleRoomList(dataNum, dataItems);
                     break;
 
                 case NETMSG_ROOMCREATE:
@@ -185,16 +186,91 @@ class GameRoomClient {
     }
 
     // Room event handlers
-    handleRoomList(dataItems) {
+    handleRoomList(dataNum, dataItems) {
         // Process room list from server
         // Format will depend on your server's implementation
-        console.log('Room list received:', dataItems);
-        this.notifyRoomListeners('roomList', dataItems);
+        console.log('Room list received:', dataNum);
+
+        /*
+                            room.RoomNo = (int)netdata.Pop();
+                    room.RoomId = (int)netdata.Pop();
+                    room.Title = (string)netdata.Pop();
+                    room.IsProtected = (byte)netdata.Pop() != 0 ? true : false;     //암호길이가 0이 아니면 비밀방이다.
+                    room.PlayMode = (int)((byte)netdata.Pop());
+                    room.RoomState = (int)((byte)netdata.Pop());
+                    room.PingMoney = (int)netdata.Pop();
+                    room.MinLimitMoney = (int)((double)netdata.Pop());
+                    room.MaxLimitMoney = (int)((double)netdata.Pop());
+                    room.UserCount = (int)((byte)netdata.Pop());
+                    room.MaxRoomUserLimit = (int)((byte)netdata.Pop());
+         */
+        let roomList = [];
+        let roomCount = dataItems[0];
+        for (let i = 0; i < roomCount; i++) {
+            roomList.push({
+                roomNo: dataItems[i * 8 + 1],
+                roomId: dataItems[i * 8 + 2],
+                title: dataItems[i * 8 + 3],
+                isProtected: dataItems[i * 8 + 4] !== 0,
+                playMode: dataItems[i * 8 + 5],
+                roomState: dataItems[i * 8 + 6],
+                pingMoney: dataItems[i * 8 + 7],
+                minLimitMoney: dataItems[i * 8 + 8],
+                maxLimitMoney: dataItems[i * 8 + 9],
+                userCount: dataItems[i * 8 + 10],
+                maxRoomUserLimit: dataItems[i * 8 + 11],
+            });
+        }
+        this.notifyRoomListeners('roomList', roomList);
     }
 
     handleRoomCreated(dataItems) {
+        /*
+        for (int i = 0; i < roomcount; i++)
+                {
+                    MTLobbyRoom room = new MTLobbyRoom();
+                    room.RoomNo = (int)netdata.Pop();
+                    room.RoomId = (int)netdata.Pop();
+                    room.Title = (string)netdata.Pop();
+                    room.IsProtected = (byte)netdata.Pop() != 0 ? true : false;     //암호길이가 0이 아니면 비밀방이다.
+                    room.PlayMode = (int)((byte)netdata.Pop());
+                    room.RoomState = (int)((byte)netdata.Pop());
+                    room.PingMoney = (int)netdata.Pop();
+                    room.MinLimitMoney = (int)((double)netdata.Pop());
+                    room.MaxLimitMoney = (int)((double)netdata.Pop());
+                    room.UserCount = (int)((byte)netdata.Pop());
+                    Debug.Log(room.RoomId + ":" + room.Title + ":" + room.UserCount);
+
+                    //room.RoomId < 0이면 가라방이다.
+                    if (room.RoomId > 0 && room.UserCount < 1)
+                        return;
+
+                    GlobalHD.Instance.m_RoomList.Add(room);
+                    GlobalHD.Instance.m_RoomListClone.Add(room);
+                    GlobalHD.Instance.m_gotRoom = room;
+                    rooms.Add(room);
+                }
+         */
         console.log('Room created:', dataItems);
-        this.notifyRoomListeners('roomCreated', dataItems);
+        let roomList = [];
+        let roomCount = dataItems[0];
+        for (let i = 0; i < roomCount; i++) {
+            roomList.push({
+                roomNo: dataItems[i * 8 + 1],
+                roomId: dataItems[i * 8 + 2],
+                title: dataItems[i * 8 + 3],
+                isProtected: dataItems[i * 8 + 4] !== 0,
+                playMode: dataItems[i * 8 + 5],
+                roomState: dataItems[i * 8 + 6],
+                pingMoney: dataItems[i * 8 + 7],
+                minLimitMoney: dataItems[i * 8 + 8],
+                maxLimitMoney: dataItems[i * 8 + 9],
+                userCount: dataItems[i * 8 + 10],
+                maxRoomUserLimit: dataItems[i * 8 + 11],
+            });
+        }
+
+        this.notifyRoomListeners('roomCreated', roomList);
     }
 
     handleRoomRemoved(dataItems) {
@@ -273,4 +349,4 @@ class GameRoomClient {
     }
 }
 
-export default GameRoomClient;
+module.exports = GameRoomClient;

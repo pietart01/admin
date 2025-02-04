@@ -74,9 +74,7 @@ export default function Dashboard() {
   ];
 
   const actionButtons = [
-    { id: 'deposit', label: '충전신청', color: 'bg-blue-500 hover:bg-blue-600' },
-    { id: 'withdraw', label: '환전신청', color: 'bg-red-500 hover:bg-red-600' },
-    { id: 'exchange', label: '딜러비전환', color: 'bg-green-500 hover:bg-green-600' }
+    { id: 'exchange', label: '딜러비전환', icon: RefreshCw, color: 'bg-green-500 hover:bg-green-600' }
   ];
 
   const renderComponent = () => {
@@ -138,7 +136,7 @@ export default function Dashboard() {
                   <button
                     key={button.id}
                     onClick={() => setActiveComponent(button.id)}
-                    className={`${button.color} text-white px-3 py-1.5 text-sm font-medium rounded-md transition-colors shadow-sm`}
+                    className={`${button.color} text-white px-3 py-1.5 text-sm font-medium rounded-md transition-colors shadow-sm flex items-center gap-2`}
                   >
                     {button.label}
                   </button>
@@ -230,8 +228,9 @@ export default function Dashboard() {
                     setActiveComponent(button.id);
                     setIsMobileMenuOpen(false);
                   }}
-                  className={`${button.color} w-full text-white px-4 py-2 text-sm font-medium rounded-md mb-2`}
+                  className={`${button.color} w-full text-white px-4 py-2 text-sm font-medium rounded-md mb-2 flex items-center justify-center gap-2`}
                 >
+                  <button.icon className="w-4 h-4" />
                   {button.label}
                 </button>
               ))}

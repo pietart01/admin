@@ -89,6 +89,7 @@ export function useGameRooms() {
     }, []);
 
     const createRoom = useCallback((roomData) => {
+        console.log(`Creating room:, ${roomData}`);
         if (ws?.readyState === WebSocket.OPEN) {
             ws.send(JSON.stringify({
                 type: 'createRoom',
@@ -121,8 +122,10 @@ export function useGameRooms() {
         if (ws?.readyState === WebSocket.OPEN) {
             ws.send(JSON.stringify({
                 type: 'setSuperAdminFeePercentage',
-                percentage,
+                percentage: Number(percentage) * 100
             }));
+        } else {
+            setError('Not connected to server');
         }
     }, [ws]);
 
@@ -138,6 +141,7 @@ export function useGameRooms() {
         error,
         createRoom,
         removeRoom,
+        setSuperAdminFeePercentage,
         requestRoomList,
         isConnected: status === 'Connected'
     };

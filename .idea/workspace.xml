@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="createRoomModal">
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="setSuperAdminFeePercentage">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DepositAmountSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DepositAmountSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GameResultsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GameResultsTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GameRoomList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GameRoomList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PokerHandDisplay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PokerHandDisplay.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PokerPlayersTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PokerPlayersTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/WithdrawAmountSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/WithdrawAmountSelector.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hooks/useGameRooms.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useGameRooms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/GameRoomClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/GameRoomClient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/packetUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/packetUtils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/ws.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/ws.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/dashboard.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +119,7 @@
       <workItem from="1737984992192" duration="7975000" />
       <workItem from="1738042888840" duration="3189000" />
       <workItem from="1738109732594" duration="3549000" />
-      <workItem from="1738291430771" duration="19849000" />
+      <workItem from="1738291430771" duration="25027000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -278,7 +282,14 @@
       <option name="project" value="LOCAL" />
       <updated>1738312970610</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="setSuperAdminFeePercentage">
+      <created>1738314817310</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1738314817310</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -312,6 +323,7 @@
     <MESSAGE value="reconnect" />
     <MESSAGE value="." />
     <MESSAGE value="createRoomModal" />
-    <option name="LAST_COMMIT_MESSAGE" value="createRoomModal" />
+    <MESSAGE value="setSuperAdminFeePercentage" />
+    <option name="LAST_COMMIT_MESSAGE" value="setSuperAdminFeePercentage" />
   </component>
 </project>

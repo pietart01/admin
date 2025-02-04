@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { XIcon, CreditCardIcon, UserIcon, BuildingIcon } from 'lucide-react';
+import { XIcon, CreditCardIcon, UserIcon, BuildingIcon, LockIcon } from 'lucide-react';
 import { withdrawService } from '@/services/WithdrawService';
 
 export function WithdrawAmountSelector({ onSubmit, refreshWithdrawals }) {
@@ -53,43 +53,44 @@ export function WithdrawAmountSelector({ onSubmit, refreshWithdrawals }) {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-4 mb-4">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+      {/* Account Info Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-sm mx-4">
-            <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
-              <h2 className="text-lg font-semibold text-gray-900">계좌 정보</h2>
-              <button onClick={handleModalToggle} className="text-gray-400 hover:text-gray-600">
-                <XIcon className="w-4 h-4" />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-900">계좌 정보</h2>
+              <button onClick={handleModalToggle} className="text-gray-400 hover:text-gray-600 transition-colors">
+                <XIcon className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-4 space-y-3">
-              <div className="grid grid-cols-1 gap-3">
-                <div className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                  <BuildingIcon className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-500">은행:</span>
+            <div className="px-6 py-4 space-y-4">
+              <div className="grid gap-4">
+                <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                  <BuildingIcon className="w-5 h-5 text-gray-400 mr-3" />
+                  <span className="text-sm text-gray-500 w-20">은행:</span>
                   <span className="font-medium text-gray-900">{bank}</span>
                 </div>
 
-                <div className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                  <CreditCardIcon className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-500">계좌번호:</span>
+                <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                  <CreditCardIcon className="w-5 h-5 text-gray-400 mr-3" />
+                  <span className="text-sm text-gray-500 w-20">계좌번호:</span>
                   <span className="font-medium text-gray-900">{accountNumber}</span>
                 </div>
 
-                <div className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                  <UserIcon className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-500">예금주:</span>
+                <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                  <UserIcon className="w-5 h-5 text-gray-400 mr-3" />
+                  <span className="text-sm text-gray-500 w-20">예금주:</span>
                   <span className="font-medium text-gray-900">{depositAmount}</span>
                 </div>
               </div>
             </div>
 
-            <div className="px-4 py-3 border-t border-gray-200">
+            <div className="px-6 py-4 border-t border-gray-200">
               <button
                 onClick={handleModalToggle}
-                className="w-full py-2 bg-gray-900 text-white rounded hover:bg-gray-800 font-medium"
+                className="w-full py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
               >
                 확인
               </button>
@@ -98,77 +99,75 @@ export function WithdrawAmountSelector({ onSubmit, refreshWithdrawals }) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">은행명:</label>
+      {/* Main Form */}
+      <form onSubmit={handleSubmit} className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">은행명</label>
             <input
               type="text"
               value={bank}
-              onChange={(e) => setBank(e.target.value)}
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-gray-50"
               readOnly
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-gray-50 text-gray-700"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">계좌번호:</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">계좌번호</label>
             <input
               type="text"
               value={accountNumber}
-              onChange={(e) => setAccountNumber(e.target.value)}
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-gray-50"
               readOnly
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-gray-50 text-gray-700"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">예금주:</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">예금주</label>
             <input
               type="text"
               value={depositAmount}
               readOnly
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-gray-50"
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-gray-50 text-gray-700"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">연락처:</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">연락처</label>
             <input
               type="text"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-gray-50"
               readOnly
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-gray-50 text-gray-700"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">환전금액:</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">환전금액</label>
             <input
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="금액을 입력하거나 선택하세요"
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               required
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">환전비번:</label>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">환전비밀번호</label>
             <input
               type="password"
               value={withdrawalPassword}
               onChange={(e) => setWithdrawalPassword(e.target.value)}
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               placeholder="••••••••"
               required
             />
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-6">
           {predefinedAmounts.map((preset) => (
             <button
               key={preset.value}
@@ -177,25 +176,27 @@ export function WithdrawAmountSelector({ onSubmit, refreshWithdrawals }) {
                 const currentValue = parseInt(current) || 0;
                 return currentValue + preset.value;
               })}
-              className="px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+              className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors font-medium"
             >
               +{preset.label}
             </button>
           ))}
         </div>
 
-        <div className="flex justify-between items-center gap-4">
+        <div className="flex justify-between items-center">
           <button
             type="button"
             onClick={handleModalToggle}
-            className="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+            className="px-6 py-2.5 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium flex items-center gap-2"
           >
+            <CreditCardIcon className="w-4 h-4" />
             계좌정보 보기
           </button>
           <button
             type="submit"
-            className="px-4 py-2 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700"
+            className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2"
           >
+            <LockIcon className="w-4 h-4" />
             환전신청
           </button>
         </div>

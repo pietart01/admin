@@ -1,5 +1,6 @@
 import { useGameRooms } from '../hooks/useGameRooms';
 import { CreateRoomModal } from './CreateRoomModal';
+import { Settings } from 'lucide-react';
 import { useState } from 'react';
 
 export default function GameRooms() {
@@ -9,14 +10,28 @@ export default function GameRooms() {
         error,
         createRoom,
         removeRoom,
-        isConnected
+        isConnected,
+        setSuperAdminFeePercentage
     } = useGameRooms();
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+    const [feePercentage, setFeePercentage] = useState('');
 
     const handleCreateRoom = (roomData) => {
         console.log('Create room:', JSON.stringify(roomData));
-        // createRoom(roomData);
+        createRoom(roomData);
+    };
+
+    const handleSettingsSave = () => {
+        const percentage = parseFloat(feePercentage);
+        if (isNaN(percentage) || percentage < 0 || percentage > 10) {
+            alert('수수료는 0에서 10 사이의 값이어야 합니다.');
+            return;
+        }
+        setSuperAdminFeePercentage(percentage);
+        setIsSettingsModalOpen(false);
+        setFeePercentage('');
     };
 
     const getRoomStateLabel = (state) => {
@@ -51,6 +66,13 @@ export default function GameRooms() {
                     }`}>
                         {isConnected ? '연결됨' : '연결안됨'}
                     </span>
+                    <button
+                        onClick={() => setIsSettingsModalOpen(true)}
+                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 flex items-center gap-2"
+                    >
+                        <Settings size={18} />
+                        설정
+                    </button>
                     <button
                         onClick={() => setIsCreateModalOpen(true)}
                         disabled={!isConnected}
@@ -132,6 +154,43 @@ export default function GameRooms() {
                 onClose={() => setIsCreateModalOpen(false)}
                 onSubmit={handleCreateRoom}
             />
+
+            {/* Settings Modal */}
+            {isSettingsModalOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 w-full max-w-md">
+                        <h2 className="text-xl font-semibold mb-4">게임 설정</h2>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                수수료 퍼센트 (0-20%)
+                            </label>
+                            <input
+                                type="number"
+                                value={feePercentage}
+                                onChange={(e) => setFeePercentage(e.target.value)}
+                                className="w-full px-3 py-2 border rounded-md"
+                                min="0"
+                                max="20"
+                                step="0.1"
+                            />
+                        </div>
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => setIsSettingsModalOpen(false)}
+                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
+                            >
+                                취소
+                            </button>
+                            <button
+                                onClick={handleSettingsSave}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                            >
+                                확인
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

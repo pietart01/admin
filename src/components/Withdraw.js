@@ -3,7 +3,6 @@ import { DepositTable } from '@/components/DepositTable';
 import { DepositSearch } from '@/components/DepositSearch';
 import { Pagination } from '@/components/Pagination';
 import { useDeposits } from '@/hooks/useDeposits';
-import { DepositAmountSelector } from '@/components/DepositAmountSelector';
 import { WithdrawAmountSelector } from '@/components/WithdrawAmountSelector';
 
 export default function Withdraw() {
@@ -18,8 +17,11 @@ export default function Withdraw() {
     fetchDeposits
   } = useDeposits();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleDepositSubmit = (depositData) => {
     console.log('Deposit submitted:', depositData);
+    setIsModalOpen(false);
     // Handle deposit submission logic here
     // fetchDeposits();
   };
@@ -27,8 +29,23 @@ export default function Withdraw() {
   return (
     <div className="p-4">
       <div className="space-y-6">
-        {/* Amount Selector Component */}
-        <WithdrawAmountSelector onSubmit={handleDepositSubmit} refreshDeposits={() => fetchDeposits()}/>
+        {/* Add button to open modal */}
+        <div className="flex justify-end">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            환전 신청
+          </button>
+        </div>
+
+        {/* Modal Component */}
+        <WithdrawAmountSelector 
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleDepositSubmit} 
+          refreshDeposits={() => fetchDeposits()}
+        />
 
         {/* Existing Deposit List */}
         <div className="bg-white shadow rounded-lg p-6">

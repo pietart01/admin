@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
-  Bell,
   Menu,
   X,
   ChevronDown,
@@ -31,7 +30,6 @@ export default function Dashboard() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [notifications, setNotifications] = useState(3);
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
@@ -63,6 +61,12 @@ export default function Dashboard() {
     router.push('/admin/login');
   };
 
+  const handleOpenMyProfile = () => {
+    setUser(myUser);
+    setIsProfileModalOpen(true);
+    setIsProfileMenuOpen(false);
+  };
+
   const navItems = [
     { id: 'dashboard', label: '홈', icon: Home },
     { id: 'users', label: '회원', icon: UsersIcon },
@@ -71,10 +75,7 @@ export default function Dashboard() {
     { id: 'rebate', label: '롤링', icon: RefreshCw },
     { id: 'deposit', label: '충전', icon: CreditCard },
     { id: 'withdraw', label: '환전', icon: Wallet },
-  ];
-
-  const actionButtons = [
-    { id: 'exchange', label: '딜러비전환', icon: RefreshCw, color: 'bg-green-500 hover:bg-green-600' }
+    { id: 'exchange', label: '딜러비전환', icon: RefreshCw },
   ];
 
   const renderComponent = () => {
@@ -130,24 +131,6 @@ export default function Dashboard() {
 
             {/* Right Section - Desktop */}
             <div className="hidden md:flex items-center space-x-4">
-              {/* Action Buttons */}
-              <div className="flex items-center space-x-2">
-                {actionButtons.map((button) => (
-                  <button
-                    key={button.id}
-                    onClick={() => setActiveComponent(button.id)}
-                    className={`${button.color} text-white px-3 py-1.5 text-sm font-medium rounded-md transition-colors shadow-sm flex items-center gap-2`}
-                  >
-                    {button.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Notification Bell */}
-              <button className="relative p-1 rounded-full text-gray-600 hover:bg-gray-100">
-                <Bell className="w-6 h-6" />
-              </button>
-
               {/* Profile Dropdown */}
               <div className="relative">
                 <button
@@ -164,10 +147,13 @@ export default function Dashboard() {
                 {isProfileMenuOpen && (
                   <div id="profile-menu-container" className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
                     <button
-                      onClick={() => {
-                        handleLogout();
-                        setIsProfileMenuOpen(false);
-                      }}
+                      onClick={handleOpenMyProfile}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      내 정보
+                    </button>
+                    <button
+                      onClick={handleLogout}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     >
                       로그아웃
@@ -218,22 +204,6 @@ export default function Dashboard() {
                   </button>
                 );
               })}
-            </div>
-
-            <div className="px-4 py-3 border-t border-gray-200">
-              {actionButtons.map((button) => (
-                <button
-                  key={button.id}
-                  onClick={() => {
-                    setActiveComponent(button.id);
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className={`${button.color} w-full text-white px-4 py-2 text-sm font-medium rounded-md mb-2 flex items-center justify-center gap-2`}
-                >
-                  <button.icon className="w-4 h-4" />
-                  {button.label}
-                </button>
-              ))}
             </div>
           </div>
         )}

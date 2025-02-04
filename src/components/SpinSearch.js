@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 
 export const SpinSearch = ({ searchTerm, setSearchTerm }) => {
@@ -13,7 +11,7 @@ export const SpinSearch = ({ searchTerm, setSearchTerm }) => {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search spins..."
+        placeholder="슬롯내역 검색..."
         className="w-full p-2 border border-gray-300 rounded-md"
       />
     </div>

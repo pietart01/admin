@@ -18,21 +18,36 @@ export default function Deposit() {
     fetchDeposits
   } = useDeposits();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleDepositSubmit = async (depositData) => {
     console.log('Deposit submitted!!!:', depositData);
-
     const data = await post('/deposit', depositData);
     console.log('data', data);
-
-    // Handle deposit submission logic here
-    // fetchDeposits();
+    setIsModalOpen(false);
+    fetchDeposits();
   };
 
   return (
     <div className="p-4">
       <div className="space-y-6">
-        {/* Amount Selector Component */}
-        <DepositAmountSelector onSubmit={handleDepositSubmit} refreshDeposits={() => fetchDeposits()}/>
+        {/* Add button to open modal */}
+        <div className="flex justify-end">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            충전 신청
+          </button>
+        </div>
+
+        {/* Modal Component */}
+        <DepositAmountSelector 
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleDepositSubmit} 
+          refreshDeposits={() => fetchDeposits()}
+        />
 
         {/* Existing Deposit List */}
         <div className="bg-white shadow rounded-lg p-6">

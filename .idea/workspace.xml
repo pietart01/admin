@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="dashboard.js">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/fonts/GeistVF.woff" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/fonts/GeistVF.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Deposit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Deposit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/WithdrawAmountSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/WithdrawAmountSelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/api/client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/WithdrawService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/WithdrawService.js" afterDir="false" />
-    </list>
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -118,7 +110,7 @@
       <workItem from="1738042888840" duration="3189000" />
       <workItem from="1738109732594" duration="3549000" />
       <workItem from="1738291430771" duration="25027000" />
-      <workItem from="1738636510679" duration="5127000" />
+      <workItem from="1738636510679" duration="5644000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -295,7 +287,14 @@
       <option name="project" value="LOCAL" />
       <updated>1738636547665</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary=".">
+      <created>1738643445822</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1738643445822</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,11 +326,11 @@
     <MESSAGE value="ws working" />
     <MESSAGE value=".." />
     <MESSAGE value="reconnect" />
-    <MESSAGE value="." />
     <MESSAGE value="createRoomModal" />
     <MESSAGE value="setSuperAdminFeePercentage" />
     <MESSAGE value="dashboard.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="dashboard.js" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

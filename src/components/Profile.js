@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Percent, Target, List, Receipt, X } from 'lucide-react';
+import { Users, Percent, List, Receipt, X } from 'lucide-react';
 import { ProfileInfoTab } from '@/components/ProfileInfoTab';
 
 const EmptyTab = ({ title }) => (
@@ -21,13 +21,11 @@ export default function Profile({ isOpen, onClose, userData }) {
 
   if (!isOpen) return null;
 
-
   const tabs = [
     { id: 'profile', label: '회원정보', icon: Users, color: 'bg-blue-400 hover:bg-blue-500' },
     { id: 'rate', label: '요율', icon: Percent, color: 'bg-white hover:bg-gray-50' },
-    { id: 'target', label: '쪽지', icon: List, color: 'bg-white hover:bg-gray-50' },
     { id: 'history', label: '내 손익', icon: List, color: 'bg-white hover:bg-gray-50' },
-    { id: 'mini', label: '머니', icon: Receipt, color: 'bg-white hover:bg-gray-50' }
+    { id: 'games', label: '게임내역', icon: Receipt, color: 'bg-white hover:bg-gray-50' }
   ];
 
   const summaryData = [
@@ -52,14 +50,6 @@ export default function Profile({ isOpen, onClose, userData }) {
           {/* Header */}
           <div className="mb-6 flex justify-between items-center">
             <h1 className="text-2xl font-bold text-gray-900">회원현황</h1>
-            {/* <div className="flex gap-2">
-              <button className="px-4 py-2 text-sm font-medium bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
-                게임 체험
-              </button>
-              <button className="px-4 py-2 text-sm font-medium bg-rose-500 text-white rounded-lg hover:bg-rose-600 transition-colors">
-                충전 차단 관리
-              </button>
-            </div> */}
           </div>
 
           {/* Tabs */}
@@ -103,9 +93,8 @@ export default function Profile({ isOpen, onClose, userData }) {
           <div className="mt-6 bg-white rounded-xl shadow-sm p-6">
             {activeTab === 'profile' && <ProfileInfoTab key={refreshKey} userId={userData?.id} />}
             {activeTab === 'rate' && <EmptyTab title="요율" />}
-            {activeTab === 'target' && <EmptyTab title="쪽지" />}
             {activeTab === 'history' && <EmptyTab title="내 손익" />}
-            {activeTab === 'mini' && <EmptyTab title="머니" />}
+            {activeTab === 'games' && <EmptyTab title="게임내역" />}
           </div>
         </div>
       </div>

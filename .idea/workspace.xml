@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="." />
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment=".">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProfileInfoTab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProfileInfoTab.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/WithdrawAmountSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/WithdrawAmountSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/api/client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/login.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +43,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/app/fonts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
@@ -45,11 +53,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\project\pie\admin" />
       <recent name="C:\project\pie\admin\src\app\fonts" />
       <recent name="C:\project\pie\admin\src\lib" />
       <recent name="C:\project\pie\admin\src\pages\api" />
       <recent name="C:\project\pie\admin\src\components" />
-      <recent name="C:\project\pie\admin\src\hooks" />
     </key>
   </component>
   <component name="RunManager" selected="npm.run next dev">
@@ -110,7 +118,7 @@
       <workItem from="1738042888840" duration="3189000" />
       <workItem from="1738109732594" duration="3549000" />
       <workItem from="1738291430771" duration="25027000" />
-      <workItem from="1738636510679" duration="5644000" />
+      <workItem from="1738636510679" duration="8695000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -294,7 +302,14 @@
       <option name="project" value="LOCAL" />
       <updated>1738643445822</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary=".">
+      <created>1738644532224</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1738644532224</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -331,17 +346,5 @@
     <MESSAGE value="dashboard.js" />
     <MESSAGE value="." />
     <option name="LAST_COMMIT_MESSAGE" value="." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/app/layout.js</url>
-          <line>14</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

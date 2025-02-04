@@ -3,12 +3,12 @@ import { XIcon, CreditCardIcon, UserIcon, BuildingIcon, LockIcon } from 'lucide-
 import { withdrawService } from '@/services/WithdrawService';
 
 export function WithdrawAmountSelector({ isOpen, onClose, onSubmit, refreshWithdrawals }) {
-  const [bank, setBank] = useState('제주은행');
-  const [accountNumber, setAccountNumber] = useState('1111');
+  const [bank, setBank] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
   const [amount, setAmount] = useState('');
-  const [depositAmount, setDepositAmount] = useState('1111');
-  const [phone, setPhone] = useState('1111');
-  const [currentBalance] = useState('9');
+  const [depositAmount, setDepositAmount] = useState('');
+  const [phone, setPhone] = useState('');
+  const [currentBalance] = useState('');
   const [withdrawalPassword, setWithdrawalPassword] = useState('');
   const [isAccountInfoOpen, setIsAccountInfoOpen] = useState(false);
 

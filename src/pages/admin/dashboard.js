@@ -75,7 +75,7 @@ export default function Dashboard() {
     { id: 'rebate', label: '롤링', icon: RefreshCw },
     { id: 'deposit', label: '충전', icon: CreditCard },
     { id: 'withdraw', label: '환전', icon: Wallet },
-    { id: 'exchange', label: '딜러비전환', icon: RefreshCw },
+    { id: 'exchange', label: '딜러', icon: RefreshCw },
   ];
 
   const renderComponent = () => {
@@ -215,7 +215,7 @@ export default function Dashboard() {
       </main>
 
       {/* Profile Modal */}
-      <Profile 
+      <Profile
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
         userData={user}

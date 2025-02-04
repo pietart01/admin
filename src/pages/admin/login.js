@@ -45,10 +45,10 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-blue-300">
       <div className="bg-white p-10 rounded-xl shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-semibold text-center mb-8 text-gray-800">Admin Login</h1>
+        <h1 className="text-3xl font-semibold text-center mb-8 text-gray-800">Admin</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
-            <label className="block text-gray-600 mb-2 font-medium">Username</label>
+            <label className="block text-gray-600 mb-2 font-medium">ID</label>
             <input
               type="text"
               value={username}

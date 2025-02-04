@@ -9,8 +9,8 @@ export class APIError extends Error {
         this.data = data;
     }
 }
-
-export const BASE_URL = 'https://dev-api.emp555.com/admin';//'http://127.0.0.1:3010/admin'
+const IS_LOCALHOST = false;
+export const BASE_URL = IS_LOCALHOST ? 'http://127.0.0.1:3010/admin' : 'https://dev-api.emp555.com/admin';//'http://127.0.0.1:3010/admin'
 
 let apiInstance = null;
 

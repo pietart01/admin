@@ -24,17 +24,8 @@ export default function Profile({ isOpen, onClose, userData }) {
   const tabs = [
     { id: 'profile', label: '회원정보', icon: Users, color: 'bg-blue-400 hover:bg-blue-500' },
     { id: 'rate', label: '요율', icon: Percent, color: 'bg-white hover:bg-gray-50' },
-    { id: 'history', label: '내 손익', icon: List, color: 'bg-white hover:bg-gray-50' },
+    { id: 'history', label: '입출금내역', icon: List, color: 'bg-white hover:bg-gray-50' },
     { id: 'games', label: '게임내역', icon: Receipt, color: 'bg-white hover:bg-gray-50' }
-  ];
-
-  const summaryData = [
-    { label: '누적 충전', value: userData?.totalCharge || '0원' },
-    { label: '누적 환전', value: userData?.totalExchange || '0원' },
-    { label: '누적 손·환', value: userData?.totalProfitLoss || '0원' },
-    { label: '보유 머니', value: userData?.currentMoney || '0원' },
-    { label: '보유 엘리비', value: userData?.currentPoints || '0원' },
-    { label: '지갑', value: userData?.wallet || '0' }
   ];
 
   return (
@@ -69,24 +60,6 @@ export default function Profile({ isOpen, onClose, userData }) {
                 <span className="text-sm font-medium">{label}</span>
               </button>
             ))}
-          </div>
-
-          {/* Summary Table */}
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6">
-              {summaryData.map(({ label, value }, index) => (
-                <div
-                  key={label}
-                  className={`
-                    p-4 text-center
-                    ${index !== summaryData.length - 1 ? 'border-b sm:border-b-0 sm:border-r border-gray-200' : ''}
-                  `}
-                >
-                  <div className="text-sm text-gray-500 mb-1">{label}</div>
-                  <div className="font-medium text-gray-900">{value}</div>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Tab Content Area */}

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Percent, List, Receipt, X } from 'lucide-react';
 import { ProfileInfoTab } from '@/components/ProfileInfoTab';
+import { TransactionsTab } from '@/components/TransactionsTab';
+import { RateTab } from '@/components/RateTab';
+import { GameHistoryTab } from '@/components/GameHistoryTab';
 
 const EmptyTab = ({ title }) => (
   <div className="text-center py-8">
@@ -65,9 +68,9 @@ export default function Profile({ isOpen, onClose, userData }) {
           {/* Tab Content Area */}
           <div className="mt-6 bg-white rounded-xl shadow-sm p-6">
             {activeTab === 'profile' && <ProfileInfoTab key={refreshKey} userId={userData?.id} />}
-            {activeTab === 'rate' && <EmptyTab title="요율" />}
-            {activeTab === 'history' && <EmptyTab title="내 손익" />}
-            {activeTab === 'games' && <EmptyTab title="게임내역" />}
+            {activeTab === 'rate' && <RateTab userId={userData?.id} />}
+            {activeTab === 'history' && <TransactionsTab userId={userData?.id} />}
+            {activeTab === 'games' && <GameHistoryTab userId={userData?.id} />}
           </div>
         </div>
       </div>

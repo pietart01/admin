@@ -8,7 +8,6 @@ import {
   Users as UsersIcon,
   Dice5,
   CreditCard,
-  Wallet,
   RefreshCw,
   Dices
 } from 'lucide-react';
@@ -18,8 +17,7 @@ import Holdem from '@/components/Holdem';
 import DashboardOverview from '@/components/Dashboard';
 import Exchange from '@/components/Exchange';
 import Rebate from '@/components/Rebate';
-import Deposit from '@/components/Deposit';
-import Withdraw from '@/components/Withdraw';
+import Transactions from '@/components/Transactions';
 import Profile from '@/components/Profile';
 
 export default function Dashboard() {
@@ -67,14 +65,30 @@ export default function Dashboard() {
     setIsProfileMenuOpen(false);
   };
 
+  const getLevelLabel = (level) => {
+    switch (level) {
+      case 1:
+        return { text: "본사", color: "bg-red-100 text-red-800" };
+      case 2:
+        return { text: "부본사", color: "bg-blue-100 text-blue-800" };
+      case 3:
+        return { text: "총판", color: "bg-green-100 text-green-800" };
+      case 4:
+        return { text: "매장", color: "bg-purple-100 text-purple-800" };
+      case 5:
+        return { text: "회원", color: "bg-gray-100 text-gray-800" };
+      default:
+        return { text: "", color: "" };
+    }
+  };
+
   const navItems = [
     { id: 'dashboard', label: '홈', icon: Home },
     { id: 'users', label: '회원', icon: UsersIcon },
     { id: 'spins', label: '슬롯', icon: Dice5 },
     { id: 'holdem', label: '홀덤', icon: Dices },
     { id: 'rebate', label: '롤링', icon: RefreshCw },
-    { id: 'deposit', label: '충전', icon: CreditCard },
-    { id: 'withdraw', label: '환전', icon: Wallet },
+    { id: 'transactions', label: '충환전', icon: CreditCard },
     { id: 'exchange', label: '딜러', icon: RefreshCw },
   ];
 
@@ -93,14 +107,14 @@ export default function Dashboard() {
         return <Exchange />;
       case 'rebate':
         return <Rebate />;
-      case 'deposit':
-        return <Deposit />;
-      case 'withdraw':
-        return <Withdraw />;
+      case 'transactions':
+        return <Transactions />;
       default:
         return <DashboardOverview />;
     }
   };
+
+  const levelInfo = myUser ? getLevelLabel(myUser.level) : { text: "", color: "" };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -138,9 +152,18 @@ export default function Dashboard() {
                   className="flex items-center space-x-2 p-1.5 rounded-md text-gray-700 hover:bg-gray-100"
                 >
                   <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                    <span className="text-sm font-medium text-gray-600">A</span>
+                    <span className="text-sm font-medium text-gray-600">
+                      {myUser?.username?.charAt(0).toUpperCase() || 'A'}
+                    </span>
                   </div>
-                  <span className="text-sm font-medium">{myUser?.username}</span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-medium">{myUser?.username}</span>
+                    {levelInfo.text && (
+                      <span className={`px-2 py-0.5 text-xs rounded-full ${levelInfo.color}`}>
+                        {levelInfo.text}
+                      </span>
+                    )}
+                  </div>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 
@@ -204,6 +227,41 @@ export default function Dashboard() {
                   </button>
                 );
               })}
+            </div>
+            <div className="border-t border-gray-200 pt-4 pb-3">
+              <div className="px-4 flex items-center">
+                <div className="flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-sm font-medium text-gray-600">
+                      {myUser?.username?.charAt(0).toUpperCase() || 'A'}
+                    </span>
+                  </div>
+                </div>
+                <div className="ml-3">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-medium text-gray-700">{myUser?.username}</span>
+                    {levelInfo.text && (
+                      <span className={`px-2 py-0.5 text-xs rounded-full ${levelInfo.color}`}>
+                        {levelInfo.text}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 px-2 space-y-1">
+                <button
+                  onClick={handleOpenMyProfile}
+                  className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md"
+                >
+                  내 정보
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md"
+                >
+                  로그아웃
+                </button>
+              </div>
             </div>
           </div>
         )}

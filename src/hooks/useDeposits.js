@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import {get} from "../lib/api/methods";
-import {ITEMS_PER_PAGE} from "../constants/constants";
+import { get } from "../lib/api/methods";
+import { ITEMS_PER_PAGE } from "../constants/constants";
 
 export function useDeposits() {
   const [deposits, setDeposits] = useState([]);
@@ -12,25 +12,15 @@ export function useDeposits() {
   const fetchDeposits = async () => {
     setIsLoading(true);
     try {
+      const data = await get('/transactions', { 
+        page: currentPage, 
+        limit: ITEMS_PER_PAGE, 
+        search: searchTerm,
+        types: 'DEPOSIT'
+      });
 
-      /*const token = localStorage.getItem('adminToken');
-      if (!token) {
-        throw new Error('No token found');
-      }
-        const headers = {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        };
-
-      // Replace with your actual API endpoint
-      const response = await fetch(`/api/deposit?page=${currentPage}&search=${searchTerm}`, { headers });
-      const data = await response.json();
-      console.log('Deposits data:', data);*/
-      const data = await get('/deposit', { page: currentPage, limit: ITEMS_PER_PAGE, search: searchTerm });
-      console.log(data);
-
-      setDeposits(data.deposits);
-      setTotalPages(data.totalPages);
+      setDeposits(data.transactions);
+      setTotalPages(data.totalPages); // Use totalPages directly from response
     } catch (error) {
       console.error('Error fetching deposits:', error);
     } finally {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useProfileData } from '../hooks/useProfileData';
 
 export function ProfileInfoTab({userId, userData}) {
@@ -19,7 +19,6 @@ export function ProfileInfoTab({userId, userData}) {
   const formFields = [
     [
       { label: '아이디', value: profileData.id },
-      // { label: '비밀번호', value: profileData.secretNumber, hint: '' },
       { label: '닉네임', value: profileData.username },
       { label: '최종 로그인', value: profileData.lastLoginDate }
     ],
@@ -32,9 +31,6 @@ export function ProfileInfoTab({userId, userData}) {
       { label: '휴대폰', value: profileData.phone },
       { label: '계좌번호', value: profileData.accountNumber },
       { label: '가입일', value: profileData.registrationDate }
-    ],
-    [
-      // { label: '최근 IP', value: profileData.lastIpAddress },
     ]
   ];
 
@@ -51,23 +47,23 @@ export function ProfileInfoTab({userId, userData}) {
       <h2 className="text-xl font-semibold text-gray-900 mb-6">회원정보</h2>
 
       <div className="grid gap-6">
-
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6">
             {summaryData.map(({ label, value }, index) => (
-                <div
-                    key={label}
-                    className={`
-                    p-4 text-center
-                    ${index !== summaryData.length - 1 ? 'border-b sm:border-b-0 sm:border-r border-gray-200' : ''}
-                  `}
-                >
-                  <div className="text-sm text-gray-500 mb-1">{label}</div>
-                  <div className="font-medium text-gray-900">{value}</div>
-                </div>
+              <div
+                key={label}
+                className={`
+                  p-4 text-center
+                  ${index !== summaryData.length - 1 ? 'border-b sm:border-b-0 sm:border-r border-gray-200' : ''}
+                `}
+              >
+                <div className="text-sm text-gray-500 mb-1">{label}</div>
+                <div className="font-medium text-gray-900">{value}</div>
+              </div>
             ))}
           </div>
         </div>
+
         {formFields.map((row, rowIndex) => (
           <div key={rowIndex} className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {row.map((field, fieldIndex) => (

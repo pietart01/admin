@@ -10,7 +10,7 @@ export class APIError extends Error {
     }
 }
 
-export const BASE_URL = 'https://dev-api.emp555.com/admin';
+export const BASE_URL = 'https://dev-api.emp555.com/admin';//'http://127.0.0.1:3010/admin'
 
 let apiInstance = null;
 

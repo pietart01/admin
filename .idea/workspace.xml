@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="setSuperAdminFeePercentage">
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="dashboard.js">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DepositAmountSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DepositAmountSelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/GameResultsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GameResultsTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/GameRoomList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GameRoomList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PokerHandDisplay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PokerHandDisplay.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PokerPlayersTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PokerPlayersTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/fonts/GeistVF.woff" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/fonts/GeistVF.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Deposit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Deposit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/WithdrawAmountSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/WithdrawAmountSelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useGameRooms.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useGameRooms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/api/client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/WithdrawService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/WithdrawService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +43,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/lib" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/app/fonts" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
@@ -55,11 +53,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\project\pie\admin\src\app\fonts" />
       <recent name="C:\project\pie\admin\src\lib" />
       <recent name="C:\project\pie\admin\src\pages\api" />
       <recent name="C:\project\pie\admin\src\components" />
       <recent name="C:\project\pie\admin\src\hooks" />
-      <recent name="C:\project\pie\admin\src\pages" />
     </key>
   </component>
   <component name="RunManager" selected="npm.run next dev">
@@ -120,6 +118,7 @@
       <workItem from="1738042888840" duration="3189000" />
       <workItem from="1738109732594" duration="3549000" />
       <workItem from="1738291430771" duration="25027000" />
+      <workItem from="1738636510679" duration="5127000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -289,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1738314817310</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="dashboard.js">
+      <created>1738636547665</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1738636547665</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -324,6 +330,19 @@
     <MESSAGE value="." />
     <MESSAGE value="createRoomModal" />
     <MESSAGE value="setSuperAdminFeePercentage" />
-    <option name="LAST_COMMIT_MESSAGE" value="setSuperAdminFeePercentage" />
+    <MESSAGE value="dashboard.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="dashboard.js" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/app/layout.js</url>
+          <line>14</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

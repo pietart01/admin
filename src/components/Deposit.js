@@ -4,6 +4,7 @@ import { DepositSearch } from '@/components/DepositSearch';
 import { Pagination } from '@/components/Pagination';
 import { useDeposits } from '@/hooks/useDeposits';
 import { DepositAmountSelector } from '@/components/DepositAmountSelector';
+import {post} from "../lib/api/methods";
 
 export default function Deposit() {
   const {
@@ -17,8 +18,12 @@ export default function Deposit() {
     fetchDeposits
   } = useDeposits();
 
-  const handleDepositSubmit = (depositData) => {
-    console.log('Deposit submitted:', depositData);
+  const handleDepositSubmit = async (depositData) => {
+    console.log('Deposit submitted!!!:', depositData);
+
+    const data = await post('/deposit', depositData);
+    console.log('data', data);
+
     // Handle deposit submission logic here
     // fetchDeposits();
   };
@@ -32,7 +37,7 @@ export default function Deposit() {
         {/* Existing Deposit List */}
         <div className="bg-white shadow rounded-lg p-6">
           <DepositSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-          
+
           {isLoading ? (
             <div className="flex justify-center p-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
@@ -42,7 +47,7 @@ export default function Deposit() {
               {deposits.length > 0 && (
                 <DepositTable deposits={deposits} />
               )}
-              
+
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

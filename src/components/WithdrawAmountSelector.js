@@ -25,7 +25,7 @@ export function WithdrawAmountSelector({ onSubmit, refreshWithdrawals }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!amount || isNaN(amount) || amount < 50000) {
       alert('유효한 금액을 입력하세요. 최소 신청단위는 50,000원 입니다.');
       return;
@@ -39,13 +39,9 @@ export function WithdrawAmountSelector({ onSubmit, refreshWithdrawals }) {
         withdrawalPassword
       };
 
-      const response = await withdrawService.submitWithdrawal(withdrawalData);
-      if (response.status === 200 || response.status === 201) {
-        alert('환전신청이 성공적으로 완료되었습니다.');
-        refreshWithdrawals?.();
-      } else {
-        alert('환전신청에 실패했습니다. 다시 시도해주세요.');
-      }
+      await withdrawService.submitWithdrawal(withdrawalData);
+      alert('환전신청이 성공적으로 완료되었습니다.');
+      refreshWithdrawals?.();
     } catch (error) {
       console.error('Withdrawal submission error:', error);
       alert('환전신청 중 오류가 발생했습니다. 다시 시도해주세요.');

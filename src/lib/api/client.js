@@ -9,7 +9,7 @@ export class APIError extends Error {
         this.data = data;
     }
 }
-const IS_LOCALHOST = false;
+const IS_LOCALHOST = true;
 
 export const BASE_URL = IS_LOCALHOST ? 'http://127.0.0.1:3010/admin' : `${process.env.PUBLIC_ADMIN_API_URL}`;//'http://127.0.0.1:3010/admin'
 

@@ -11,14 +11,14 @@ export class APIError extends Error {
 }
 const IS_LOCALHOST = true;
 
-export const BASE_URL = process.env.PUBLIC_ADMIN_API_URL;//`https://dev-api.emp555.com/admin`;//process.env.PUBLIC_ADMIN_API_URL;//IS_LOCALHOST ? 'http://127.0.0.1:3010/admin' : `${process.env.PUBLIC_ADMIN_API_URL}`;//'http://127.0.0.1:3010/admin'
+export const BASE_URL = `https://dev-api.emp555.com/admin`;//process.env.PUBLIC_ADMIN_API_URL;//IS_LOCALHOST ? 'http://127.0.0.1:3010/admin' : `${process.env.PUBLIC_ADMIN_API_URL}`;//'http://127.0.0.1:3010/admin'
 console.log('BASE_URL', BASE_URL);
 
 let apiInstance = null;
 
 export const createAPIClient = (config = {}) => {
     const client = axios.create({
-        baseURL: process.env.PUBLIC_ADMIN_API_URL,
+        baseURL: BASE_URL,
         headers: {
             'Content-Type': 'application/json',
             ...config.headers,

@@ -18,7 +18,7 @@ let apiInstance = null;
 
 export const createAPIClient = (config = {}) => {
     const client = axios.create({
-        baseURL: BASE_URL,
+        baseURL: process.env.PUBLIC_ADMIN_API_URL,
         headers: {
             'Content-Type': 'application/json',
             ...config.headers,

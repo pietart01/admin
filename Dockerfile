@@ -1,24 +1,27 @@
-# Use Node.js LTS as the base image
 FROM node:20-alpine
 
-# Set the working directory
 WORKDIR /app
 
 # Copy package.json and yarn.lock
 COPY package.json yarn.lock ./
 
 # Install dependencies
-#RUN yarn install
 RUN yarn install --production
 
 # Copy the project files
 COPY . .
 
-# Build the app
+# Set build-time arguments
+ARG NEXT_PUBLIC_ADMIN_API_URL
+ARG NEXT_PUBLIC_HOLDEM_WS
+
+# Set environment variables for build time
+ENV NEXT_PUBLIC_ADMIN_API_URL=$NEXT_PUBLIC_ADMIN_API_URL
+ENV NEXT_PUBLIC_HOLDEM_WS=$NEXT_PUBLIC_HOLDEM_WS
+
+# Build the app with environment variables
 RUN yarn build
 
-# Expose the port
 EXPOSE 3000 3020
 
-# Start the app
 CMD ["yarn", "start"]

@@ -1,6 +1,9 @@
 // lib/api/client.js
 import axios from 'axios';
 
+console.log('NEXT_PUBLIC_ADMIN_API_URL', process.env.NEXT_PUBLIC_ADMIN_API_URL)
+console.log('NEXT_PUBLIC_HOLDEM_WS', process.env.NEXT_PUBLIC_HOLDEM_WS)
+
 export class APIError extends Error {
     constructor(message, status, data) {
         super(message);
@@ -11,7 +14,7 @@ export class APIError extends Error {
 }
 const IS_LOCALHOST = true;
 
-export const BASE_URL = `https://api.emp555.com/admin`;//process.env.PUBLIC_ADMIN_API_URL;//IS_LOCALHOST ? 'http://127.0.0.1:3010/admin' : `${process.env.PUBLIC_ADMIN_API_URL}`;//'http://127.0.0.1:3010/admin'
+export const BASE_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL;//`https://api.emp555.com/admin`;//process.env.PUBLIC_ADMIN_API_URL;//IS_LOCALHOST ? 'http://127.0.0.1:3010/admin' : `${process.env.PUBLIC_ADMIN_API_URL}`;//'http://127.0.0.1:3010/admin'
 console.log('BASE_URL', BASE_URL);
 
 let apiInstance = null;

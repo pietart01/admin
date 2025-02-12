@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="font">
+    <list default="true" id="a9a671d1-2530-4f71-8457-0b10a5237aea" name="Default Changelist" comment="URL process.env">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.mjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/api/client.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/ws.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/ws.js" afterDir="false" />
     </list>
@@ -39,7 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/app/fonts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../env" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
@@ -115,7 +117,8 @@
       <workItem from="1738109732594" duration="3549000" />
       <workItem from="1738291430771" duration="25027000" />
       <workItem from="1738636510679" duration="13872000" />
-      <workItem from="1738755806480" duration="404000" />
+      <workItem from="1738755806480" duration="5812000" />
+      <workItem from="1739326944785" duration="448000" />
     </task>
     <task id="LOCAL-00001" summary="lib">
       <created>1727759725492</created>
@@ -327,11 +330,91 @@
       <option name="project" value="LOCAL" />
       <updated>1738653806766</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="URL process.env">
+      <created>1738756261693</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1738756261693</updated>
+    </task>
+    <task id="LOCAL-00032" summary="URL process.env">
+      <created>1738756772039</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1738756772039</updated>
+    </task>
+    <task id="LOCAL-00033" summary="URL process.env">
+      <created>1738758292302</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1738758292302</updated>
+    </task>
+    <task id="LOCAL-00034" summary="URL process.env">
+      <created>1738758553589</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1738758553589</updated>
+    </task>
+    <task id="LOCAL-00035" summary="URL process.env">
+      <created>1738758940810</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1738758940810</updated>
+    </task>
+    <task id="LOCAL-00036" summary="URL process.env">
+      <created>1738759432593</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1738759432593</updated>
+    </task>
+    <task id="LOCAL-00037" summary="URL process.env">
+      <created>1738759873048</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1738759873048</updated>
+    </task>
+    <task id="LOCAL-00038" summary="URL process.env">
+      <created>1738760265519</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1738760265519</updated>
+    </task>
+    <task id="LOCAL-00039" summary="URL process.env">
+      <created>1738760532770</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1738760532770</updated>
+    </task>
+    <task id="LOCAL-00040" summary="URL process.env">
+      <created>1738761060455</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1738761060455</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -364,6 +447,7 @@
     <MESSAGE value="dashboard.js" />
     <MESSAGE value="." />
     <MESSAGE value="font" />
-    <option name="LAST_COMMIT_MESSAGE" value="font" />
+    <MESSAGE value="URL process.env" />
+    <option name="LAST_COMMIT_MESSAGE" value="URL process.env" />
   </component>
 </project>
